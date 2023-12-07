@@ -2,6 +2,8 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
+import com.PGR209.Exam.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,39 +12,40 @@ import java.util.List;
 @RestController
 @RequestMapping("api/customer")
 public class CustomerController {
+    private final CustomerService customerService;
+
+    @Autowired
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     @GetMapping("{id}")
     public Customer getCustomerById(@PathVariable Integer id) {
-        System.out.println("Customer by id");
-        return null;
+        return customerService.getCustomerById(id);
     }
 
     @GetMapping
     public List<Customer> getCustomerAll() {
-        System.out.println("List of all customers");
-        return new ArrayList<>();
+        return customerService.getCustomerAll();
     }
 
     @PostMapping
     public Customer newCustomer(@RequestBody Customer customer) {
-        System.out.println("Add new customer");
-        return customer;
+        return customerService.newCustomer(customer);
     }
 
     @DeleteMapping("{id}")
     public void deleteCustomer(@PathVariable Integer id) {
-        System.out.println("Delete customer");
+        customerService.deleteCustomer(id);
     }
 
     @PutMapping
     public Customer updateCustomer(Customer customer) {
-        System.out.println("Update customer");
-        return customer;
+        return customerService.updateCustomer(customer);
     }
-
 
     @PutMapping("{id}")
     public Customer addAddress(@PathVariable Integer id, Address address) {
-        System.out.println("Add address to customer");
-        return null;
+        return customerService.addAddress(id, address);
     }
 }

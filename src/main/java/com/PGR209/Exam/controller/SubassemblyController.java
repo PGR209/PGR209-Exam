@@ -1,6 +1,8 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.model.Subassembly;
+import com.PGR209.Exam.service.SubassemblyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,32 +11,35 @@ import java.util.List;
 @RestController
 @RequestMapping("api/subassembly")
 public class SubassemblyController {
+    private final SubassemblyService subassemblyService;
+
+    @Autowired
+    public SubassemblyController(SubassemblyService subassemblyService) {
+        this.subassemblyService = subassemblyService;
+    }
+
     @GetMapping("{id}")
     public Subassembly getSubassemblyById(@PathVariable Integer id) {
-        System.out.println("SubassemblyService by id");
-        return null;
+        return subassemblyService.getSubassemblyById(id);
     }
 
     @GetMapping
     public List<Subassembly> getSubassemblyAll() {
-        System.out.println("List of all subassemblies");
-        return new ArrayList<>();
+        return subassemblyService.getSubassemblyAll();
     }
 
     @PostMapping
     public Subassembly newSubassembly(@RequestBody Subassembly subassembly) {
-        System.out.println("Add new subassembly");
-        return subassembly;
+        return subassemblyService.newSubassembly(subassembly);
     }
 
     @DeleteMapping("{id}")
     public void deleteSubassembly(@PathVariable Integer id) {
-        System.out.println("Delete subassembly");
+        subassemblyService.deleteSubassembly(id);
     }
 
     @PutMapping
     public Subassembly updateSubassembly(Subassembly subassembly) {
-        System.out.println("Update subassembly");
-        return subassembly;
+        return subassemblyService.updateSubassembly(subassembly);
     }
 }

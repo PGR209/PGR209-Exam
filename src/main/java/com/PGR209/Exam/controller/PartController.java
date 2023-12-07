@@ -1,6 +1,8 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.model.Part;
+import com.PGR209.Exam.service.PartService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,32 +11,35 @@ import java.util.List;
 @RestController
 @RequestMapping("api/part")
 public class PartController {
+    private final PartService partService;
+
+    @Autowired
+    public PartController(PartService partService) {
+        this.partService = partService;
+    }
+
     @GetMapping("{id}")
     public Part getPartById(@PathVariable Integer id) {
-        System.out.println("Part by id");
-        return null;
+        return partService.getPartById(id);
     }
 
     @GetMapping
     public List<Part> getPartAll() {
-        System.out.println("List of all parts");
-        return new ArrayList<>();
+        return partService.getPartAll();
     }
 
     @PostMapping
     public Part newPart(@RequestBody Part part) {
-        System.out.println("Add new part");
-        return part;
+        return partService.newPart(part);
     }
 
     @DeleteMapping("{id}")
     public void deletePart(@PathVariable Integer id) {
-        System.out.println("Delete part");
+        partService.deletePart(id);
     }
 
     @PutMapping
     public Part updatePart(Part part) {
-        System.out.println("Update part");
-        return part;
+        return partService.updatePart(part);
     }
 }

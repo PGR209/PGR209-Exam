@@ -1,6 +1,8 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.model.Machine;
+import com.PGR209.Exam.service.MachineService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,32 +11,35 @@ import java.util.List;
 @RestController
 @RequestMapping("api/machine")
 public class MachineController {
+    private final MachineService machineService;
+
+    @Autowired
+    public MachineController(MachineService machineService) {
+        this.machineService = machineService;
+    }
+
     @GetMapping("{id}")
     public Machine getMachineById(@PathVariable Integer id) {
-        System.out.println("Machine by id");
-        return null;
+        return machineService.getMachineById(id);
     }
 
     @GetMapping
     public List<Machine> getMachineAll() {
-        System.out.println("List of all machines");
-        return new ArrayList<>();
+        return machineService.getMachineAll();
     }
 
     @PostMapping
     public Machine newMachine(@RequestBody Machine machine) {
-        System.out.println("Add new machine");
-        return machine;
+        return machineService.newMachine(machine);
     }
 
     @DeleteMapping("{id}")
     public void deleteMachine(@PathVariable Integer id) {
-        System.out.println("Delete machine");
+        machineService.deleteMachine(id);
     }
 
     @PutMapping
     public Machine updateMachine(Machine machine) {
-        System.out.println("Update machine");
-        return machine;
+        return machineService.updateMachine(machine);
     }
 }

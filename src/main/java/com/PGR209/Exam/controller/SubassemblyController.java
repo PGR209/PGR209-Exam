@@ -11,7 +11,7 @@ import java.util.List;
 public class SubassemblyController {
     @GetMapping("{id}")
     public Subassembly getSubassemblyById(@PathVariable Integer id) {
-        System.out.println("Subassembly by id");
+        System.out.println("SubassemblyService by id");
         return null;
     }
 

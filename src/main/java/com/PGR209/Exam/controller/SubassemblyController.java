@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("api/subassembly")
 public class SubassemblyController {
     @GetMapping("{id}")
-    public Subassembly getSubassemblyById() {
+    public Subassembly getSubassemblyById(@PathVariable Integer id) {
         System.out.println("Subassembly by id");
         return null;
     }
@@ -27,8 +27,8 @@ public class SubassemblyController {
         return subassembly;
     }
 
-    @DeleteMapping
-    public void deleteSubassembly(Long id) {
+    @DeleteMapping("{id}")
+    public void deleteSubassembly(@PathVariable Integer id) {
         System.out.println("Delete subassembly");
     }
 

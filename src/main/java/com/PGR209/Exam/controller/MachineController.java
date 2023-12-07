@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("api/machine")
 public class MachineController {
     @GetMapping("{id}")
-    public Machine getMachineById() {
+    public Machine getMachineById(@PathVariable Integer id) {
         System.out.println("Machine by id");
         return null;
     }
@@ -27,8 +27,8 @@ public class MachineController {
         return machine;
     }
 
-    @DeleteMapping
-    public void deleteMachine(Long id) {
+    @DeleteMapping("{id}")
+    public void deleteMachine(@PathVariable Integer id) {
         System.out.println("Delete machine");
     }
 

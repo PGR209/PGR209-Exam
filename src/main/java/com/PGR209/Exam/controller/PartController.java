@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("api/part")
 public class PartController {
     @GetMapping("{id}")
-    public Part getPartById() {
+    public Part getPartById(@PathVariable Integer id) {
         System.out.println("Part by id");
         return null;
     }
@@ -27,8 +27,8 @@ public class PartController {
         return part;
     }
 
-    @DeleteMapping
-    public void deletePart(Long id) {
+    @DeleteMapping("{id}")
+    public void deletePart(@PathVariable Integer id) {
         System.out.println("Delete part");
     }
 

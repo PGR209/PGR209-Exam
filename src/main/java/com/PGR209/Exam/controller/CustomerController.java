@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("api/customer")
 public class CustomerController {
     @GetMapping("{id}")
-    public Customer getCustomerById() {
+    public Customer getCustomerById(@PathVariable Integer id) {
         System.out.println("Customer by id");
         return null;
     }
@@ -28,8 +28,8 @@ public class CustomerController {
         return customer;
     }
 
-    @DeleteMapping
-    public void deleteCustomer(Long id) {
+    @DeleteMapping("{id}")
+    public void deleteCustomer(@PathVariable Integer id) {
         System.out.println("Delete customer");
     }
 
@@ -39,8 +39,9 @@ public class CustomerController {
         return customer;
     }
 
-    @PutMapping
-    public Customer addAddress(Long id, Address address) {
+
+    @PutMapping("{id}")
+    public Customer addAddress(@PathVariable Integer id, Address address) {
         System.out.println("Add address to customer");
         return null;
     }

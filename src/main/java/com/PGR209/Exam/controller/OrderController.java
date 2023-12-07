@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("api/order")
 public class OrderController {
     @GetMapping("{id}")
-    public Order getOrderById() {
+    public Order getOrderById(@PathVariable Integer id) {
         System.out.println("Order by id");
         return null;
     }
@@ -27,8 +27,8 @@ public class OrderController {
         return order;
     }
 
-    @DeleteMapping
-    public void deleteOrder(Long id) {
+    @DeleteMapping("{id}")
+    public void deleteOrder(@PathVariable Integer id) {
         System.out.println("Delete order");
     }
 

@@ -11,8 +11,8 @@ import java.util.List;
 @RequestMapping("api/address")
 public class AddressController {
     @GetMapping("{id}")
-    public Address getAddressById() {
-        System.out.println("Address by id");
+    public Address getAddressById(@PathVariable Integer id) {
+        System.out.println("Address by id " + id);
         return null;
     }
 
@@ -28,9 +28,9 @@ public class AddressController {
         return address;
     }
 
-    @DeleteMapping
-    public void deleteAddress(Long id) {
-        System.out.println("Delete address");
+    @DeleteMapping("{id}")
+    public void deleteAddress(@PathVariable Integer id) {
+        System.out.println("Delete address with id " + id);
     }
 
     @PutMapping
@@ -39,9 +39,9 @@ public class AddressController {
         return address;
     }
 
-    @PutMapping
-    public Address addCustomer(Long id, Customer customer) {
-        System.out.println("Add customer to address");
+    @PutMapping("{id}")
+    public Address addCustomer(@PathVariable Integer id, Customer customer) {
+        System.out.println("Add address to customer with id " + id);
         return null;
     }
 }

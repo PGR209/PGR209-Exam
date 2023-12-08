@@ -1,17 +1,17 @@
 create table part(
     id INT auto_increment NOT NULL PRIMARY KEY,
     name VARCHAR (100),
-    quantity INT,
+    quantity INT
 );
 CREATE TABLE machine(
     id INT auto_increment NOT NULL PRIMARY KEY,
     name VARCHAR (100),
-    quantity INT,
+    quantity INT
 );
 CREATE TABLE subassembly(
     id INT auto_increment NOT NULL PRIMARY KEY,
     name VARCHAR(100),
-    quantity INT,
+    quantity INT
 );
 
 CREATE TABLE machineSubassembly(
@@ -19,7 +19,7 @@ CREATE TABLE machineSubassembly(
     machineId INT,
     FOREIGN KEY (machineId) REFERENCES machine(id),
     subassemblyId INT,
-    FOREIGN KEY (subassemblyId) REFERENCES subassembly(id),
+    FOREIGN KEY (subassemblyId) REFERENCES subassembly(id)
 );
 
 CREATE TABLE PartSubassembly(
@@ -27,46 +27,46 @@ CREATE TABLE PartSubassembly(
     partId INT,
     FOREIGN KEY (partId) REFERENCES part(id),
     subassemblyId INT,
-    FOREIGN KEY (subassemblyId) REFERENCES subassembly(id),
+    FOREIGN KEY (subassemblyId) REFERENCES subassembly(id)
 );
 
 CREATE TABLE customer(
     id INT auto_increment NOT NULL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-);
-
-CREATE TABLE customerAddress(
-    customerId INT NOT NULL,
-    FOREIGN KEY (customerId) REFERENCES customer(id)
-    addressID INT,
-    FOREIGN KEY (addressID) REFERENCES address(id),
+    email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE address(
-    id INT auto_incremet NOT NULL PRIMARY KEY,
+    id INT auto_increment NOT NULL PRIMARY KEY,
     streetName VARCHAR(100) NOT NULL,
     number INT NOT NULL,
     apartment VARCHAR(10),
     zipcode INT NOT NULL,
     city VARCHAR,
-    country VARCHAR,
+    country VARCHAR
 );
-'WE MAY HAVE TO REWORK ORDERS TO FIT BETTER WITH CRITERIA, FOR NOW I WILL LEAVE IT'
-CREATE TABLE order(
-    id INT auto_incremet NOT NULL PRIMARY KEY,
+
+CREATE TABLE customerAddress(
     customerId INT NOT NULL,
     FOREIGN KEY (customerId) REFERENCES customer(id),
-    orderContentId INT,
-    FOREIGN KEY (orderContentId) REFERENCES orderContent(id),
+    addressID INT,
+    FOREIGN KEY (addressID) REFERENCES address(id)
 );
 
 CREATE TABLE orderContent(
     id INT auto_increment NOT NULL PRIMARY KEY,
     orderID INT NOT NULL,
-    FOREIGN KEY (orderID) REFERENCES order(id),
+    FOREIGN KEY (orderID) REFERENCES orders(id),
     machineId INT,
     FOREIGN KEY (machineId) REFERENCES machine(id),
     partId INT,
-    FOREIGN KEY (partId) REFERENCES part(id),
+    FOREIGN KEY (partId) REFERENCES part(id)
+);
+
+CREATE TABLE orders(
+    id INT auto_increment NOT NULL PRIMARY KEY,
+    customerId INT NOT NULL,
+    FOREIGN KEY (customerId) REFERENCES customer(id),
+    orderContentId INT,
+    FOREIGN KEY (orderContentId) REFERENCES orderContent(id)
 );

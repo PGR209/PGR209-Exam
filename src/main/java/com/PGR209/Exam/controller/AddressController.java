@@ -19,7 +19,7 @@ public class AddressController {
     }
 
     @GetMapping("{id}")
-    public Address getAddressById(@PathVariable Integer id) {
+    public Address getAddressById(@PathVariable Long id) {
         return addressService.getAddressById(id);
     }
 
@@ -34,7 +34,7 @@ public class AddressController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteAddress(@PathVariable Integer id) {
+    public void deleteAddress(@PathVariable Long id) {
         addressService.deleteAddress(id);
     }
 
@@ -44,7 +44,7 @@ public class AddressController {
     }
 
     @PutMapping("{id}")
-    public Address addCustomer(@PathVariable Integer id, Customer customer) {
+    public Address addCustomer(@PathVariable Long id, Customer customer) {
         return addressService.addCustomer(id, customer);
     }
 }

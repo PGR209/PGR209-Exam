@@ -2,9 +2,18 @@ package com.PGR209.Exam.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@Entity
 public class Subassembly {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subassembly_seq_gen")
@@ -16,8 +25,7 @@ public class Subassembly {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "subassembly_id")
-    @JsonIgnoreProperties("subassembly")
+    @JoinColumn(name = "machine_id")
     private Machine machine;
 
     @ManyToMany

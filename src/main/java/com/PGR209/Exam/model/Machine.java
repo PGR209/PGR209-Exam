@@ -29,7 +29,6 @@ public class Machine{
     private int quantity;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subassembly_id")
     private List<Subassembly> subassembly = new ArrayList<>();
 
     @ManyToMany(mappedBy = "machine")

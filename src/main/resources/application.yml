@@ -5,7 +5,10 @@ spring:
     password:
     driverClassName: org.h2.Driver
     generate-unique-name: false
-    name: parts
+    name: Exam
+  jpa:
+    hibernate:
+      ddl-auto: update
   h2:
     console:
       enabled: true

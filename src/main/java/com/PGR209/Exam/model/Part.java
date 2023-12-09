@@ -22,7 +22,7 @@ public class Part {
     @Column(name = "part_name")
     private String part;
 
-    @ManyToMany(mappedBy = "subassembly")
+    @ManyToMany(mappedBy = "parts")
     Set<Subassembly> subassemblies;
 
     private Part (Long id, String part, Set<Subassembly> subassemblies){

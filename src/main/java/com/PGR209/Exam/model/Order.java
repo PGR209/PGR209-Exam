@@ -29,11 +29,14 @@ public class Order{
             inverseJoinColumns = @JoinColumn(name="machine_id"))
     Set <Machine> machine;
 
-//MANGLER KØBTE ITEMS
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    public Order(Long id, Set<Customer> customer, Set<Machine> machine) {
+    public Order(Long id, Set<Customer> customer, Set<Machine> machine, Address address) {
         this.id = id;
         this.customer = customer;
         this.machine = machine;
+        this.address = address;
     }
 }

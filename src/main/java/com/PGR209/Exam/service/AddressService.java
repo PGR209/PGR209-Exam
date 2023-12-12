@@ -2,6 +2,8 @@ package com.PGR209.Exam.service;
 
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
+import com.PGR209.Exam.repository.AddressRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,9 +11,15 @@ import java.util.List;
 
 @Service
 public class AddressService {
-    public Address getAddressById(Integer id) {
-        System.out.println("Get address by id " + id);
-        return null;
+    private final AddressRepository addressRepository;
+
+    @Autowired
+    public AddressService(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
+    public Address getAddressById(Long id) {
+        return addressRepository.getReferenceById(id);
     }
 
     public List<Address> getAddressAll() {
@@ -24,7 +32,7 @@ public class AddressService {
         return address;
     }
 
-    public void deleteAddress(Integer id) {
+    public void deleteAddress(Long id) {
         System.out.println("Delete address with id " + id);
     }
 
@@ -33,7 +41,7 @@ public class AddressService {
         return null;
     }
 
-    public Address addCustomer(Integer id, Customer customer) {
+    public Address addCustomer(Long id, Customer customer) {
         System.out.println("Add customer to address with id " + id);
         return null;
     }

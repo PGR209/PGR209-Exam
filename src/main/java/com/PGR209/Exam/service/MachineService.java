@@ -34,7 +34,6 @@ public class MachineService {
     }
 
     public Machine updateMachine(Machine machine) {
-        System.out.println("FIX ME");
-        return null;
+        return machineRepository.save(machine);
     }
 }

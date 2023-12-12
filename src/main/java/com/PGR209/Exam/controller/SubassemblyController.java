@@ -38,7 +38,7 @@ public class SubassemblyController {
     }
 
     @PutMapping
-    public Subassembly updateSubassembly(Subassembly subassembly) {
+    public Subassembly updateSubassembly(@RequestBody Subassembly subassembly) {
         return subassemblyService.updateSubassembly(subassembly);
     }
 }

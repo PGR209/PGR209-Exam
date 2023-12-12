@@ -35,8 +35,7 @@ public class AddressService {
     }
 
     public Address updateAddress(Address address) {
-        System.out.println("FIX ME");
-        return null;
+        return addressRepository.save(address);
     }
 
     public Address addCustomer(Long id, Customer customer) {

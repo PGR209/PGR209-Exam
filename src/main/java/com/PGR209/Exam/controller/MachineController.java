@@ -38,7 +38,7 @@ public class MachineController {
     }
 
     @PutMapping
-    public Machine updateMachine(Machine machine) {
+    public Machine updateMachine(@RequestBody Machine machine) {
         return machineService.updateMachine(machine);
     }
 }

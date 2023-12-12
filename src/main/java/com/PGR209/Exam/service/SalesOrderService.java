@@ -33,7 +33,6 @@ public class SalesOrderService {
     }
 
     public SalesOrder updateSalesOrder(SalesOrder salesOrder) {
-        System.out.println("FIX ME");
-        return null;
+        return salesOrderRepository.save(salesOrder);
     }
 }

@@ -39,7 +39,7 @@ public class CustomerController {
     }
 
     @PutMapping
-    public Customer updateCustomer(Customer customer) {
+    public Customer updateCustomer(@RequestBody Customer customer) {
         return customerService.updateCustomer(customer);
     }
 

@@ -44,10 +44,10 @@ public class Customer {
             name = "customer_orders",
             joinColumns = @JoinColumn(name="customer_id"),
             inverseJoinColumns = @JoinColumn(name="order_id"))
-    Set <Order> order;
+    Set <SalesOrder> order;
 
 
-    public Customer(String name, String email, Set<Address> address, Set<Order> order) {
+    public Customer(String name, String email, Set<Address> address, Set<SalesOrder> order) {
         this.name = name;
         this.email = email;
         this.address = address;

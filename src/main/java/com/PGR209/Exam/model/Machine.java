@@ -40,9 +40,9 @@ public class Machine{
     private List<Subassembly> subassembly = new ArrayList<>();
 
     @ManyToMany(mappedBy = "machine")
-    Set<Order> order;
+    Set<SalesOrder> order;
 
-    public Machine(String name, int quantity, List<Subassembly> subassemblies, Set<Order> order) {
+    public Machine(String name, int quantity, List<Subassembly> subassemblies, Set<SalesOrder> order) {
         this.name = name;
         this.quantity = quantity;
     }

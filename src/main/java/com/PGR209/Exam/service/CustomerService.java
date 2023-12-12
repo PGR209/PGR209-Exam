@@ -35,8 +35,7 @@ public class CustomerService {
     }
 
     public Customer updateCustomer(Customer customer) {
-        System.out.println("FIX ME");
-        return null;
+        return customerRepository.save(customer);
     }
 
     public Customer addAddress(Integer id, Address address) {

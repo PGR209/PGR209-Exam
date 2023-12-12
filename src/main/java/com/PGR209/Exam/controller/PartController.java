@@ -38,7 +38,7 @@ public class PartController {
     }
 
     @PutMapping
-    public Part updatePart(Part part) {
+    public Part updatePart(@RequestBody Part part) {
         return partService.updatePart(part);
     }
 }

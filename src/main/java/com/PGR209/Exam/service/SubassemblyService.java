@@ -34,7 +34,6 @@ public class SubassemblyService {
     }
 
     public Subassembly updateSubassembly(Subassembly subassembly) {
-        System.out.println("FIX ME");
-        return null;
+        return subassemblyRepository.save(subassembly);
     }
 }

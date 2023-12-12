@@ -34,7 +34,6 @@ public class PartService {
     }
 
     public Part updatePart(Part part) {
-        System.out.println("FIX ME");
-        return null;
+        return partRepository.save(part);
     }
 }

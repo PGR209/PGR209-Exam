@@ -38,7 +38,7 @@ public class SalesOrderController {
     }
 
     @PutMapping
-    public SalesOrder updateSalesOrder(SalesOrder salesOrder) {
+    public SalesOrder updateSalesOrder(@RequestBody SalesOrder salesOrder) {
         return salesOrderService.updateSalesOrder(salesOrder);
     }
 }

@@ -39,8 +39,7 @@ public class Customer {
     Set <Order> order;
 
 
-    public Customer(Long id, String name, String email, Set<Address> address, Set<Order> order) {
-        this.id = id;
+    public Customer(String name, String email, Set<Address> address, Set<Order> order) {
         this.name = name;
         this.email = email;
         this.address = address;

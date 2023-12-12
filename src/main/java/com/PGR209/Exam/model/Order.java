@@ -33,8 +33,7 @@ public class Order{
     @JoinColumn(name = "address_id")
     private Address address;
 
-    public Order(Long id, Set<Customer> customer, Set<Machine> machine, Address address) {
-        this.id = id;
+    public Order(Set<Customer> customer, Set<Machine> machine, Address address) {
         this.customer = customer;
         this.machine = machine;
         this.address = address;

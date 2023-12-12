@@ -38,8 +38,7 @@ public class Address {
     @ManyToMany(mappedBy = "address")
     Set<Customer> customer;
 
-    public Address(Long id, String streetName, int number, String apartment, int zipcode, String city, String country, Set<Customer> customer) {
-        this.id = id;
+    public Address(String streetName, int number, String apartment, int zipcode, String city, String country, Set<Customer> customer) {
         this.streetName = streetName;
         this.number = number;
         this.apartment = apartment;

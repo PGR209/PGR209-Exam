@@ -17,15 +17,6 @@ public class Address {
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_seq", allocationSize = 1)
     @Column(name = "address_id")
     private Long id = 0L;
-
-    @Column(name = "street_name")
-    private String streetName;
-
-    public Address(String streetName) {
-        this.streetName = streetName;
-    }
-
-    /*
     @Column(name = "streetName")
     private String streetName;
 
@@ -58,6 +49,4 @@ public class Address {
         this.country = country;
         this.customer = customer;
     }
-
-     */
 }

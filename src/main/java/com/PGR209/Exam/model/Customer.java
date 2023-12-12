@@ -19,14 +19,6 @@ public class Customer {
     private Long id = 0L;
 
     @Column(name = "customer_name")
-    private String customerName;
-
-    public Customer(String customerName) {
-        this.customerName = customerName;
-    }
-
-    /*
-    @Column(name = "customer_name")
     private String name;
 
     @Column(name = "customer_email")
@@ -39,20 +31,18 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name ="address_id"))
     Set<Address> address;
 
-    @ManyToMany
+   /* @ManyToMany
     @JoinTable(
             name = "customer_orders",
             joinColumns = @JoinColumn(name="customer_id"),
             inverseJoinColumns = @JoinColumn(name="order_id"))
     Set <SalesOrder> order;
-
+*/
 
     public Customer(String name, String email, Set<Address> address, Set<SalesOrder> order) {
         this.name = name;
         this.email = email;
         this.address = address;
-        this.order = order;
+        //this.order = order;
     }
-
-     */
 }

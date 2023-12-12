@@ -19,7 +19,7 @@ public class CustomerController {
     }
 
     @GetMapping("{id}")
-    public Customer getCustomerById(@PathVariable Integer id) {
+    public Customer getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);
     }
 
@@ -34,7 +34,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteCustomer(@PathVariable Integer id) {
+    public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
     }
 

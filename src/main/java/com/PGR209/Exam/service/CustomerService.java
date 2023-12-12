@@ -18,32 +18,29 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer getCustomerById(Integer id) {
-        System.out.println("Get customer by id " + id);
-        return null;
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElse(null);
     }
 
     public List<Customer> getCustomerAll() {
-        System.out.println("Get all customers");
-        return new ArrayList<>();
+        return customerRepository.findAll();
     }
 
     public Customer newCustomer(Customer customer) {
-        System.out.println("Create new customer");
-        return customer;
+        return customerRepository.save(customer);
     }
 
-    public void deleteCustomer(Integer id) {
-        System.out.println("Delete customer with id " + id);
+    public void deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
     }
 
     public Customer updateCustomer(Customer customer) {
-        System.out.println("Update customer");
+        System.out.println("FIX ME");
         return null;
     }
 
     public Customer addAddress(Integer id, Address address) {
-        System.out.println("Add address to customer with id " + id);
+        System.out.println("FIX ME");
         return null;
     }
 }

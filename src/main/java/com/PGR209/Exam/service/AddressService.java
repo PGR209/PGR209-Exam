@@ -19,30 +19,28 @@ public class AddressService {
     }
 
     public Address getAddressById(Long id) {
-        return addressRepository.getReferenceById(id);
+        return addressRepository.findById(id).orElse(null);
     }
 
     public List<Address> getAddressAll() {
-        System.out.println("Get all addresses");
-        return new ArrayList<>();
+        return addressRepository.findAll();
     }
 
     public Address newAddress(Address address) {
-        System.out.println("Create new address");
-        return address;
+        return addressRepository.save(address);
     }
 
     public void deleteAddress(Long id) {
-        System.out.println("Delete address with id " + id);
+        addressRepository.deleteById(id);
     }
 
     public Address updateAddress(Address address) {
-        System.out.println("Update address");
+        System.out.println("FIX ME");
         return null;
     }
 
     public Address addCustomer(Long id, Customer customer) {
-        System.out.println("Add customer to address with id " + id);
+        System.out.println("FIX ME");
         return null;
     }
 }

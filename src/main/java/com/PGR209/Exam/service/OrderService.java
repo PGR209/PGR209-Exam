@@ -17,27 +17,24 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order getOrderById(Integer id) {
-        System.out.println("Get order by id " + id);
-        return null;
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id).orElse(null);
     }
 
     public List<Order> getOrderAll() {
-        System.out.println("Get all orders");
-        return new ArrayList<>();
+        return orderRepository.findAll();
     }
 
     public Order newOrder(Order order) {
-        System.out.println("Create new order");
-        return order;
+        return orderRepository.save(order);
     }
 
-    public void deleteOrder(Integer id) {
-        System.out.println("Delete order with id " + id);
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 
     public Order updateOrder(Order order) {
-        System.out.println("Update order");
+        System.out.println("FIX ME");
         return null;
     }
 }

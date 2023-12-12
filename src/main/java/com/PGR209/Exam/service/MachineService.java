@@ -16,27 +16,25 @@ public class MachineService {
     public MachineService(MachineRepository machineRepository) {
         this.machineRepository = machineRepository;
     }
-    public Machine getMachineById(Integer id) {
-        System.out.println("Get machine by id " + id);
-        return null;
+
+    public Machine getMachineById(Long id) {
+        return machineRepository.findById(id).orElse(null);
     }
 
     public List<Machine> getMachineAll() {
-        System.out.println("Get all machines");
-        return new ArrayList<>();
+        return machineRepository.findAll();
     }
 
     public Machine newMachine(Machine machine) {
-        System.out.println("Create new machine");
-        return machine;
+        return machineRepository.save(machine);
     }
 
-    public void deleteMachine(Integer id) {
-        System.out.println("Delete machine with id " + id);
+    public void deleteMachine(Long id) {
+        machineRepository.deleteById(id);
     }
 
     public Machine updateMachine(Machine machine) {
-        System.out.println("Update machine");
+        System.out.println("FIX ME");
         return null;
     }
 }

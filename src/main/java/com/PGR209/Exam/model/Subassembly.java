@@ -20,6 +20,14 @@ public class Subassembly {
     @Column(name = "subassembly_id")
     private Long id = 0L;
 
+    @Column(name = "subassembly_name")
+    private String subassemblyName;
+
+    public Subassembly(String subassemblyName) {
+        this.subassemblyName = subassemblyName;
+    }
+
+    /*
     @Column(name = "name")
     private String name;
 
@@ -39,4 +47,6 @@ public class Subassembly {
         this.machine=machine;
         this.parts = parts;
     }
+
+     */
 }

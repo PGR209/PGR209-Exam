@@ -17,27 +17,24 @@ public class SubassemblyService {
         this.subassemblyRepository = subassemblyRepository;
     }
 
-    public Subassembly getSubassemblyById(Integer id) {
-        System.out.println("Get subassembly by id " + id);
-        return null;
+    public Subassembly getSubassemblyById(Long id) {
+        return subassemblyRepository.findById(id).orElse(null);
     }
 
     public List<Subassembly> getSubassemblyAll() {
-        System.out.println("Get all subassemblies");
-        return new ArrayList<>();
+        return subassemblyRepository.findAll();
     }
 
     public Subassembly newSubassembly(Subassembly subassembly) {
-        System.out.println("Create new subassembly");
-        return subassembly;
+        return subassemblyRepository.save(subassembly);
     }
 
-    public void deleteSubassembly(Integer id) {
-        System.out.println("Delete subassembly with id " + id);
+    public void deleteSubassembly(Long id) {
+        subassemblyRepository.deleteById(id);
     }
 
     public Subassembly updateSubassembly(Subassembly subassembly) {
-        System.out.println("Update subassembly");
+        System.out.println("FIX ME");
         return null;
     }
 }

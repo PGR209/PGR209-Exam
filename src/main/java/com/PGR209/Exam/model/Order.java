@@ -6,20 +6,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Set;
-
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @Entity
-public class Order{
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq_gen")
     @SequenceGenerator(name = "order_seq_gen", sequenceName = "order_seq", allocationSize = 1)
     @Column(name = "order_id")
     private Long id = 0L;
 
+    @Column(name = "order_name")
+    private String orderName;
+
+    public Order(String orderName) {
+        this.orderName = orderName;
+    }
+
+    /*
     @ManyToMany(mappedBy = "order")
     Set<Customer> customer;
     @ManyToMany
@@ -38,4 +44,6 @@ public class Order{
         this.machine = machine;
         this.address = address;
     }
+
+     */
 }

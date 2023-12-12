@@ -18,7 +18,7 @@ public class SubassemblyController {
     }
 
     @GetMapping("{id}")
-    public Subassembly getSubassemblyById(@PathVariable Integer id) {
+    public Subassembly getSubassemblyById(@PathVariable Long id) {
         return subassemblyService.getSubassemblyById(id);
     }
 
@@ -33,7 +33,7 @@ public class SubassemblyController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteSubassembly(@PathVariable Integer id) {
+    public void deleteSubassembly(@PathVariable Long id) {
         subassemblyService.deleteSubassembly(id);
     }
 

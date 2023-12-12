@@ -17,27 +17,24 @@ public class PartService {
         this.partRepository = partRepository;
     }
 
-    public Part getPartById(Integer id) {
-        System.out.println("Get part by id " + id);
-        return null;
+    public Part getPartById(Long id) {
+        return partRepository.findById(id).orElse(null);
     }
 
     public List<Part> getPartAll() {
-        System.out.println("Get all parts");
-        return new ArrayList<>();
+        return partRepository.findAll();
     }
 
     public Part newPart(Part part) {
-        System.out.println("Create new part");
-        return part;
+        return partRepository.save(part);
     }
 
-    public void deletePart(Integer id) {
-        System.out.println("Delete part with id " + id);
+    public void deletePart(Long id) {
+        partRepository.deleteById(id);
     }
 
     public Part updatePart(Part part) {
-        System.out.println("Update part");
+        System.out.println("FIX ME");
         return null;
     }
 }

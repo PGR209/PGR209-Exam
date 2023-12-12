@@ -23,6 +23,14 @@ public class Machine{
     private Long id = 0L;
 
     @Column(name = "machine_name")
+    private String machineName;
+
+    public Machine(String machineName) {
+        this.machineName = machineName;
+    }
+
+    /*
+    @Column(name = "machine_name")
     private String name;
 
     @Column(name = "machine_quantity")
@@ -38,4 +46,6 @@ public class Machine{
         this.name = name;
         this.quantity = quantity;
     }
+
+     */
 }

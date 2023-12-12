@@ -18,7 +18,7 @@ public class PartController {
     }
 
     @GetMapping("{id}")
-    public Part getPartById(@PathVariable Integer id) {
+    public Part getPartById(@PathVariable Long id) {
         return partService.getPartById(id);
     }
 
@@ -33,7 +33,7 @@ public class PartController {
     }
 
     @DeleteMapping("{id}")
-    public void deletePart(@PathVariable Integer id) {
+    public void deletePart(@PathVariable Long id) {
         partService.deletePart(id);
     }
 

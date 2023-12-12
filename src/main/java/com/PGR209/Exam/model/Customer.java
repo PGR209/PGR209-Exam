@@ -19,6 +19,14 @@ public class Customer {
     private Long id = 0L;
 
     @Column(name = "customer_name")
+    private String customerName;
+
+    public Customer(String customerName) {
+        this.customerName = customerName;
+    }
+
+    /*
+    @Column(name = "customer_name")
     private String name;
 
     @Column(name = "customer_email")
@@ -45,4 +53,6 @@ public class Customer {
         this.address = address;
         this.order = order;
     }
+
+     */
 }

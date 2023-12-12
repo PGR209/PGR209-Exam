@@ -34,8 +34,7 @@ public class Machine{
     @ManyToMany(mappedBy = "machine")
     Set<Order> order;
 
-    public Machine(Long id, String name, int quantity, List<Subassembly> subassemblies, Set<Order> order) {
-        this.id = id;
+    public Machine(String name, int quantity, List<Subassembly> subassemblies, Set<Order> order) {
         this.name = name;
         this.quantity = quantity;
     }

@@ -27,26 +27,23 @@ public class Subassembly {
         this.subassemblyName = subassemblyName;
     }
 
-    /*
     @Column(name = "name")
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "machine_id")
     private Machine machine;
-
+/*
     @ManyToMany
     @JoinTable(
             name = "subassembly_parts",
             joinColumns = @JoinColumn(name="parts_id"),
             inverseJoinColumns = @JoinColumn(name="subassembly_id"))
     Set <Part> parts;
-
+*/
     public Subassembly (String name, Machine machine, Set<Part> parts){
         this.name=name;
         this.machine=machine;
-        this.parts = parts;
+        //this.parts = parts;
     }
-
-     */
 }

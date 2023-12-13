@@ -23,14 +23,6 @@ public class Machine{
     private Long id = 0L;
 
     @Column(name = "machine_name")
-    private String machineName;
-
-    public Machine(String machineName) {
-        this.machineName = machineName;
-    }
-
-    /*
-    @Column(name = "machine_name")
     private String name;
 
     @Column(name = "machine_quantity")
@@ -38,14 +30,12 @@ public class Machine{
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Subassembly> subassembly = new ArrayList<>();
-
+/*
     @ManyToMany(mappedBy = "machine")
     Set<SalesOrder> order;
-
+*/
     public Machine(String name, int quantity, List<Subassembly> subassemblies, Set<SalesOrder> order) {
         this.name = name;
         this.quantity = quantity;
     }
-
-     */
 }

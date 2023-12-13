@@ -20,14 +20,6 @@ public class Part {
     private Long id = 0L;
 
     @Column(name = "part_name")
-    private String partName;
-
-    public Part(String partName) {
-        this.partName = partName;
-    }
-
-    /*
-    @Column(name = "part_name")
     private String part;
 
     @ManyToMany(mappedBy = "parts")
@@ -37,6 +29,4 @@ public class Part {
         this.part = part;
         this.subassemblies = subassemblies;
     }
-
-     */
 }

@@ -17,34 +17,15 @@ public class Address {
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_seq", allocationSize = 1)
     @Column(name = "address_id")
     private Long id = 0L;
-    @Column(name = "streetName")
-    private String streetName;
 
-    @Column(name = "number")
-    private int number;
-
-    @Column(name = "apartment")
-    private String apartment;
-
-    @Column(name = "zipcode")
-    private int zipcode;
-
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "country")
-    private String country;
+    @Column(name = "street")
+    private String street;
 
     @ManyToMany(mappedBy = "address")
     Set<Customer> customer;
 
-    public Address(String streetName, int number, String apartment, int zipcode, String city, String country, Set<Customer> customer) {
-        this.streetName = streetName;
-        this.number = number;
-        this.apartment = apartment;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.country = country;
+    public Address(String street, Set<Customer> customer) {
+        this.street = street;
         this.customer = customer;
     }
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -18,32 +20,29 @@ public class SalesOrder {
     @Column(name = "salesorder_id")
     private Long id = 0L;
 
-    @Column(name = "salesorder_name")
-    private String salesOrderName;
+    @Column(name = "sales_name")
+    private String name;
 
-    public SalesOrder(String salesOrderName) {
-        this.salesOrderName = salesOrderName;
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    /*
-    @ManyToMany(mappedBy = "order")
-    Set<Customer> customer;
+/*
     @ManyToMany
     @JoinTable(
             name = "order_machines",
             joinColumns = @JoinColumn(name="order_id"),
             inverseJoinColumns = @JoinColumn(name="machine_id"))
     Set <Machine> machine;
-
+*/
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
-    public SalesOrder(Set<Customer> customer, Set<Machine> machine, Address address) {
+    public SalesOrder(Customer customer, String name, /*Set<Machine> machine,*/ Address address) {
         this.customer = customer;
-        this.machine = machine;
+        this.name = name;
+        //this.machine = machine;
         this.address = address;
     }
-
-     */
 }

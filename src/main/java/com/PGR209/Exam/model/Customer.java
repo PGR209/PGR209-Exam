@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Getter @Setter @ToString
@@ -31,18 +33,14 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name ="address_id"))
     Set<Address> address;
 
-   /* @ManyToMany
-    @JoinTable(
-            name = "customer_orders",
-            joinColumns = @JoinColumn(name="customer_id"),
-            inverseJoinColumns = @JoinColumn(name="order_id"))
-    Set <SalesOrder> order;
-*/
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<SalesOrder> salesOrder = new ArrayList<>();
 
-    public Customer(String name, String email, Set<Address> address, Set<SalesOrder> order) {
+
+    public Customer(String name, String email, Set<Address> address, List<SalesOrder> salesOrder) {
         this.name = name;
         this.email = email;
         this.address = address;
-        //this.order = order;
+        this.salesOrder = salesOrder;
     }
 }

@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class Part {
@@ -20,13 +20,14 @@ public class Part {
     private Long id = 0L;
 
     @Column(name = "part_name")
-    private String part;
+    private String name;
 
-    @ManyToMany(mappedBy = "parts")
-    Set<Subassembly> subassemblies;
+    private Part (String name){
+        this.name = name;
+    }
 
-    private Part (String part, Set<Subassembly> subassemblies){
-        this.part = part;
-        this.subassemblies = subassemblies;
+    @Override
+    public String toString() {
+        return String.format("[%s] %s", id, name);
     }
 }

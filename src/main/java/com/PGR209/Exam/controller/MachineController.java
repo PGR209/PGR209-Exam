@@ -18,7 +18,7 @@ public class MachineController {
     }
 
     @GetMapping("{id}")
-    public Machine getMachineById(@PathVariable Integer id) {
+    public Machine getMachineById(@PathVariable Long id) {
         return machineService.getMachineById(id);
     }
 
@@ -33,12 +33,12 @@ public class MachineController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteMachine(@PathVariable Integer id) {
+    public void deleteMachine(@PathVariable Long id) {
         machineService.deleteMachine(id);
     }
 
     @PutMapping
-    public Machine updateMachine(Machine machine) {
+    public Machine updateMachine(@RequestBody Machine machine) {
         return machineService.updateMachine(machine);
     }
 }

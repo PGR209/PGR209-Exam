@@ -15,9 +15,8 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_gen")
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_seq", allocationSize = 1)
-    @Column(name = "id")
+    @Column(name = "address_id")
     private Long id = 0L;
-
     @Column(name = "streetName")
     private String streetName;
 
@@ -35,11 +34,11 @@ public class Address {
 
     @Column(name = "country")
     private String country;
+
     @ManyToMany(mappedBy = "address")
     Set<Customer> customer;
 
-    public Address(Long id, String streetName, int number, String apartment, int zipcode, String city, String country, Set<Customer> customer) {
-        this.id = id;
+    public Address(String streetName, int number, String apartment, int zipcode, String city, String country, Set<Customer> customer) {
         this.streetName = streetName;
         this.number = number;
         this.apartment = apartment;

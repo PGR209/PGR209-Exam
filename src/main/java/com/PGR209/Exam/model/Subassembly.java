@@ -20,7 +20,7 @@ public class Subassembly {
     @Column(name = "subassembly_id")
     private Long id = 0L;
 
-    @Column(name = "name")
+    @Column(name = "subassembly_name")
     private String name;
 
     @ManyToOne
@@ -34,8 +34,7 @@ public class Subassembly {
             inverseJoinColumns = @JoinColumn(name="subassembly_id"))
     Set <Part> parts;
 
-    public Subassembly (Long id, String name, Machine machine, Set<Part> parts){
-        this.id = id;
+    public Subassembly (String name, Machine machine, Set<Part> parts){
         this.name=name;
         this.machine=machine;
         this.parts = parts;

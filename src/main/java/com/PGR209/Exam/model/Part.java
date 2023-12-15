@@ -25,8 +25,7 @@ public class Part {
     @ManyToMany(mappedBy = "parts")
     Set<Subassembly> subassemblies;
 
-    private Part (Long id, String part, Set<Subassembly> subassemblies){
-        this.id = id;
+    private Part (String part, Set<Subassembly> subassemblies){
         this.part = part;
         this.subassemblies = subassemblies;
     }

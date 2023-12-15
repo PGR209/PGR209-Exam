@@ -39,7 +39,7 @@ public class AddressController {
     }
 
     @PutMapping
-    public Address updateAddress(Address address) {
+    public Address updateAddress(@RequestBody Address address) {
         return addressService.updateAddress(address);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +25,7 @@ public class MachineServiceUnitTest {
     @Test
     public void shouldGetOneMachine() {
         Long index = 1L;
-        Machine newMachine = new Machine("SingleTestMachineFirst", 0, null, null);
+        Machine newMachine = new Machine("MachineUnitTest: " + LocalDateTime.now(), 0, null);
 
         when(machineRepository.findById(index)).thenReturn(Optional.of(newMachine));
 
@@ -34,8 +35,8 @@ public class MachineServiceUnitTest {
 
     @Test
     public void shouldAddOneMachine() {
-        Machine machineCorrect = new Machine("SingleTestMachineCorrect", 0, null, null);
-        Machine machineWrong = new Machine("SingleTestMachineWrong", 0, null, null);
+        Machine machineCorrect = new Machine("MachineUnitTest: " + LocalDateTime.now(), 0, null);
+        Machine machineWrong = new Machine("MachineUnitTestWrong", 0, null);
 
         when(machineRepository.save(machineCorrect)).thenReturn(machineCorrect);
 

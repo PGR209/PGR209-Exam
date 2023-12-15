@@ -22,7 +22,7 @@ public class Part {
     @Column(name = "part_name")
     private String name;
 
-    private Part (String name){
+    public Part (String name){
         this.name = name;
     }
 

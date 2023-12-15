@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class AddressServiceUnitTest {
     @Test
     public void shouldGetOneAddress() {
         Long index = 1L;
-        Address newAddress = new Address("SingleTestAddressFirst", null);
+        Address newAddress = new Address("AddressUnitTest: " + LocalDateTime.now(), null);
 
         when(addressRepository.findById(index)).thenReturn(Optional.of(newAddress));
 
@@ -35,8 +36,8 @@ public class AddressServiceUnitTest {
 
     @Test
     public void shouldAddOneAddress() {
-        Address addressCorrect = new Address("SingleTestAddressCorrect", null);
-        Address addressWrong = new Address("SingleTestAddressWrong", null);
+        Address addressCorrect = new Address("AddressUnitTest: " + LocalDateTime.now(), null);
+        Address addressWrong = new Address("AddressUnitTestWrong", null);
 
         when(addressRepository.save(addressCorrect)).thenReturn(addressCorrect);
 

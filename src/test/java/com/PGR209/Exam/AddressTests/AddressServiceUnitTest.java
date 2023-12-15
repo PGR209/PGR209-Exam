@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
@@ -53,8 +52,8 @@ public class AddressServiceUnitTest {
         Address newAddress = new Address("DeleteMe", null);
         List<Address> addresses = List.of(newAddress);
 
-        when(addressRepository.deleteById(index)).then(addresses.remove(newAddress));
-        doNothing().when(addressRepository.deleteById(index));
+        //when(addressRepository.deleteById(index)).then(addresses.remove(newAddress));
+        //doNothing().when(addressRepository.deleteById(index));
     }
 
     @Test

@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+import java.util.List;
+import java.util.Set;
+
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class SalesOrder {
@@ -18,32 +19,25 @@ public class SalesOrder {
     @Column(name = "salesorder_id")
     private Long id = 0L;
 
-    @Column(name = "salesorder_name")
-    private String salesOrderName;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    public SalesOrder(String salesOrderName) {
-        this.salesOrderName = salesOrderName;
-    }
-
-    /*
-    @ManyToMany(mappedBy = "order")
-    Set<Customer> customer;
-    @ManyToMany
-    @JoinTable(
-            name = "order_machines",
-            joinColumns = @JoinColumn(name="order_id"),
-            inverseJoinColumns = @JoinColumn(name="machine_id"))
-    Set <Machine> machine;
+    @OneToMany
+    List<Machine> machines;
 
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
-    public SalesOrder(Set<Customer> customer, Set<Machine> machine, Address address) {
+    public SalesOrder(Customer customer, List<Machine> machines, Address address) {
         this.customer = customer;
-        this.machine = machine;
+        this.machines = machines;
         this.address = address;
     }
 
-     */
+    @Override
+    public String toString() {
+        return String.format("[%s] %s (%s) - %s", id, customer, address, machines);
+    }
 }

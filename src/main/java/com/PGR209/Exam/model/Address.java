@@ -5,10 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class Address {
@@ -21,11 +24,16 @@ public class Address {
     @Column(name = "street")
     private String street;
 
-    @ManyToMany(mappedBy = "address")
-    Set<Customer> customer;
+    @ManyToMany (cascade = CascadeType.ALL)
+    private List<Customer> customers = new ArrayList<>();
 
-    public Address(String street, Set<Customer> customer) {
+    public Address(String street, List<Customer> customers) {
         this.street = street;
-        this.customer = customer;
+        this.customers = customers;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s - %s", id, street, customers);
     }
 }

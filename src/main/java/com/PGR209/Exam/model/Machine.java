@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class Machine{
@@ -29,13 +27,16 @@ public class Machine{
     private int quantity;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Subassembly> subassembly = new ArrayList<>();
-/*
-    @ManyToMany(mappedBy = "machine")
-    Set<SalesOrder> order;
-*/
-    public Machine(String name, int quantity, List<Subassembly> subassemblies, Set<SalesOrder> order) {
+    private List<Subassembly> subassemblies = new ArrayList<>();
+
+    public Machine(String name, int quantity, List<Subassembly> subassemblies) {
         this.name = name;
         this.quantity = quantity;
+        this.subassemblies = subassemblies;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s (%s) - %s", id, name, quantity, subassemblies);
     }
 }

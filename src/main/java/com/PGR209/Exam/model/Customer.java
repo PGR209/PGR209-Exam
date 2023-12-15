@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-@Getter @Setter @ToString
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class Customer {
@@ -24,25 +26,21 @@ public class Customer {
     @Column(name = "customer_email")
     private String email;
 
-    @ManyToMany //creates a many to many table called customer_address w their IDs
-    @JoinTable(
-            name = "customer_address",
-            joinColumns = @JoinColumn(name="customer_id"),
-            inverseJoinColumns = @JoinColumn(name ="address_id"))
-    Set<Address> address;
+    @ManyToMany (cascade = CascadeType.ALL)
+    private List<Address> addresses = new ArrayList<>();
 
-   /* @ManyToMany
-    @JoinTable(
-            name = "customer_orders",
-            joinColumns = @JoinColumn(name="customer_id"),
-            inverseJoinColumns = @JoinColumn(name="order_id"))
-    Set <SalesOrder> order;
-*/
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<SalesOrder> salesOrders = new ArrayList<>();
 
-    public Customer(String name, String email, Set<Address> address, Set<SalesOrder> order) {
+    public Customer(String name, String email, List<Address> addresses, List<SalesOrder> salesOrders) {
         this.name = name;
         this.email = email;
-        this.address = address;
-        //this.order = order;
+        this.addresses = addresses;
+        this.salesOrders = salesOrders;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s (%s) - %s -- %s", id, name, email, addresses, salesOrders);
     }
 }

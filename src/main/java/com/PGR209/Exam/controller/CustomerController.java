@@ -30,6 +30,7 @@ public class CustomerController {
 
     @PostMapping
     public Customer newCustomer(@RequestBody Customer customer) {
+        System.out.println(customer);
         return customerService.newCustomer(customer);
     }
 

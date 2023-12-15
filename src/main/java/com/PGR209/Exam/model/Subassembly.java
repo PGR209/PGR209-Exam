@@ -6,11 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter
 @NoArgsConstructor
 @Entity
 public class Subassembly {
@@ -23,20 +22,16 @@ public class Subassembly {
     @Column(name = "subassembly_name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "machine_id")
-    private Machine machine;
+    @OneToMany
+    List<Part> parts;
 
-    @ManyToMany
-    @JoinTable(
-            name = "subassembly_parts",
-            joinColumns = @JoinColumn(name="parts_id"),
-            inverseJoinColumns = @JoinColumn(name="subassembly_id"))
-    Set <Part> parts;
-
-    public Subassembly (String name, Machine machine, Set<Part> parts){
-        this.name=name;
-        this.machine=machine;
+    public Subassembly (String name, List<Part> parts){
+        this.name = name;
         this.parts = parts;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s - %s", id, name, parts);
     }
 }

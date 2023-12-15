@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,9 +25,9 @@ public class Part {
     private String part;
 
     @ManyToMany(mappedBy = "parts")
-    Set<Subassembly> subassemblies;
+    List<Subassembly> subassemblies;
 
-    private Part (String part, Set<Subassembly> subassemblies){
+    public Part (String part, List<Subassembly> subassemblies){
         this.part = part;
         this.subassemblies = subassemblies;
     }

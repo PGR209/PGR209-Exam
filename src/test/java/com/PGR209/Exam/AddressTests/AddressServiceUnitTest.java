@@ -45,21 +45,4 @@ public class AddressServiceUnitTest {
                 .isNotEqualTo(addressWrong);
 
     }
-
-    @Test
-    public void shouldGetAndDeleteOneAddress() {
-        Long index = 0L;
-        Address newAddress = new Address("DeleteMe", null);
-        List<Address> addresses = List.of(newAddress);
-
-        //when(addressRepository.deleteById(index)).then(addresses.remove(newAddress));
-        //doNothing().when(addressRepository.deleteById(index));
-    }
-
-    @Test
-    public void shouldUpdateOneAddress() {
-        String newAddressName = "NewAddress";
-        Address oldAddress = new Address("OldAddress", null);
-        // NOT DONE
-    }
 }

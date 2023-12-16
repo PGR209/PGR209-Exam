@@ -1,6 +1,7 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,13 @@ public class SubassemblyController {
 
     @GetMapping
     public List<Subassembly> getSubassemblyAll() {
-        return subassemblyService.getSubassemblyAll();
+        List<Subassembly> subassemblies = subassemblyService.getSubassemblyAll();
+
+        if (!subassemblies.isEmpty()) {
+            return subassemblies;
+        } else {
+            throw new ModelListEmptyException("Subassembly");
+        }
     }
 
     @PostMapping

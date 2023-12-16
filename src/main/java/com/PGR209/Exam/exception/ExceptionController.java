@@ -9,7 +9,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
     @ExceptionHandler(ModelIdNotFoundException.class)
     public ResponseEntity<Object> exception(ModelIdNotFoundException exception) {
-        System.out.println(this);
-        return new ResponseEntity<>(String.format("%s with id %s not found.", exception.getModel(), exception.getId()), HttpStatus.NOT_FOUND);
+        String returnBody = String.format("%s with id %s not found.", exception.getModel(), exception.getId());
+
+        return new ResponseEntity<>(returnBody, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ModelListEmptyException.class)
+    public ResponseEntity<Object> exception(ModelListEmptyException exception) {
+        String returnBody = String.format("%s list empty.", exception.getModel());
+
+        return new ResponseEntity<>(returnBody, HttpStatus.NO_CONTENT);
     }
 }

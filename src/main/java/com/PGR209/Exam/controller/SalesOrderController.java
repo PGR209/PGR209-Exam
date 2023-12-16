@@ -1,6 +1,7 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.service.SalesOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,13 @@ public class SalesOrderController {
 
     @GetMapping
     public List<SalesOrder> getSalesOrderAll() {
-        return salesOrderService.getSalesOrderAll();
+        List<SalesOrder> salesOrders = salesOrderService.getSalesOrderAll();
+
+        if (!salesOrders.isEmpty()) {
+            return salesOrders;
+        } else {
+            throw new ModelListEmptyException("SalesOrder");
+        }
     }
 
     @PostMapping

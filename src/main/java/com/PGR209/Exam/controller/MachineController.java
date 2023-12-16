@@ -1,6 +1,7 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,13 @@ public class MachineController {
 
     @GetMapping
     public List<Machine> getMachineAll() {
-        return machineService.getMachineAll();
+        List<Machine> machines = machineService.getMachineAll();
+
+        if (!machines.isEmpty()) {
+            return machines;
+        } else {
+            throw new ModelListEmptyException("Machine");
+        }
     }
 
     @PostMapping

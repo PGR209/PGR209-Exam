@@ -1,6 +1,7 @@
 package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.CustomerService;
@@ -27,7 +28,13 @@ public class CustomerController {
 
     @GetMapping
     public List<Customer> getCustomerAll() {
-        return customerService.getCustomerAll();
+        List<Customer> customers = customerService.getCustomerAll();
+
+        if (!customers.isEmpty()) {
+            return customers;
+        } else {
+            throw new ModelListEmptyException("Customer");
+        }
     }
 
     @PostMapping

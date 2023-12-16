@@ -7,6 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long>, PagingAndSortingRepositor<SalesOrder, Long> {
+public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long>, PagingAndSortingRepository<SalesOrder, Long> {
 
 }

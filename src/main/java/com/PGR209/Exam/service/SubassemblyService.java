@@ -1,8 +1,10 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.repository.SubassemblyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +26,11 @@ public class SubassemblyService {
 
     public List<Subassembly> getSubassemblyAll() {
         return subassemblyRepository.findAll();
+    }
+    public List<Subassembly> getSubassemblyAll(int pageSize, int page) {
+
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        return subassemblyRepository.findAll(pageable).toList();
     }
 
     public Subassembly newSubassembly(Subassembly subassembly) {

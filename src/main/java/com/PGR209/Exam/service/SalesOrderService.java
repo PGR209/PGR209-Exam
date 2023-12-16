@@ -1,8 +1,10 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.repository.SalesOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,12 @@ public class SalesOrderService {
         return salesOrderRepository.findById(id);
     }
 
-    public List<SalesOrder> getSalesOrderAll() {
-        return salesOrderRepository.findAll();
+    public List<SalesOrder> getSalesOrderAll() { return salesOrderRepository.findAll(); }
+
+    public List<SalesOrder> getSalesOrderAll(int pageSize, int page) {
+
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        return salesOrderRepository.findAll(pageable).toList();
     }
 
     public SalesOrder newSalesOrder(SalesOrder salesOrder) {

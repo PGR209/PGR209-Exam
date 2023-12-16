@@ -1,11 +1,12 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.repository.MachineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,11 @@ public class MachineService {
 
     public List<Machine> getMachineAll() {
         return machineRepository.findAll();
+    }
+    public List<Machine> getMachineAll(int pageSize, int page) {
+
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        return machineRepository.findAll(pageable).toList();
     }
 
     public Machine newMachine(Machine machine) {

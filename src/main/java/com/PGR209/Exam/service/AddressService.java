@@ -4,9 +4,9 @@ import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +27,11 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
+    public List<Address> getAddressAll(int page, int pageSize) {
+
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        return addressRepository.findAll(pageable).toList();
+    }
     public Address newAddress(Address address) {
         return addressRepository.save(address);
     }

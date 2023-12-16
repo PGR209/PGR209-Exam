@@ -1,11 +1,12 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,11 @@ public class PartService {
 
     public List<Part> getPartAll() {
         return partRepository.findAll();
+    }
+
+    public List<Part> getPartAll(int pageSize, int page) {
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        return partRepository.findAll(pageable).toList();
     }
 
     public Part newPart(Part part) {

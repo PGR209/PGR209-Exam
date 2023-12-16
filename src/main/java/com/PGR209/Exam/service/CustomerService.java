@@ -4,9 +4,9 @@ import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +25,12 @@ public class CustomerService {
 
     public List<Customer> getCustomerAll() {
         return customerRepository.findAll();
+    }
+
+    public List<Customer> getCustomerAll(int pageSize, int page) {
+
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        return customerRepository.findAll(pageable).toList();
     }
 
     public Customer newCustomer(Customer customer) {

@@ -19,7 +19,7 @@ public class Subassembly {
     @Column(name = "subassembly_id")
     private Long id = 0L;
 
-    @Column(name = "subassembly_name")
+    @Column(name = "subassembly_name", nullable = false)
     private String name;
 
     @OneToMany

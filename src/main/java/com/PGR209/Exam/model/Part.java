@@ -19,7 +19,7 @@ public class Part {
     @Column(name = "part_id")
     private Long id = 0L;
 
-    @Column(name = "part_name")
+    @Column(name = "part_name", nullable = false)
     private String name;
 
     public Part (String name){

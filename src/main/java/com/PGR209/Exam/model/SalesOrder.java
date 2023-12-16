@@ -20,14 +20,14 @@ public class SalesOrder {
     private Long id = 0L;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @OneToMany
     List<Machine> machines;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
     public SalesOrder(Customer customer, List<Machine> machines, Address address) {

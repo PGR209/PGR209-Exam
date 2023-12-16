@@ -20,7 +20,7 @@ public class Machine{
     @Column(name = "machine_id")
     private Long id = 0L;
 
-    @Column(name = "machine_name")
+    @Column(name = "machine_name", nullable = false)
     private String name;
 
     @Column(name = "machine_quantity")

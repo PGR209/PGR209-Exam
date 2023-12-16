@@ -21,7 +21,7 @@ public class Address {
     @Column(name = "address_id")
     private Long id = 0L;
 
-    @Column(name = "street")
+    @Column(name = "street", nullable = false)
     private String street;
 
     @ManyToMany (cascade = CascadeType.ALL)

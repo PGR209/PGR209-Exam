@@ -1,6 +1,0 @@
-Address: Street
-Customer: name, Email (email also unique)
-machine: name
-part: name
-salesOrder: customer, address
-Subassemblies: name

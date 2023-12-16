@@ -1,5 +1,6 @@
 package com.PGR209.Exam.controller;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.service.SalesOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class SalesOrderController {
 
     @GetMapping("{id}")
     public SalesOrder getSalesOrderById(@PathVariable Long id) {
-        return salesOrderService.getSalesOrderById(id);
+        return salesOrderService.getSalesOrderById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", id));
     }
 
     @GetMapping

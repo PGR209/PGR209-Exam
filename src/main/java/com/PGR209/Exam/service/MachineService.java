@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MachineService {
@@ -17,8 +18,8 @@ public class MachineService {
         this.machineRepository = machineRepository;
     }
 
-    public Machine getMachineById(Long id) {
-        return machineRepository.findById(id).orElse(null);
+    public Optional<Machine> getMachineById(Long id) {
+        return machineRepository.findById(id);
     }
 
     public List<Machine> getMachineAll() {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubassemblyService {
@@ -17,8 +18,8 @@ public class SubassemblyService {
         this.subassemblyRepository = subassemblyRepository;
     }
 
-    public Subassembly getSubassemblyById(Long id) {
-        return subassemblyRepository.findById(id).orElse(null);
+    public Optional<Subassembly> getSubassemblyById(Long id) {
+        return subassemblyRepository.findById(id);
     }
 
     public List<Subassembly> getSubassemblyAll() {

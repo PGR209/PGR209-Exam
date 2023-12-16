@@ -1,5 +1,6 @@
 package com.PGR209.Exam.controller;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ public class MachineController {
 
     @GetMapping("{id}")
     public Machine getMachineById(@PathVariable Long id) {
-        return machineService.getMachineById(id);
+        return machineService.getMachineById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Machine", id));
     }
 
     @GetMapping

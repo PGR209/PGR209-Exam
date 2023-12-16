@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PartService {
@@ -17,8 +18,8 @@ public class PartService {
         this.partRepository = partRepository;
     }
 
-    public Part getPartById(Long id) {
-        return partRepository.findById(id).orElse(null);
+    public Optional<Part> getPartById(Long id) {
+        return partRepository.findById(id);
     }
 
     public List<Part> getPartAll() {

@@ -1,5 +1,6 @@
 package com.PGR209.Exam.controller;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.CustomerService;
@@ -20,7 +21,8 @@ public class CustomerController {
 
     @GetMapping("{id}")
     public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
+        return customerService.getCustomerById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
     }
 
     @GetMapping

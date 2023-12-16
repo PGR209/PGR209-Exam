@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressService {
@@ -18,8 +19,8 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public Address getAddressById(Long id) {
-        return addressRepository.findById(id).orElse(null);
+    public Optional<Address> getAddressById(Long id) {
+        return addressRepository.findById(id);
     }
 
     public List<Address> getAddressAll() {

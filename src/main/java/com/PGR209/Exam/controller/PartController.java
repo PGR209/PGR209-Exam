@@ -1,5 +1,6 @@
 package com.PGR209.Exam.controller;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,8 @@ public class PartController {
 
     @GetMapping("{id}")
     public Part getPartById(@PathVariable Long id) {
-        Part returnPart = partService.getPartById(id);
-
-        return partService.getPartById(id);
+        return partService.getPartById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Part", id));
     }
 
     @GetMapping

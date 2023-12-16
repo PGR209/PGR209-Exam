@@ -46,8 +46,8 @@ public class SalesOrderController {
         salesOrderService.deleteSalesOrder(id);
     }
 
-    @PutMapping
-    public SalesOrder updateSalesOrder(@RequestBody SalesOrder salesOrder) {
-        return salesOrderService.updateSalesOrder(salesOrder);
+    @PutMapping("{id}")
+    public SalesOrder updateSalesOrder(@RequestBody SalesOrder salesOrder, @PathVariable Long id) {
+        return salesOrderService.updateSalesOrder(salesOrder, id);
     }
 }

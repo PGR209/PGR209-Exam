@@ -8,6 +8,7 @@ import java.io.Serial;
 public class ModelListEmptyException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
+
     private final String model;
 
     public ModelListEmptyException(String model) {

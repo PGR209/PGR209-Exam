@@ -47,12 +47,12 @@ public class AddressController {
         addressService.deleteAddress(id);
     }
 
-    @PutMapping
-    public Address updateAddress(@RequestBody Address address) {
-        return addressService.updateAddress(address);
+    @PutMapping("{id}")
+    public Address updateAddress(@RequestBody Address address, @PathVariable Long id) {
+        return addressService.updateAddress(address, id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{id}/customer")
     public Address addCustomer(@PathVariable Long id, Customer customer) {
         return addressService.addCustomer(id, customer);
     }

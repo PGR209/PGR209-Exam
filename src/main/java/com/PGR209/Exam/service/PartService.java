@@ -34,7 +34,9 @@ public class PartService {
         partRepository.deleteById(id);
     }
 
-    public Part updatePart(Part part) {
+    public Part updatePart(Part part, Long id) {
+        part.setId(id);
+
         return partRepository.save(part);
     }
 }

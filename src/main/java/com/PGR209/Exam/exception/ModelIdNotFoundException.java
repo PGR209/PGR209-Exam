@@ -8,6 +8,7 @@ import java.io.Serial;
 public class ModelIdNotFoundException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
+
     private final String model;
     private final Long id;
 

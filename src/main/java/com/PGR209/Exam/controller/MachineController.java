@@ -46,8 +46,8 @@ public class MachineController {
         machineService.deleteMachine(id);
     }
 
-    @PutMapping
-    public Machine updateMachine(@RequestBody Machine machine) {
-        return machineService.updateMachine(machine);
+    @PutMapping("{id}")
+    public Machine updateMachine(@RequestBody Machine machine, @PathVariable Long id) {
+        return machineService.updateMachine(machine, id);
     }
 }

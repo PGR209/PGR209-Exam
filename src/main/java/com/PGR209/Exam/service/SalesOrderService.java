@@ -33,7 +33,9 @@ public class SalesOrderService {
         salesOrderRepository.deleteById(id);
     }
 
-    public SalesOrder updateSalesOrder(SalesOrder salesOrder) {
+    public SalesOrder updateSalesOrder(SalesOrder salesOrder, Long id) {
+        salesOrder.setId(id);
+
         return salesOrderRepository.save(salesOrder);
     }
 }

@@ -34,7 +34,9 @@ public class MachineService {
         machineRepository.deleteById(id);
     }
 
-    public Machine updateMachine(Machine machine) {
+    public Machine updateMachine(Machine machine, Long id) {
+        machine.setId(id);
+
         return machineRepository.save(machine);
     }
 }

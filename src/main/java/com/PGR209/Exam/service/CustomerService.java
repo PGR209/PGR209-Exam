@@ -35,7 +35,9 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Customer updateCustomer(Customer customer) {
+    public Customer updateCustomer(Customer customer, Long id) {
+        customer.setId(id);
+
         return customerRepository.save(customer);
     }
 

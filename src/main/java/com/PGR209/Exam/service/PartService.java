@@ -34,9 +34,15 @@ public class PartService {
         partRepository.deleteById(id);
     }
 
-    public Part updatePart(Part part, Long id) {
-        part.setId(id);
+    public Optional<Part> updatePart(Part part, Long id) {
+        Optional<Part> returnPart = partRepository.findById(id);
 
-        return partRepository.save(part);
+        if (returnPart.isPresent()) {
+            part.setId(id);
+
+            returnPart = Optional.of(partRepository.save(part));
+        }
+
+        return returnPart;
     }
 }

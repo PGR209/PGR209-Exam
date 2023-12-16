@@ -48,6 +48,7 @@ public class SalesOrderController {
 
     @PutMapping("{id}")
     public SalesOrder updateSalesOrder(@RequestBody SalesOrder salesOrder, @PathVariable Long id) {
-        return salesOrderService.updateSalesOrder(salesOrder, id);
+        return salesOrderService.updateSalesOrder(salesOrder, id)
+                .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", id));
     }
 }

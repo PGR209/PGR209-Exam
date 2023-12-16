@@ -35,10 +35,16 @@ public class AddressService {
         addressRepository.deleteById(id);
     }
 
-    public Address updateAddress(Address address, Long id) {
-        address.setId(id);
+    public Optional<Address> updateAddress(Address address, Long id) {
+        Optional<Address> returnAddress = addressRepository.findById(id);
 
-        return addressRepository.save(address);
+        if (returnAddress.isPresent()) {
+            address.setId(id);
+
+            returnAddress = Optional.of(addressRepository.save(address));
+        }
+
+        return returnAddress;
     }
 
     public Address addCustomer(Long id, Customer customer) {

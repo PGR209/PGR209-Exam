@@ -33,9 +33,15 @@ public class SalesOrderService {
         salesOrderRepository.deleteById(id);
     }
 
-    public SalesOrder updateSalesOrder(SalesOrder salesOrder, Long id) {
-        salesOrder.setId(id);
+    public Optional<SalesOrder> updateSalesOrder(SalesOrder salesOrder, Long id) {
+        Optional<SalesOrder> returnSalesOrder = salesOrderRepository.findById(id);
 
-        return salesOrderRepository.save(salesOrder);
+        if (returnSalesOrder.isPresent()) {
+            salesOrder.setId(id);
+
+            returnSalesOrder = Optional.of(salesOrderRepository.save(salesOrder));
+        }
+
+        return returnSalesOrder;
     }
 }

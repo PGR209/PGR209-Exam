@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/address")
@@ -49,7 +50,8 @@ public class AddressController {
 
     @PutMapping("{id}")
     public Address updateAddress(@RequestBody Address address, @PathVariable Long id) {
-        return addressService.updateAddress(address, id);
+        return addressService.updateAddress(address, id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
     }
 
     @PutMapping("{id}/customer")

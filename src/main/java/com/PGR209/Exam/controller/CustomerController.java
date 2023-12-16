@@ -50,7 +50,8 @@ public class CustomerController {
 
     @PutMapping("{id}")
     public Customer updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
-        return customerService.updateCustomer(customer, id);
+        return customerService.updateCustomer(customer, id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
     }
 
     @PutMapping("{id}/address")

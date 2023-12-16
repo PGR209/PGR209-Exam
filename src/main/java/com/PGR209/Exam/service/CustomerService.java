@@ -35,10 +35,16 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Customer updateCustomer(Customer customer, Long id) {
-        customer.setId(id);
+    public Optional<Customer> updateCustomer(Customer customer, Long id) {
+        Optional<Customer> returnCustomer = customerRepository.findById(id);
 
-        return customerRepository.save(customer);
+        if (returnCustomer.isPresent()) {
+            customer.setId(id);
+
+            returnCustomer = Optional.of(customerRepository.save(customer));
+        }
+
+        return returnCustomer;
     }
 
     public Customer addAddress(Integer id, Address address) {

@@ -34,9 +34,15 @@ public class MachineService {
         machineRepository.deleteById(id);
     }
 
-    public Machine updateMachine(Machine machine, Long id) {
-        machine.setId(id);
+    public Optional<Machine> updateMachine(Machine machine, Long id) {
+        Optional<Machine> returnMachine = machineRepository.findById(id);
 
-        return machineRepository.save(machine);
+        if (returnMachine.isPresent()) {
+            machine.setId(id);
+
+            returnMachine = Optional.of(machineRepository.save(machine));
+        }
+
+        return returnMachine;
     }
 }

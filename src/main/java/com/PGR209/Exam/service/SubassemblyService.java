@@ -34,9 +34,15 @@ public class SubassemblyService {
         subassemblyRepository.deleteById(id);
     }
 
-    public Subassembly updateSubassembly(Subassembly subassembly, Long id) {
-        subassembly.setId(id);
+    public Optional<Subassembly> updateSubassembly(Subassembly subassembly, Long id) {
+        Optional<Subassembly> returnSubassembly = subassemblyRepository.findById(id);
 
-        return subassemblyRepository.save(subassembly);
+        if (returnSubassembly.isPresent()) {
+            subassembly.setId(id);
+
+            returnSubassembly = Optional.of(subassemblyRepository.save(subassembly));
+        }
+
+        return returnSubassembly;
     }
 }

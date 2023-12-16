@@ -48,6 +48,7 @@ public class MachineController {
 
     @PutMapping("{id}")
     public Machine updateMachine(@RequestBody Machine machine, @PathVariable Long id) {
-        return machineService.updateMachine(machine, id);
+        return machineService.updateMachine(machine, id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Machine", id));
     }
 }

@@ -48,6 +48,7 @@ public class SubassemblyController {
 
     @PutMapping("{id}")
     public Subassembly updateSubassembly(@RequestBody Subassembly subassembly, @PathVariable Long id) {
-        return subassemblyService.updateSubassembly(subassembly, id);
+        return subassemblyService.updateSubassembly(subassembly, id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", id));
     }
 }

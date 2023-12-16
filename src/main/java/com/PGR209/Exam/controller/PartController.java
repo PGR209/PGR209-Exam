@@ -48,6 +48,7 @@ public class PartController {
 
     @PutMapping("{id}")
     public Part updatePart(@RequestBody Part part, @PathVariable Long id) {
-        return partService.updatePart(part, id);
+        return partService.updatePart(part, id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Part", id));
     }
 }

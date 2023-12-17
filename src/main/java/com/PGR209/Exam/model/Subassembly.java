@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class Subassembly {
     private String name;
 
     @OneToMany
-    List<Part> parts;
+    List<Part> parts = new ArrayList<>();
 
     public Subassembly (String name, List<Part> parts){
         this.name = name;

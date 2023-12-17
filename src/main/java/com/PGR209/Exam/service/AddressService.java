@@ -1,12 +1,15 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +38,12 @@ public class AddressService {
         return addressRepository.findAll(pageable).toList();
     }
 
-    public Address newAddress(Address address) {
-        return addressRepository.save(address);
+    public Optional<Address> newAddress(Address address) {
+        try {
+            return Optional.of(addressRepository.save(address));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
     public boolean deleteAddress(Long id) {

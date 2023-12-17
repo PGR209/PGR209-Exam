@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.AddressService;
@@ -50,7 +51,8 @@ public class AddressController {
 
     @PostMapping
     public Address newAddress(@RequestBody Address address) {
-        return addressService.newAddress(address);
+        return addressService.newAddress(address)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Address"));
     }
 
     @DeleteMapping("{id}")

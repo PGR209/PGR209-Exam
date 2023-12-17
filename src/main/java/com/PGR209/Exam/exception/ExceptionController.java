@@ -28,4 +28,13 @@ public class ExceptionController {
 
         return new ResponseEntity<>(returnBody, HttpStatus.NO_CONTENT);
     }
+
+    @ExceptionHandler(ModelValuesNotAllowed.class)
+    public ResponseEntity<Object> exception(ModelValuesNotAllowed exception) {
+        String returnBody = String.format("Unsupported values for required fields in %s.", exception.getModel());
+
+        logger.warn(returnBody);
+
+        return new ResponseEntity<>(returnBody, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
 }

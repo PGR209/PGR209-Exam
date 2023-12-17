@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,12 @@ public class CustomerService {
         return customerRepository.findAll(pageable).toList();
     }
 
-    public Customer newCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public Optional<Customer> newCustomer(Customer customer) {
+        try {
+            return Optional.of(customerRepository.save(customer));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
     public boolean deleteCustomer(Long id) {

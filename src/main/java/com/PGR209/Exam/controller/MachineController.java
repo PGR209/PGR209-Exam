@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.service.MachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,8 @@ public class MachineController {
 
     @PostMapping
     public Machine newMachine(@RequestBody Machine machine) {
-        return machineService.newMachine(machine);
+        return machineService.newMachine(machine)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Machine"));
     }
 
     @DeleteMapping("{id}")

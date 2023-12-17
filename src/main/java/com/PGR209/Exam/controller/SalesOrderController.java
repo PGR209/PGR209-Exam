@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.service.SalesOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,8 @@ public class SalesOrderController {
 
     @PostMapping
     public SalesOrder newSalesOrder(@RequestBody SalesOrder salesOrder) {
-        return salesOrderService.newSalesOrder(salesOrder);
+        return salesOrderService.newSalesOrder(salesOrder)
+                .orElseThrow(() -> new ModelValuesNotAllowed("SalesOrder"));
     }
 
     @DeleteMapping("{id}")

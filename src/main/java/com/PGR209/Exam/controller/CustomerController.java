@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.CustomerService;
@@ -50,8 +51,8 @@ public class CustomerController {
 
     @PostMapping
     public Customer newCustomer(@RequestBody Customer customer) {
-        System.out.println(customer);
-        return customerService.newCustomer(customer);
+        return customerService.newCustomer(customer)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Customer"));
     }
 
     @DeleteMapping("{id}")

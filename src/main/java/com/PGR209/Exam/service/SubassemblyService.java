@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.repository.SubassemblyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +37,12 @@ public class SubassemblyService {
         return subassemblyRepository.findAll(pageable).toList();
     }
 
-    public Subassembly newSubassembly(Subassembly subassembly) {
-        return subassemblyRepository.save(subassembly);
+    public Optional<Subassembly> newSubassembly(Subassembly subassembly) {
+        try {
+            return Optional.of(subassemblyRepository.save(subassembly));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
     public boolean deleteSubassembly(Long id) {

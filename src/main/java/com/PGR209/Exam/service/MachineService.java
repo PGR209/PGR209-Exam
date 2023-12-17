@@ -4,9 +4,11 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.repository.MachineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +37,12 @@ public class MachineService {
         return machineRepository.findAll(pageable).toList();
     }
 
-    public Machine newMachine(Machine machine) {
-        return machineRepository.save(machine);
+    public Optional<Machine> newMachine(Machine machine) {
+        try {
+            return Optional.of(machineRepository.save(machine));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
     public boolean deleteMachine(Long id) {

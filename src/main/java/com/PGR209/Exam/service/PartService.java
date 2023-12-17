@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,12 @@ public class PartService {
         return partRepository.findAll(pageable).toList();
     }
 
-    public Part newPart(Part part) {
-        return partRepository.save(part);
+    public Optional<Part> newPart(Part part) {
+        try {
+            return Optional.of(partRepository.save(part));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
     public boolean deletePart(Long id) {

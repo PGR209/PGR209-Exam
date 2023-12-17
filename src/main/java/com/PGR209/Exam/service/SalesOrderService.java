@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.repository.SalesOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,12 @@ public class SalesOrderService {
         return salesOrderRepository.findAll(pageable).toList();
     }
 
-    public SalesOrder newSalesOrder(SalesOrder salesOrder) {
-        return salesOrderRepository.save(salesOrder);
+    public Optional<SalesOrder> newSalesOrder(SalesOrder salesOrder) {
+        try {
+            return Optional.of(salesOrderRepository.save(salesOrder));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
     public boolean deleteSalesOrder(Long id) {

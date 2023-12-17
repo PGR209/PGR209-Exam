@@ -54,7 +54,9 @@ public class MachineController {
 
     @DeleteMapping("{id}")
     public void deleteMachine(@PathVariable Long id) {
-        machineService.deleteMachine(id);
+        if (!machineService.deleteMachine(id)) {
+            throw new ModelIdNotFoundException("Machine", id);
+        }
     }
 
     @PutMapping("{id}")

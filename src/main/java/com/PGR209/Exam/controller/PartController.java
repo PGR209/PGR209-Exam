@@ -54,7 +54,9 @@ public class PartController {
 
     @DeleteMapping("{id}")
     public void deletePart(@PathVariable Long id) {
-        partService.deletePart(id);
+        if (!partService.deletePart(id)) {
+            throw new ModelIdNotFoundException("Part", id);
+        }
     }
 
     @PutMapping("{id}")

@@ -56,7 +56,9 @@ public class CustomerController {
 
     @DeleteMapping("{id}")
     public void deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
+        if (!customerService.deleteCustomer(id)) {
+            throw new ModelIdNotFoundException("Customer", id);
+        }
     }
 
     @PutMapping("{id}")

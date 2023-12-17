@@ -39,8 +39,14 @@ public class PartService {
         return partRepository.save(part);
     }
 
-    public void deletePart(Long id) {
-        partRepository.deleteById(id);
+    public boolean deletePart(Long id) {
+        boolean partFound = partRepository.findById(id).isPresent();
+
+        if (partFound) {
+            partRepository.deleteById(id);
+        }
+
+        return partFound;
     }
 
     public Optional<Part> updatePart(Part part, Long id) {

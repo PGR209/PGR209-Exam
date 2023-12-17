@@ -37,8 +37,14 @@ public class SalesOrderService {
         return salesOrderRepository.save(salesOrder);
     }
 
-    public void deleteSalesOrder(Long id) {
-        salesOrderRepository.deleteById(id);
+    public boolean deleteSalesOrder(Long id) {
+        boolean salesOrderFound = salesOrderRepository.findById(id).isPresent();
+
+        if (salesOrderFound) {
+            salesOrderRepository.deleteById(id);
+        }
+
+        return salesOrderFound;
     }
 
     public Optional<SalesOrder> updateSalesOrder(SalesOrder salesOrder, Long id) {

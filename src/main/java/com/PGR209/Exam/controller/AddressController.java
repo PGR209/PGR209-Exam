@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/address")
@@ -56,7 +55,9 @@ public class AddressController {
 
     @DeleteMapping("{id}")
     public void deleteAddress(@PathVariable Long id) {
-        addressService.deleteAddress(id);
+        if (!addressService.deleteAddress(id)) {
+            throw new ModelIdNotFoundException("Address", id);
+        }
     }
 
     @PutMapping("{id}")

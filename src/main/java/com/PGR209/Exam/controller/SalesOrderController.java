@@ -54,7 +54,9 @@ public class SalesOrderController {
 
     @DeleteMapping("{id}")
     public void deleteSalesOrder(@PathVariable Long id) {
-        salesOrderService.deleteSalesOrder(id);
+        if (!salesOrderService.deleteSalesOrder(id)) {
+            throw new ModelIdNotFoundException("SalesOrder", id);
+        }
     }
 
     @PutMapping("{id}")

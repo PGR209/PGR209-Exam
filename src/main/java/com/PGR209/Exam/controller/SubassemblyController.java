@@ -54,7 +54,9 @@ public class SubassemblyController {
 
     @DeleteMapping("{id}")
     public void deleteSubassembly(@PathVariable Long id) {
-        subassemblyService.deleteSubassembly(id);
+        if (!subassemblyService.deleteSubassembly(id)) {
+            throw new ModelIdNotFoundException("Subassembly", id);
+        }
     }
 
     @PutMapping("{id}")

@@ -1,6 +1,5 @@
 package com.PGR209.Exam.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class Address {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_gen")
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_seq", allocationSize = 1)
@@ -26,7 +23,7 @@ public class Address {
 
     @Column(name = "street", nullable = false)
     private String street;
-    @JsonManagedReference
+
     @ManyToMany (cascade = CascadeType.ALL)
     private List<Customer> customers = new ArrayList<>();
 
@@ -34,7 +31,6 @@ public class Address {
         this.street = street;
         this.customers = customers;
     }
-
 
     @Override
     public String toString() {

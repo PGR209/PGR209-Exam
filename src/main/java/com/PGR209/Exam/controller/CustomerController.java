@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.CustomerService;
@@ -37,15 +38,28 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Customer> getCustomerPage(@PathVariable int pageNr) {
+        List<Customer> customers = customerService.getCustomerPage(pageNr);
+
+        if (!customers.isEmpty()) {
+            return customers;
+        } else {
+            throw new ModelListEmptyException("Customer");
+        }
+    }
+
     @PostMapping
     public Customer newCustomer(@RequestBody Customer customer) {
-        System.out.println(customer);
-        return customerService.newCustomer(customer);
+        return customerService.newCustomer(customer)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Customer"));
     }
 
     @DeleteMapping("{id}")
     public void deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
+        if (!customerService.deleteCustomer(id)) {
+            throw new ModelIdNotFoundException("Customer", id);
+        }
     }
 
     @PutMapping("{id}")
@@ -55,7 +69,7 @@ public class CustomerController {
     }
 
     @PutMapping("{id}/address")
-    public Customer addAddress(@PathVariable Integer id, Address address) {
+    public Customer addAddress(@PathVariable Long id, Address address) {
         return customerService.addAddress(id, address);
     }
 }

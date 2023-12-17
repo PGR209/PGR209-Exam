@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.repository.SalesOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -25,25 +26,36 @@ public class SalesOrderService {
 
     public List<SalesOrder> getSalesOrderAll() { return salesOrderRepository.findAll(); }
 
-    public List<SalesOrder> getSalesOrderAll(int pageSize, int page) {
+    public List<SalesOrder> getSalesOrderPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return salesOrderRepository.findAll(pageable).toList();
     }
 
-    public SalesOrder newSalesOrder(SalesOrder salesOrder) {
-        return salesOrderRepository.save(salesOrder);
+    public Optional<SalesOrder> newSalesOrder(SalesOrder salesOrder) {
+        try {
+            return Optional.of(salesOrderRepository.save(salesOrder));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
-    public void deleteSalesOrder(Long id) {
-        salesOrderRepository.deleteById(id);
+    public boolean deleteSalesOrder(Long id) {
+        if (salesOrderRepository.findById(id).isPresent()) {
+            salesOrderRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     public Optional<SalesOrder> updateSalesOrder(SalesOrder salesOrder, Long id) {
         Optional<SalesOrder> returnSalesOrder = salesOrderRepository.findById(id);
 
         if (returnSalesOrder.isPresent()) {
-            salesOrder.setId(id);
+            salesOrder.setSalesOrderId(id);
 
             returnSalesOrder = Optional.of(salesOrderRepository.save(salesOrder));
         }

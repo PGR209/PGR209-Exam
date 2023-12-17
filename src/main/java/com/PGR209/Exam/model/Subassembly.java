@@ -18,21 +18,21 @@ public class Subassembly {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subassembly_seq_gen")
     @SequenceGenerator(name = "subassembly_seq_gen", sequenceName = "subassembly_seq", allocationSize = 1)
     @Column(name = "subassembly_id")
-    private Long id = 0L;
+    private Long subassemblyId = 0L;
 
     @Column(name = "subassembly_name", nullable = false)
-    private String name;
+    private String subassemblyName;
 
     @OneToMany
     List<Part> parts = new ArrayList<>();
 
-    public Subassembly (String name, List<Part> parts){
-        this.name = name;
+    public Subassembly (String subassemblyName, List<Part> parts){
+        this.subassemblyName = subassemblyName;
         this.parts = parts;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s", id, name, parts);
+        return String.format("[%s] %s - %s", subassemblyId, subassemblyName, parts);
     }
 }

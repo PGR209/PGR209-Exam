@@ -18,25 +18,25 @@ public class Machine{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "machine_seq_gen")
     @SequenceGenerator(name = "machine_seq_gen", sequenceName = "machine_seq", allocationSize = 1)
     @Column(name = "machine_id")
-    private Long id = 0L;
+    private Long machineId = 0L;
 
     @Column(name = "machine_name", nullable = false)
-    private String name;
+    private String machineName;
 
     @Column(name = "machine_quantity")
-    private int quantity;
+    private int machineQuantity;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Subassembly> subassemblies = new ArrayList<>();
 
-    public Machine(String name, int quantity, List<Subassembly> subassemblies) {
-        this.name = name;
-        this.quantity = quantity;
+    public Machine(String machineName, int machineQuantity, List<Subassembly> subassemblies) {
+        this.machineName = machineName;
+        this.machineQuantity = machineQuantity;
         this.subassemblies = subassemblies;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %s", id, name, quantity, subassemblies);
+        return String.format("[%s] %s (%s) - %s", machineId, machineName, machineQuantity, subassemblies);
     }
 }

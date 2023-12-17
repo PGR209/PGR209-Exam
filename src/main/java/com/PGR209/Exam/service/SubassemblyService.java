@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.repository.SubassemblyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,25 +28,37 @@ public class SubassemblyService {
     public List<Subassembly> getSubassemblyAll() {
         return subassemblyRepository.findAll();
     }
-    public List<Subassembly> getSubassemblyAll(int pageSize, int page) {
+
+    public List<Subassembly> getSubassemblyPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return subassemblyRepository.findAll(pageable).toList();
     }
 
-    public Subassembly newSubassembly(Subassembly subassembly) {
-        return subassemblyRepository.save(subassembly);
+    public Optional<Subassembly> newSubassembly(Subassembly subassembly) {
+        try {
+            return Optional.of(subassemblyRepository.save(subassembly));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
-    public void deleteSubassembly(Long id) {
-        subassemblyRepository.deleteById(id);
+    public boolean deleteSubassembly(Long id) {
+        if (subassemblyRepository.findById(id).isPresent()) {
+            subassemblyRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     public Optional<Subassembly> updateSubassembly(Subassembly subassembly, Long id) {
         Optional<Subassembly> returnSubassembly = subassemblyRepository.findById(id);
 
         if (returnSubassembly.isPresent()) {
-            subassembly.setId(id);
+            subassembly.setSubassemblyId(id);
 
             returnSubassembly = Optional.of(subassemblyRepository.save(subassembly));
         }

@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.service.SubassemblyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,28 @@ public class SubassemblyController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Subassembly> getSubassemblyPage(@PathVariable int pageNr) {
+        List<Subassembly> subassemblies = subassemblyService.getSubassemblyPage(pageNr);
+
+        if (!subassemblies.isEmpty()) {
+            return subassemblies;
+        } else {
+            throw new ModelListEmptyException("Subassembly");
+        }
+    }
+
     @PostMapping
     public Subassembly newSubassembly(@RequestBody Subassembly subassembly) {
-        return subassemblyService.newSubassembly(subassembly);
+        return subassemblyService.newSubassembly(subassembly)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Subassembly"));
     }
 
     @DeleteMapping("{id}")
     public void deleteSubassembly(@PathVariable Long id) {
-        subassemblyService.deleteSubassembly(id);
+        if (!subassemblyService.deleteSubassembly(id)) {
+            throw new ModelIdNotFoundException("Subassembly", id);
+        }
     }
 
     @PutMapping("{id}")

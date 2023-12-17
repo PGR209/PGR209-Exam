@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.service.PartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,28 @@ public class PartController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Part> getPartPage(@PathVariable int pageNr) {
+        List<Part> parts = partService.getPartPage(pageNr);
+
+        if (!parts.isEmpty()) {
+            return parts;
+        } else {
+            throw new ModelListEmptyException("Part");
+        }
+    }
+
     @PostMapping
     public Part newPart(@RequestBody Part part) {
-        return partService.newPart(part);
+        return partService.newPart(part)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Part"));
     }
 
     @DeleteMapping("{id}")
     public void deletePart(@PathVariable Long id) {
-        partService.deletePart(id);
+        if (!partService.deletePart(id)) {
+            throw new ModelIdNotFoundException("Part", id);
+        }
     }
 
     @PutMapping("{id}")

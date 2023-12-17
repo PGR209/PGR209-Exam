@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.service.SalesOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,28 @@ public class SalesOrderController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<SalesOrder> getSalesOrderPage(@PathVariable int pageNr) {
+        List<SalesOrder> salesOrders = salesOrderService.getSalesOrderPage(pageNr);
+
+        if (!salesOrders.isEmpty()) {
+            return salesOrders;
+        } else {
+            throw new ModelListEmptyException("SalesOrder");
+        }
+    }
+
     @PostMapping
     public SalesOrder newSalesOrder(@RequestBody SalesOrder salesOrder) {
-        return salesOrderService.newSalesOrder(salesOrder);
+        return salesOrderService.newSalesOrder(salesOrder)
+                .orElseThrow(() -> new ModelValuesNotAllowed("SalesOrder"));
     }
 
     @DeleteMapping("{id}")
     public void deleteSalesOrder(@PathVariable Long id) {
-        salesOrderService.deleteSalesOrder(id);
+        if (!salesOrderService.deleteSalesOrder(id)) {
+            throw new ModelIdNotFoundException("SalesOrder", id);
+        }
     }
 
     @PutMapping("{id}")

@@ -18,27 +18,27 @@ public class SalesOrder {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "salesorder_seq_gen")
     @SequenceGenerator(name = "salesorder_seq_gen", sequenceName = "salesorder_seq", allocationSize = 1)
     @Column(name = "salesorder_id")
-    private Long id = 0L;
+    private Long salesOrderId = 0L;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @JoinColumn(name = "salesorder_customer", nullable = false)
+    private Customer salesOrderCustomer;
 
     @OneToMany
     List<Machine> machines = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
+    @JoinColumn(name = "salesorder_address", nullable = false)
+    private Address salesOrderAddress;
 
-    public SalesOrder(Customer customer, List<Machine> machines, Address address) {
-        this.customer = customer;
+    public SalesOrder(Customer salesOrderCustomer, List<Machine> machines, Address salesOrderAddress) {
+        this.salesOrderCustomer = salesOrderCustomer;
         this.machines = machines;
-        this.address = address;
+        this.salesOrderAddress = salesOrderAddress;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %s", id, customer, address, machines);
+        return String.format("[%s] %s (%s) - %s", salesOrderId, salesOrderCustomer, salesOrderAddress, machines);
     }
 }

@@ -4,6 +4,7 @@ import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.repository.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,24 +28,36 @@ public class PartService {
         return partRepository.findAll();
     }
 
-    public List<Part> getPartAll(int pageSize, int page) {
+    public List<Part> getPartPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
+
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return partRepository.findAll(pageable).toList();
     }
 
-    public Part newPart(Part part) {
-        return partRepository.save(part);
+    public Optional<Part> newPart(Part part) {
+        try {
+            return Optional.of(partRepository.save(part));
+        } catch (DataIntegrityViolationException error) {
+            return Optional.empty();
+        }
     }
 
-    public void deletePart(Long id) {
-        partRepository.deleteById(id);
+    public boolean deletePart(Long id) {
+        if (partRepository.findById(id).isPresent()) {
+            partRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     public Optional<Part> updatePart(Part part, Long id) {
         Optional<Part> returnPart = partRepository.findById(id);
 
         if (returnPart.isPresent()) {
-            part.setId(id);
+            part.setPartId(id);
 
             returnPart = Optional.of(partRepository.save(part));
         }

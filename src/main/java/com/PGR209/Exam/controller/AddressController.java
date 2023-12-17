@@ -2,6 +2,7 @@ package com.PGR209.Exam.controller;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.AddressService;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/address")
@@ -38,14 +38,28 @@ public class AddressController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Address> getAddressPage(@PathVariable int pageNr) {
+        List<Address> addresses = addressService.getAddressPage(pageNr);
+
+        if (!addresses.isEmpty()) {
+            return addresses;
+        } else {
+            throw new ModelListEmptyException("Address");
+        }
+    }
+
     @PostMapping
     public Address newAddress(@RequestBody Address address) {
-        return addressService.newAddress(address);
+        return addressService.newAddress(address)
+                .orElseThrow(() -> new ModelValuesNotAllowed("Address"));
     }
 
     @DeleteMapping("{id}")
     public void deleteAddress(@PathVariable Long id) {
-        addressService.deleteAddress(id);
+        if (!addressService.deleteAddress(id)) {
+            throw new ModelIdNotFoundException("Address", id);
+        }
     }
 
     @PutMapping("{id}")
@@ -54,8 +68,11 @@ public class AddressController {
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
     }
 
+    /*
     @PutMapping("{id}/customer")
     public Address addCustomer(@PathVariable Long id, Customer customer) {
         return addressService.addCustomer(id, customer);
     }
+
+     */
 }

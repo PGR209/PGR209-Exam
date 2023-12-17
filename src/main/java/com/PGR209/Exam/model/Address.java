@@ -19,21 +19,21 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq_gen")
     @SequenceGenerator(name = "address_seq_gen", sequenceName = "address_seq", allocationSize = 1)
     @Column(name = "address_id")
-    private Long id = 0L;
+    private Long addressId = 0L;
 
-    @Column(name = "street", nullable = false)
-    private String street;
+    @Column(name = "address_name", nullable = false)
+    private String addressName;
 
     @ManyToMany (cascade = CascadeType.ALL)
-    private List<Customer> customers = new ArrayList<>();
+    private List<Customer> addressCustomers = new ArrayList<>();
 
-    public Address(String street, List<Customer> customers) {
-        this.street = street;
-        this.customers = customers;
+    public Address(String addressName, List<Customer> addressCustomers) {
+        this.addressName = addressName;
+        this.addressCustomers = addressCustomers;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s", id, street, customers);
+        return String.format("[%s] %s - %s", addressId, addressName, addressCustomers);
     }
 }

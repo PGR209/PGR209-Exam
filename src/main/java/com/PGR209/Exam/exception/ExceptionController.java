@@ -31,7 +31,7 @@ public class ExceptionController {
 
     @ExceptionHandler(ModelValuesNotAllowed.class)
     public ResponseEntity<Object> exception(ModelValuesNotAllowed exception) {
-        String returnBody = String.format("Unsupported values for required fields in %s.", exception.getModel());
+        String returnBody = String.format("Unsupported values for fields in %s.", exception.getModel());
 
         logger.warn(returnBody);
 

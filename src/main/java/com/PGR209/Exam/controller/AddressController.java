@@ -4,7 +4,6 @@ import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
-import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -67,12 +66,4 @@ public class AddressController {
         return addressService.updateAddress(address, id)
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
     }
-
-    /*
-    @PutMapping("{id}/customer")
-    public Address addCustomer(@PathVariable Long id, Customer customer) {
-        return addressService.addCustomer(id, customer);
-    }
-
-     */
 }

@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +43,20 @@ public class AddressService {
     }
 
     public Optional<Address> newAddress(Address address) {
+        List<Customer> addressCustomers = new ArrayList<>();
+
+        for (Customer customer : address.getAddressCustomers()) {
+            addressCustomers.add(customerRepository.findById(customer.getCustomerId())
+                    .orElseThrow(() -> new ModelValuesNotAllowed("Customer")));
+        }
+
+        Address newAddress = new Address(
+                address.getAddressName(),
+                addressCustomers
+        );
+
         try {
-            return Optional.of(addressRepository.save(address));
+            return Optional.of(addressRepository.save(newAddress));
         } catch (DataIntegrityViolationException error) {
             return Optional.empty();
         }
@@ -60,9 +73,22 @@ public class AddressService {
 
     public Optional<Address> updateAddress(Address address, Long id) {
         Optional<Address> returnAddress = addressRepository.findById(id);
+        List<Customer> addressCustomers = new ArrayList<>();
 
         if (returnAddress.isPresent()) {
             address.setAddressId(id);
+
+            if (address.getAddressName().isEmpty()) {
+                address.setAddressName(returnAddress.get().getAddressName());
+            }
+
+            for (Customer customer : address.getAddressCustomers()) {
+                addressCustomers.add(customerRepository.findById(customer.getCustomerId())
+                        .orElseThrow(() -> new ModelValuesNotAllowed("Customer")));
+            }
+
+            addressCustomers.addAll(returnAddress.get().getAddressCustomers());
+            address.setAddressCustomers(addressCustomers);
 
             returnAddress = Optional.of(addressRepository.save(address));
         }

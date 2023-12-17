@@ -37,6 +37,17 @@ public class CustomerController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Customer> getCustomerPage(@PathVariable int pageNr) {
+        List<Customer> customers = customerService.getCustomerPage(pageNr);
+
+        if (!customers.isEmpty()) {
+            return customers;
+        } else {
+            throw new ModelListEmptyException("Customer");
+        }
+    }
+
     @PostMapping
     public Customer newCustomer(@RequestBody Customer customer) {
         System.out.println(customer);

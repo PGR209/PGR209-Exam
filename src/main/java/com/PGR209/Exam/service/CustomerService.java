@@ -27,7 +27,9 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public List<Customer> getCustomerAll(int pageSize, int page) {
+    public List<Customer> getCustomerPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return customerRepository.findAll(pageable).toList();

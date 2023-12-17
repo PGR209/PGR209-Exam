@@ -36,6 +36,17 @@ public class SubassemblyController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Subassembly> getSubassemblyPage(@PathVariable int pageNr) {
+        List<Subassembly> subassemblies = subassemblyService.getSubassemblyPage(pageNr);
+
+        if (!subassemblies.isEmpty()) {
+            return subassemblies;
+        } else {
+            throw new ModelListEmptyException("Subassembly");
+        }
+    }
+
     @PostMapping
     public Subassembly newSubassembly(@RequestBody Subassembly subassembly) {
         return subassemblyService.newSubassembly(subassembly);

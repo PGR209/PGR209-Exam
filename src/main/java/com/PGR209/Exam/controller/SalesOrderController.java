@@ -36,6 +36,17 @@ public class SalesOrderController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<SalesOrder> getSalesOrderPage(@PathVariable int pageNr) {
+        List<SalesOrder> salesOrders = salesOrderService.getSalesOrderPage(pageNr);
+
+        if (!salesOrders.isEmpty()) {
+            return salesOrders;
+        } else {
+            throw new ModelListEmptyException("SalesOrder");
+        }
+    }
+
     @PostMapping
     public SalesOrder newSalesOrder(@RequestBody SalesOrder salesOrder) {
         return salesOrderService.newSalesOrder(salesOrder);

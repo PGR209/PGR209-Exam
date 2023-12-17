@@ -27,11 +27,14 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
-    public List<Address> getAddressAll(int page, int pageSize) {
+    public List<Address> getAddressPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return addressRepository.findAll(pageable).toList();
     }
+
     public Address newAddress(Address address) {
         return addressRepository.save(address);
     }

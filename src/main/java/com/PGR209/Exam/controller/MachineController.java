@@ -36,6 +36,17 @@ public class MachineController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Machine> getMachinePage(@PathVariable int pageNr) {
+        List<Machine> machines = machineService.getMachinePage(pageNr);
+
+        if (!machines.isEmpty()) {
+            return machines;
+        } else {
+            throw new ModelListEmptyException("Machine");
+        }
+    }
+
     @PostMapping
     public Machine newMachine(@RequestBody Machine machine) {
         return machineService.newMachine(machine);

@@ -36,6 +36,17 @@ public class PartController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Part> getPartPage(@PathVariable int pageNr) {
+        List<Part> parts = partService.getPartPage(pageNr);
+
+        if (!parts.isEmpty()) {
+            return parts;
+        } else {
+            throw new ModelListEmptyException("Part");
+        }
+    }
+
     @PostMapping
     public Part newPart(@RequestBody Part part) {
         return partService.newPart(part);

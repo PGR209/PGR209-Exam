@@ -27,7 +27,10 @@ public class PartService {
         return partRepository.findAll();
     }
 
-    public List<Part> getPartAll(int pageSize, int page) {
+    public List<Part> getPartPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
+
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return partRepository.findAll(pageable).toList();
     }

@@ -27,7 +27,10 @@ public class SubassemblyService {
     public List<Subassembly> getSubassemblyAll() {
         return subassemblyRepository.findAll();
     }
-    public List<Subassembly> getSubassemblyAll(int pageSize, int page) {
+
+    public List<Subassembly> getSubassemblyPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return subassemblyRepository.findAll(pageable).toList();

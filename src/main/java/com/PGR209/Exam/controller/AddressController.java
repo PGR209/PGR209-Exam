@@ -38,6 +38,17 @@ public class AddressController {
         }
     }
 
+    @GetMapping("page/{pageNr}")
+    public List<Address> getAddressPage(@PathVariable int pageNr) {
+        List<Address> addresses = addressService.getAddressPage(pageNr);
+
+        if (!addresses.isEmpty()) {
+            return addresses;
+        } else {
+            throw new ModelListEmptyException("Address");
+        }
+    }
+
     @PostMapping
     public Address newAddress(@RequestBody Address address) {
         return addressService.newAddress(address);

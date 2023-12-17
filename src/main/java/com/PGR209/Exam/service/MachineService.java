@@ -26,7 +26,10 @@ public class MachineService {
     public List<Machine> getMachineAll() {
         return machineRepository.findAll();
     }
-    public List<Machine> getMachineAll(int pageSize, int page) {
+
+    public List<Machine> getMachinePage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return machineRepository.findAll(pageable).toList();

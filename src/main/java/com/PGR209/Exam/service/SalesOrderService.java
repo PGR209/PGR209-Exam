@@ -25,7 +25,9 @@ public class SalesOrderService {
 
     public List<SalesOrder> getSalesOrderAll() { return salesOrderRepository.findAll(); }
 
-    public List<SalesOrder> getSalesOrderAll(int pageSize, int page) {
+    public List<SalesOrder> getSalesOrderPage(int page) {
+        //Move to config file?
+        int pageSize = 4;
 
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
         return salesOrderRepository.findAll(pageable).toList();

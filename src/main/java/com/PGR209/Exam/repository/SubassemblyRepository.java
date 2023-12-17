@@ -1,6 +1,5 @@
 package com.PGR209.Exam.repository;
 
-import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Subassembly;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;

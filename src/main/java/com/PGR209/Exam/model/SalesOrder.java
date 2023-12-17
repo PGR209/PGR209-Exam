@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class SalesOrder {
     private Customer customer;
 
     @OneToMany
-    List<Machine> machines;
+    List<Machine> machines = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)

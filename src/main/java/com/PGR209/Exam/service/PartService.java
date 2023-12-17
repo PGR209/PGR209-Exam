@@ -57,7 +57,7 @@ public class PartService {
         Optional<Part> returnPart = partRepository.findById(id);
 
         if (returnPart.isPresent()) {
-            part.setId(id);
+            part.setPartId(id);
 
             returnPart = Optional.of(partRepository.save(part));
         }

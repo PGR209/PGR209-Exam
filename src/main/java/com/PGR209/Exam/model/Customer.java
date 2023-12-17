@@ -18,29 +18,29 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq_gen")
     @SequenceGenerator(name = "customer_seq_gen", sequenceName = "customer_seq", allocationSize = 1)
     @Column(name = "customer_id")
-    private Long id = 0L;
+    private Long customerId = 0L;
 
     @Column(name = "customer_name", nullable = false)
-    private String name;
+    private String customerName;
 
     @Column(name = "customer_email", nullable = false, unique = true)
-    private String email;
+    private String customerEmail;
 
     @ManyToMany (cascade = CascadeType.ALL)
-    private List<Address> addresses = new ArrayList<>();
+    private List<Address> customerAddresses = new ArrayList<>();
 
     @OneToMany (cascade = CascadeType.ALL)
-    private List<SalesOrder> salesOrders = new ArrayList<>();
+    private List<SalesOrder> customerSalesOrders = new ArrayList<>();
 
-    public Customer(String name, String email, List<Address> addresses, List<SalesOrder> salesOrders) {
-        this.name = name;
-        this.email = email;
-        this.addresses = addresses;
-        this.salesOrders = salesOrders;
+    public Customer(String customerName, String customerEmail, List<Address> customerAddresses, List<SalesOrder> customerSalesOrders) {
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.customerAddresses = customerAddresses;
+        this.customerSalesOrders = customerSalesOrders;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %s -- %s", id, name, email, addresses, salesOrders);
+        return String.format("[%s] %s (%s) - %s -- %s", customerId, customerName, customerEmail, customerAddresses, customerSalesOrders);
     }
 }

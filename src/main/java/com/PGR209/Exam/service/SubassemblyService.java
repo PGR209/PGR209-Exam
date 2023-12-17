@@ -58,7 +58,7 @@ public class SubassemblyService {
         Optional<Subassembly> returnSubassembly = subassemblyRepository.findById(id);
 
         if (returnSubassembly.isPresent()) {
-            subassembly.setId(id);
+            subassembly.setSubassemblyId(id);
 
             returnSubassembly = Optional.of(subassemblyRepository.save(subassembly));
         }

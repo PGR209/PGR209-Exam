@@ -62,7 +62,7 @@ public class CustomerService {
         Optional<Customer> returnCustomer = customerRepository.findById(id);
 
         if (returnCustomer.isPresent()) {
-            customer.setId(id);
+            customer.setCustomerId(id);
 
             returnCustomer = Optional.of(customerRepository.save(customer));
         }
@@ -77,8 +77,8 @@ public class CustomerService {
         updatedCustomer = customerRepository.findById(id)
                 .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
 
-        addresses = updatedCustomer.getAddresses();
-        addresses.add(addressRepository.findById(address.getId())
+        addresses = updatedCustomer.getCustomerAddresses();
+        addresses.add(addressRepository.findById(address.getAddressId())
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id)));
 
         return customerRepository.save(updatedCustomer);

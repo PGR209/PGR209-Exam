@@ -17,17 +17,17 @@ public class Part {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "part_seq_gen")
     @SequenceGenerator(name = "part_seq_gen", sequenceName = "part_seq", allocationSize = 1)
     @Column(name = "part_id")
-    private Long id = 0L;
+    private Long partId = 0L;
 
     @Column(name = "part_name", nullable = false)
-    private String name;
+    private String partName;
 
-    public Part (String name){
-        this.name = name;
+    public Part (String partName){
+        this.partName = partName;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", id, name);
+        return String.format("[%s] %s", partId, partName);
     }
 }

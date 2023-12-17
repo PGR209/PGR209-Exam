@@ -55,7 +55,7 @@ public class SalesOrderService {
         Optional<SalesOrder> returnSalesOrder = salesOrderRepository.findById(id);
 
         if (returnSalesOrder.isPresent()) {
-            salesOrder.setId(id);
+            salesOrder.setSalesOrderId(id);
 
             returnSalesOrder = Optional.of(salesOrderRepository.save(salesOrder));
         }

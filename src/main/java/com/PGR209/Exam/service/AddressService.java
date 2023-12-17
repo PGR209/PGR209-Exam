@@ -62,7 +62,7 @@ public class AddressService {
         Optional<Address> returnAddress = addressRepository.findById(id);
 
         if (returnAddress.isPresent()) {
-            address.setId(id);
+            address.setAddressId(id);
 
             returnAddress = Optional.of(addressRepository.save(address));
         }

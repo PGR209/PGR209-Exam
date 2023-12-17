@@ -58,7 +58,7 @@ public class MachineService {
         Optional<Machine> returnMachine = machineRepository.findById(id);
 
         if (returnMachine.isPresent()) {
-            machine.setId(id);
+            machine.setMachineId(id);
 
             returnMachine = Optional.of(machineRepository.save(machine));
         }

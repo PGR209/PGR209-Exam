@@ -68,8 +68,11 @@ public class AddressController {
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
     }
 
+    /*
     @PutMapping("{id}/customer")
     public Address addCustomer(@PathVariable Long id, Customer customer) {
         return addressService.addCustomer(id, customer);
     }
+
+     */
 }

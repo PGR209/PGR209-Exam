@@ -1,25 +1,28 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.repository.AddressRepository;
+import com.PGR209.Exam.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AddressService {
     private final AddressRepository addressRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public AddressService(AddressRepository addressRepository) {
+    public AddressService(AddressRepository addressRepository, CustomerRepository customerRepository) {
         this.addressRepository = addressRepository;
+        this.customerRepository = customerRepository;
     }
 
     public Optional<Address> getAddressById(Long id) {
@@ -65,10 +68,5 @@ public class AddressService {
         }
 
         return returnAddress;
-    }
-
-    public Address addCustomer(Long id, Customer customer) {
-        System.out.println("FIX ME");
-        return null;
     }
 }

@@ -69,7 +69,7 @@ public class CustomerController {
     }
 
     @PutMapping("{id}/address")
-    public Customer addAddress(@PathVariable Integer id, Address address) {
+    public Customer addAddress(@PathVariable Long id, Address address) {
         return customerService.addAddress(id, address);
     }
 }

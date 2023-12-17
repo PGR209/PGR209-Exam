@@ -1,7 +1,10 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
+import com.PGR209.Exam.repository.AddressRepository;
 import com.PGR209.Exam.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,10 +17,12 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
+        this.addressRepository = addressRepository;
     }
 
     public Optional<Customer> getCustomerById(Long id) {
@@ -65,8 +70,34 @@ public class CustomerService {
         return returnCustomer;
     }
 
-    public Customer addAddress(Integer id, Address address) {
-        System.out.println("FIX ME");
-        return null;
+    public Customer addAddress(Long id, Address address) {
+        List<Address> addresses;
+        Customer updatedCustomer;
+
+        updatedCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
+
+        addresses = updatedCustomer.getAddresses();
+        addresses.add(addressRepository.findById(address.getId())
+                .orElseThrow(() -> new ModelIdNotFoundException("Address", id)));
+
+        return customerRepository.save(updatedCustomer);
     }
+
+    /*
+    public Address addCustomer(Long id, Customer customer) {
+        List<Customer> customers;
+        Address updatedAddress;
+
+        updatedAddress = addressRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
+
+        customers = updatedAddress.getCustomers();
+        customers.add(customerRepository.findById(customer.getId())
+                .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getId())));
+
+        return addressRepository.save(updatedAddress);
+    }
+
+     */
 }

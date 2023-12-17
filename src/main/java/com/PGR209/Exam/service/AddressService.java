@@ -47,13 +47,12 @@ public class AddressService {
     }
 
     public boolean deleteAddress(Long id) {
-        boolean addressFound = addressRepository.findById(id).isPresent();
-
-        if (addressFound) {
+        if (addressRepository.findById(id).isPresent()) {
             addressRepository.deleteById(id);
+            return true;
         }
 
-        return addressFound;
+        return false;
     }
 
     public Optional<Address> updateAddress(Address address, Long id) {

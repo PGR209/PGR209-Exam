@@ -41,13 +41,12 @@ public class SubassemblyService {
     }
 
     public boolean deleteSubassembly(Long id) {
-        boolean subassemblyFound = subassemblyRepository.findById(id).isPresent();
-
-        if (subassemblyFound) {
+        if (subassemblyRepository.findById(id).isPresent()) {
             subassemblyRepository.deleteById(id);
+            return true;
         }
 
-        return subassemblyFound;
+        return false;
     }
 
     public Optional<Subassembly> updateSubassembly(Subassembly subassembly, Long id) {

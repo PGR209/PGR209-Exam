@@ -40,13 +40,12 @@ public class CustomerService {
     }
 
     public boolean deleteCustomer(Long id) {
-        boolean customerFound = customerRepository.findById(id).isPresent();
-
-        if (customerFound) {
+        if (customerRepository.findById(id).isPresent()) {
             customerRepository.deleteById(id);
+            return true;
         }
 
-        return customerFound;
+        return false;
     }
 
     public Optional<Customer> updateCustomer(Customer customer, Long id) {

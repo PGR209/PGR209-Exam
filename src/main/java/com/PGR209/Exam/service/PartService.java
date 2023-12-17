@@ -40,13 +40,12 @@ public class PartService {
     }
 
     public boolean deletePart(Long id) {
-        boolean partFound = partRepository.findById(id).isPresent();
-
-        if (partFound) {
+        if (partRepository.findById(id).isPresent()) {
             partRepository.deleteById(id);
+            return true;
         }
 
-        return partFound;
+        return false;
     }
 
     public Optional<Part> updatePart(Part part, Long id) {

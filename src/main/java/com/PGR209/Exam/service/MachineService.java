@@ -40,13 +40,12 @@ public class MachineService {
     }
 
     public boolean deleteMachine(Long id) {
-        boolean machineFound = machineRepository.findById(id).isPresent();
-
-        if (machineFound) {
+        if (machineRepository.findById(id).isPresent()) {
             machineRepository.deleteById(id);
+            return true;
         }
 
-        return machineFound;
+        return false;
     }
 
     public Optional<Machine> updateMachine(Machine machine, Long id) {

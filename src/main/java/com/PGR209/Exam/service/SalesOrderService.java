@@ -38,13 +38,12 @@ public class SalesOrderService {
     }
 
     public boolean deleteSalesOrder(Long id) {
-        boolean salesOrderFound = salesOrderRepository.findById(id).isPresent();
-
-        if (salesOrderFound) {
+        if (salesOrderRepository.findById(id).isPresent()) {
             salesOrderRepository.deleteById(id);
+            return true;
         }
 
-        return salesOrderFound;
+        return false;
     }
 
     public Optional<SalesOrder> updateSalesOrder(SalesOrder salesOrder, Long id) {

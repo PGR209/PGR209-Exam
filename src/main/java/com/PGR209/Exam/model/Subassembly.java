@@ -27,13 +27,13 @@ public class Subassembly {
     @OneToMany(cascade = CascadeType.ALL)
     List<Part> subassemblyParts = new ArrayList<>();
 
-    public Subassembly (String subassemblyName, List<Part> parts){
+    public Subassembly (String subassemblyName, List<Part> subassemblyParts){
         this.subassemblyName = subassemblyName;
-        this.subassemblyParts = parts;
+        this.subassemblyParts = subassemblyParts;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s", subassemblyId, subassemblyName, parts);
+        return String.format("[%s] %s - %s", subassemblyId, subassemblyName, subassemblyParts);
     }
 }

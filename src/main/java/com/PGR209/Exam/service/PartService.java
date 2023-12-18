@@ -1,6 +1,7 @@
 package com.PGR209.Exam.service;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.repository.PartRepository;
@@ -34,12 +35,18 @@ public class PartService {
         return partRepository.findAll(pageable).toList();
     }
 
-    public Optional<Part> newPart(Part part) {
-        try {
-            return Optional.of(partRepository.save(part));
-        } catch (DataIntegrityViolationException error) {
-            return Optional.empty();
+    public Part newPart(Part part) {
+        Part createdPart;
+
+        if (part.getPartName() == null || part.getPartName().isEmpty()) {
+            throw new ModelNonNullableFieldException("Part", "partName");
         }
+
+        createdPart = new Part(
+                part.getPartName()
+        );
+
+        return partRepository.save(createdPart);
     }
 
     public void deletePart(Long id) {
@@ -50,7 +57,7 @@ public class PartService {
         partRepository.deleteById(id);
     }
 
-    public Optional<Part> updatePart(Part part, Long id) {
+    public Part updatePart(Part part, Long id) {
         Optional<Part> returnPart = partRepository.findById(id);
 
         if (returnPart.isPresent()) {
@@ -59,6 +66,6 @@ public class PartService {
             returnPart = Optional.of(partRepository.save(part));
         }
 
-        return returnPart;
+        return null;
     }
 }

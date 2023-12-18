@@ -17,11 +17,11 @@ public class CustomerIntegrationTest {
     MockMvc mockMvc;
 
     @Test
-    public void shouldFetchAllCustomers() {
+    public void shouldFetchFirstPageCustomers() {
         try {
-            mockMvc.perform(get("/api/customer")
+            mockMvc.perform(get("/api/customer/page/1")
                     .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
+                    .andExpect(status().is(204));
         } catch (Exception error) {
             System.out.println("Exception during shouldFetchAllCustomers test: " + error);
         }

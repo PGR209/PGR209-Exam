@@ -19,9 +19,9 @@ public class PartIntegrationTest {
     @Test
     public void shouldFetchAllParts() {
         try {
-            mockMvc.perform(get("/api/part")
+            mockMvc.perform(get("/api/part/page/0")
                     .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
+                    .andExpect(status().is(204));
         } catch (Exception error) {
             System.out.println("Exception during shouldFetchAllParts test: " + error);
         }

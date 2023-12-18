@@ -19,9 +19,9 @@ public class SalesOrderIntegrationTest {
     @Test
     public void shouldFetchAllSalesOrders() {
         try {
-            mockMvc.perform(get("/api/salesorder")
+            mockMvc.perform(get("/api/salesorder/page/0")
                     .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
+                    .andExpect(status().is(204));
         } catch (Exception error) {
             System.out.println("Exception during shouldFetchAllSalesOrders test: " + error);
         }

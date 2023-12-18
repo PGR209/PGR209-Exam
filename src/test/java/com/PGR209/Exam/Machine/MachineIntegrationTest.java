@@ -19,9 +19,9 @@ public class MachineIntegrationTest {
     @Test
     public void shouldFetchAllMachines() {
         try {
-            mockMvc.perform(get("/api/machine")
+            mockMvc.perform(get("/api/machine/page/1")
                     .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
+                    .andExpect(status().is(204));
         } catch (Exception error) {
             System.out.println("Exception during shouldFetchAllMachines test: " + error);
         }

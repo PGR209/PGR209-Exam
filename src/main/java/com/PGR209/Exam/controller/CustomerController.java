@@ -52,7 +52,7 @@ public class CustomerController {
     @PostMapping
     public Customer newCustomer(@RequestBody Customer customer) {
         return customerService.newCustomer(customer)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Customer"));
+                .orElseThrow(() -> new ModelValuesNotAllowed("Customer", "Bob"));
     }
 
     @DeleteMapping("{id}")

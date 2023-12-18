@@ -51,7 +51,7 @@ public class MachineController {
     @PostMapping
     public Machine newMachine(@RequestBody Machine machine) {
         return machineService.newMachine(machine)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Machine"));
+                .orElseThrow(() -> new ModelValuesNotAllowed("Machine", "Bob"));
     }
 
     @DeleteMapping("{id}")

@@ -1,6 +1,7 @@
 package com.PGR209.Exam.service;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
@@ -26,10 +27,12 @@ public class AddressService {
         this.customerRepository = customerRepository;
     }
 
-    public Optional<Address> getAddressById(Long id) {
-        return addressRepository.findById(id);
+    public Address getAddressById(Long id) {
+        return addressRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
     }
 
+    //REMOVE???
     public List<Address> getAddressAll() {
         return addressRepository.findAll();
     }
@@ -42,12 +45,16 @@ public class AddressService {
         return addressRepository.findAll(pageable).toList();
     }
 
-    public Optional<Address> newAddress(Address address) {
+    public Address newAddress(Address address) {
         List<Customer> addressCustomers = new ArrayList<>();
+
+        if (address.getAddressName() == null || address.getAddressName().isEmpty()) {
+            throw new ModelNonNullableFieldException("Address", "addressName");
+        }
 
         for (Customer customer : address.getAddressCustomers()) {
             addressCustomers.add(customerRepository.findById(customer.getCustomerId())
-                    .orElseThrow(() -> new ModelValuesNotAllowed("Customer")));
+                    .orElseThrow(() -> new ModelValuesNotAllowed("Customer", "Bob")));
         }
 
         Address newAddress = new Address(
@@ -55,47 +62,38 @@ public class AddressService {
                 addressCustomers
         );
 
-        try {
-            return Optional.of(addressRepository.save(newAddress));
-        } catch (DataIntegrityViolationException error) {
-            return Optional.empty();
-        }
+        return addressRepository.save(newAddress);
     }
 
-    public boolean deleteAddress(Long id) {
-        if (addressRepository.findById(id).isPresent()) {
-            addressRepository.deleteById(id);
-            return true;
+    public void deleteAddress(Long id) {
+        if (addressRepository.findById(id).isEmpty()) {
+            throw new ModelIdNotFoundException("Address", id);
         }
 
-        return false;
+        addressRepository.deleteById(id);
     }
 
-    public Optional<Address> updateAddress(Address address, Long id) {
-        Optional<Address> returnAddress = addressRepository.findById(id);
-        List<Customer> addressCustomers = new ArrayList<>();
-        String test = address.getAddressName();
+    public Address updateAddress(Address address, Long id) {
+        Address returnAddress = addressRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
 
-
-        if (returnAddress.isPresent()) {
-            address.setAddressId(id);
-
-            if (test != null) {
-                System.out.println(address.getAddressName());
-                address.setAddressName(returnAddress.get().getAddressName());
-            }
-
-            for (Customer customer : address.getAddressCustomers()) {
-                addressCustomers.add(customerRepository.findById(customer.getCustomerId())
-                        .orElseThrow(() -> new ModelValuesNotAllowed("Customer")));
-            }
-
-            addressCustomers.addAll(returnAddress.get().getAddressCustomers());
-            address.setAddressCustomers(addressCustomers);
-
-            returnAddress = Optional.of(addressRepository.save(address));
+        //SINGLE PROPERTY
+        if (address.getAddressName() != null && !address.getAddressName().isEmpty()) {
+            returnAddress.setAddressName(address.getAddressName());
         }
 
-        return returnAddress;
+        //LIST
+        for (Customer customer : address.getAddressCustomers()) {
+            if (customer.getCustomerId() == null) {
+                throw new ModelNonNullableFieldException("CustomerList", "customerId");
+            } else if (customer.getCustomerId() < 1L) {
+                throw new ModelValuesNotAllowed("CustomerList", "customerId");
+            }
+
+            returnAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
+                    .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getCustomerId())));
+        }
+
+        return addressRepository.save(returnAddress);
     }
 }

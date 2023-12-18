@@ -31,7 +31,7 @@ public class ExceptionController {
 
     @ExceptionHandler(ModelValuesNotAllowed.class)
     public ResponseEntity<Object> exception(ModelValuesNotAllowed exception) {
-        String returnBody = String.format("Unsupported values for fields in %s.", exception.getModel());
+        String returnBody = String.format("Unsupported values for %s field in %s.", exception.getField(), exception.getModel());
 
         logger.warn(returnBody);
 
@@ -40,10 +40,10 @@ public class ExceptionController {
 
     @ExceptionHandler(ModelNonNullableFieldException.class)
     public ResponseEntity<Object> exception(ModelNonNullableFieldException exception) {
-        String returnBody = String.format("%s, %s non-nullable field cannot be null.", exception.getModel(), exception.getField());
+        String returnBody = String.format("Non-nullable %s field cannot be empty in %s.", exception.getField(), exception.getModel());
 
         logger.warn(returnBody);
 
-        return new ResponseEntity<>(returnBody, HttpStatus.PARTIAL_CONTENT);
+        return new ResponseEntity<>(returnBody, HttpStatus.NOT_ACCEPTABLE);
     }
 }

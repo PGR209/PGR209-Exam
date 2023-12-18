@@ -51,7 +51,7 @@ public class SubassemblyController {
     @PostMapping
     public Subassembly newSubassembly(@RequestBody Subassembly subassembly) {
         return subassemblyService.newSubassembly(subassembly)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Subassembly"));
+                .orElseThrow(() -> new ModelValuesNotAllowed("Subassembly", "Bob"));
     }
 
     @DeleteMapping("{id}")

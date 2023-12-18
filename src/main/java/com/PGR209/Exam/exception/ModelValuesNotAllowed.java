@@ -11,8 +11,10 @@ public class ModelValuesNotAllowed extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     private final String model;
+    private final String field;
 
-    public ModelValuesNotAllowed(String model) {
+    public ModelValuesNotAllowed(String model, String field) {
         this.model = model;
+        this.field = field;
     }
 }

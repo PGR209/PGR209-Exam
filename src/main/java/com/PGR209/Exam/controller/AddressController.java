@@ -5,7 +5,9 @@ import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.service.AddressService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,48 +24,46 @@ public class AddressController {
 
     @GetMapping("{id}")
     public Address getAddressById(@PathVariable Long id) {
-        return addressService.getAddressById(id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
+        return addressService.getAddressById(id);
     }
 
+    //REMOVE???
     @GetMapping
-    public List<Address> getAddressAll() {
+    public List<Address> getAddressAll(HttpServletResponse response) {
         List<Address> addresses = addressService.getAddressAll();
 
-        if (!addresses.isEmpty()) {
-            return addresses;
-        } else {
-            throw new ModelListEmptyException("Address");
+        if (addresses.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return addresses;
     }
 
     @GetMapping("page/{pageNr}")
-    public List<Address> getAddressPage(@PathVariable int pageNr) {
+    public List<Address> getAddressPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Address> addresses = addressService.getAddressPage(pageNr);
 
-        if (!addresses.isEmpty()) {
-            return addresses;
-        } else {
-            throw new ModelListEmptyException("Address");
+        if (addresses.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return addresses;
     }
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseBody
     public Address newAddress(@RequestBody Address address) {
-        return addressService.newAddress(address)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Address"));
+        return addressService.newAddress(address);
     }
 
     @DeleteMapping("{id}")
     public void deleteAddress(@PathVariable Long id) {
-        if (!addressService.deleteAddress(id)) {
-            throw new ModelIdNotFoundException("Address", id);
-        }
+        addressService.deleteAddress(id);
     }
 
     @PutMapping("{id}")
     public Address updateAddress(@RequestBody Address address, @PathVariable Long id) {
-        return addressService.updateAddress(address, id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
+        return addressService.updateAddress(address, id);
     }
 }

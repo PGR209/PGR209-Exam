@@ -51,7 +51,7 @@ public class PartController {
     @PostMapping
     public Part newPart(@RequestBody Part part) {
         return partService.newPart(part)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Part"));
+                .orElseThrow(() -> new ModelValuesNotAllowed("Part", "Bob"));
     }
 
     @DeleteMapping("{id}")

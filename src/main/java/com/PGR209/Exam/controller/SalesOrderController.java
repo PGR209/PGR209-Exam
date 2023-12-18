@@ -51,7 +51,7 @@ public class SalesOrderController {
     @PostMapping
     public SalesOrder newSalesOrder(@RequestBody SalesOrder salesOrder) {
         return salesOrderService.newSalesOrder(salesOrder)
-                .orElseThrow(() -> new ModelValuesNotAllowed("SalesOrder"));
+                .orElseThrow(() -> new ModelValuesNotAllowed("SalesOrder", "Bob"));
     }
 
     @DeleteMapping("{id}")

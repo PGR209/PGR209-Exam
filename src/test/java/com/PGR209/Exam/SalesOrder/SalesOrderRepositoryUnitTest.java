@@ -31,10 +31,10 @@ public class SalesOrderRepositoryUnitTest {
     public void shouldAddASalesOrder(){
         SalesOrder salesOrder = repository.save(
                 new SalesOrder(
-                        new Customer("customer", "email@test", new ArrayList<>(), new ArrayList<>()) ,
+                        new Customer("CustomerRepoUnitTest", "email@test", new ArrayList<>(), new ArrayList<>()) ,
                         new ArrayList<>(),
                         new Address()));
-        assertThat(salesOrder.getSalesOrderCustomer()).isEqualTo("CustomerRepoUnitTest");
+        assertThat(salesOrder.getSalesOrderCustomer().getCustomerName()).isEqualTo("CustomerRepoUnitTest");
     }
 
     @Test

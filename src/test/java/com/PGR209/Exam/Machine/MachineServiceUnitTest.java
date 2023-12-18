@@ -30,7 +30,7 @@ public class MachineServiceUnitTest {
         when(machineRepository.findById(index)).thenReturn(Optional.of(newMachine));
 
         assertThat(machineService.getMachineById(index)).isEqualTo(newMachine);
-        assertThat(machineService.getMachineById(index).getName()).isEqualTo(newMachine.getName());
+        assertThat(machineService.getMachineById(index).getMachineName()).isEqualTo(newMachine.getMachineName());
     }
 
     @Test

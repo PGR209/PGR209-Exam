@@ -30,7 +30,7 @@ public class PartServiceUnitTest {
         when(partRepository.findById(index)).thenReturn(Optional.of(newPart));
 
         assertThat(partService.getPartById(index)).isEqualTo(newPart);
-        assertThat(partService.getPartById(index).getName()).isEqualTo(newPart.getName());
+        assertThat(partService.getPartById(index).getPartName()).isEqualTo(newPart.getPartName());
     }
 
     @Test

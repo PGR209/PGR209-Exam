@@ -30,7 +30,7 @@ public class SubassemblyServiceUnitTest {
         when(subassemblyRepository.findById(index)).thenReturn(Optional.of(newSubassembly));
 
         assertThat(subassemblyService.getSubassemblyById(index)).isEqualTo(newSubassembly);
-        assertThat(subassemblyService.getSubassemblyById(index).getName()).isEqualTo(newSubassembly.getName());
+        assertThat(subassemblyService.getSubassemblyById(index).getSubassemblyName()).isEqualTo(newSubassembly.getSubassemblyName());
     }
 
     @Test

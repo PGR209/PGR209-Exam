@@ -29,7 +29,7 @@ public class CustomerServiceUnitTest {
         when(customerRepository.findById(index)).thenReturn(Optional.of(newCustomer));
 
         assertThat(customerService.getCustomerById(index)).isEqualTo(newCustomer);
-        assertThat(customerService.getCustomerById(index).getName()).isEqualTo(newCustomer.getName());
+        assertThat(customerService.getCustomerById(index).getCustomerName()).isEqualTo(newCustomer.getCustomerName());
     }
 
     @Test

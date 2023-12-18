@@ -31,7 +31,7 @@ public class AddressServiceUnitTest {
         when(addressRepository.findById(index)).thenReturn(Optional.of(newAddress));
 
         assertThat(addressService.getAddressById(index)).isEqualTo(newAddress);
-        assertThat(addressService.getAddressById(index).getStreet()).isEqualTo(newAddress.getStreet());
+        assertThat(addressService.getAddressById(index).getAddressName()).isEqualTo(newAddress.getAddressName());
     }
 
     @Test

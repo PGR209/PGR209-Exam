@@ -32,7 +32,7 @@ public class SalesOrderServiceUnitTest {
         when(salesOrderRepository.findById(index)).thenReturn(Optional.of(newSalesOrder));
 
         assertThat(salesOrderService.getSalesOrderById(index)).isEqualTo(newSalesOrder);
-        assertThat(salesOrderService.getSalesOrderById(index).getCustomer().getName()).isEqualTo(customer.getName());
+        assertThat(salesOrderService.getSalesOrderById(index).getSalesOrderCustomer().getCustomerName()).isEqualTo(customer.getCustomerName());
     }
 
     @Test

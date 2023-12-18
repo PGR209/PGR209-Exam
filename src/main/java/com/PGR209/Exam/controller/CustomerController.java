@@ -28,17 +28,6 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
-    @GetMapping
-    public List<Customer> getCustomerAll(HttpServletResponse response) {
-        List<Customer> customers = customerService.getCustomerAll();
-
-        if (customers.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return customers;
-    }
-
     @GetMapping("page/{pageNr}")
     public List<Customer> getCustomerPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Customer> customers = customerService.getCustomerPage(pageNr);

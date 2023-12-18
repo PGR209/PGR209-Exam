@@ -27,17 +27,6 @@ public class MachineController {
         return machineService.getMachineById(id);
     }
 
-    @GetMapping
-    public List<Machine> getMachineAll(HttpServletResponse response) {
-        List<Machine> machines = machineService.getMachineAll();
-
-        if (machines.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return machines;
-    }
-
     @GetMapping("page/{pageNr}")
     public List<Machine> getMachinePage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Machine> machines = machineService.getMachinePage(pageNr);

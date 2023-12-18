@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.repository.SubassemblyRepository;
@@ -21,12 +22,9 @@ public class SubassemblyService {
         this.subassemblyRepository = subassemblyRepository;
     }
 
-    public Optional<Subassembly> getSubassemblyById(Long id) {
-        return subassemblyRepository.findById(id);
-    }
-
-    public List<Subassembly> getSubassemblyAll() {
-        return subassemblyRepository.findAll();
+    public Subassembly getSubassemblyById(Long id) {
+        return subassemblyRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", id));
     }
 
     public List<Subassembly> getSubassemblyPage(int page) {
@@ -45,13 +43,12 @@ public class SubassemblyService {
         }
     }
 
-    public boolean deleteSubassembly(Long id) {
-        if (subassemblyRepository.findById(id).isPresent()) {
-            subassemblyRepository.deleteById(id);
-            return true;
+    public void deleteSubassembly(Long id) {
+        if (subassemblyRepository.findById(id).isEmpty()) {
+            throw new ModelIdNotFoundException("Subassembly", id);
         }
 
-        return false;
+        subassemblyRepository.deleteById(id);
     }
 
     public Optional<Subassembly> updateSubassembly(Subassembly subassembly, Long id) {

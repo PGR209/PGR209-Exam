@@ -27,17 +27,6 @@ public class SalesOrderController {
         return salesOrderService.getSalesOrderById(id);
     }
 
-    @GetMapping
-    public List<SalesOrder> getSalesOrderAll(HttpServletResponse response) {
-        List<SalesOrder> salesOrders = salesOrderService.getSalesOrderAll();
-
-        if (salesOrders.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return salesOrders;
-    }
-
     @GetMapping("page/{pageNr}")
     public List<SalesOrder> getSalesOrderPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<SalesOrder> salesOrders = salesOrderService.getSalesOrderPage(pageNr);

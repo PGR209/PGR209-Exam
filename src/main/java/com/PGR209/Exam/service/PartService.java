@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.repository.PartRepository;
@@ -20,12 +21,9 @@ public class PartService {
         this.partRepository = partRepository;
     }
 
-    public Optional<Part> getPartById(Long id) {
-        return partRepository.findById(id);
-    }
-
-    public List<Part> getPartAll() {
-        return partRepository.findAll();
+    public Part getPartById(Long id) {
+        return partRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Part", id));
     }
 
     public List<Part> getPartPage(int page) {
@@ -44,13 +42,12 @@ public class PartService {
         }
     }
 
-    public boolean deletePart(Long id) {
-        if (partRepository.findById(id).isPresent()) {
-            partRepository.deleteById(id);
-            return true;
+    public void deletePart(Long id) {
+        if (partRepository.findById(id).isEmpty()) {
+            throw new ModelIdNotFoundException("Part", id);
         }
 
-        return false;
+        partRepository.deleteById(id);
     }
 
     public Optional<Part> updatePart(Part part, Long id) {

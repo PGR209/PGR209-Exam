@@ -27,17 +27,6 @@ public class SubassemblyController {
         return subassemblyService.getSubassemblyById(id);
     }
 
-    @GetMapping
-    public List<Subassembly> getSubassemblyAll(HttpServletResponse response) {
-        List<Subassembly> subassemblies = subassemblyService.getSubassemblyAll();
-
-        if (subassemblies.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return subassemblies;
-    }
-
     @GetMapping("page/{pageNr}")
     public List<Subassembly> getSubassemblyPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Subassembly> subassemblies = subassemblyService.getSubassemblyPage(pageNr);

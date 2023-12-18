@@ -1,5 +1,6 @@
 package com.PGR209.Exam.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Address {
     //NOT NULL
     @Column(name = "address_name")
     private String addressName;
-
+    @JsonManagedReference
     @ManyToMany (cascade = CascadeType.ALL)
     private List<Customer> addressCustomers = new ArrayList<>();
 

@@ -24,16 +24,16 @@ public class Subassembly {
     @Column(name = "subassembly_name")
     private String subassemblyName;
 
-    @OneToMany
-    List<Part> parts = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Part> subassemblyParts = new ArrayList<>();
 
-    public Subassembly (String subassemblyName, List<Part> parts){
+    public Subassembly (String subassemblyName, List<Part> subassemblyParts){
         this.subassemblyName = subassemblyName;
-        this.parts = parts;
+        this.subassemblyParts = subassemblyParts;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s - %s", subassemblyId, subassemblyName, parts);
+        return String.format("[%s] %s - %s", subassemblyId, subassemblyName, subassemblyParts);
     }
 }

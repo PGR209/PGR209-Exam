@@ -1,8 +1,12 @@
 package com.PGR209.Exam.service;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
+import com.PGR209.Exam.exception.ModelNonNullableFieldException;
+import com.PGR209.Exam.exception.ModelValueNotAllowed;
 import com.PGR209.Exam.model.Customer;
+import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.model.Subassembly;
+import com.PGR209.Exam.repository.PartRepository;
 import com.PGR209.Exam.repository.SubassemblyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,10 +20,12 @@ import java.util.Optional;
 @Service
 public class SubassemblyService {
     private final SubassemblyRepository subassemblyRepository;
+    private final PartRepository partRepository;
 
     @Autowired
-    public SubassemblyService(SubassemblyRepository subassemblyRepository) {
+    public SubassemblyService(SubassemblyRepository subassemblyRepository, PartRepository partRepository) {
         this.subassemblyRepository = subassemblyRepository;
+        this.partRepository = partRepository;
     }
 
     public Subassembly getSubassemblyById(Long id) {
@@ -35,12 +41,25 @@ public class SubassemblyService {
         return subassemblyRepository.findAll(pageable).toList();
     }
 
-    public Optional<Subassembly> newSubassembly(Subassembly subassembly) {
-        try {
-            return Optional.of(subassemblyRepository.save(subassembly));
-        } catch (DataIntegrityViolationException error) {
-            return Optional.empty();
+    public Subassembly newSubassembly(Subassembly subassembly) {
+        Subassembly createdSubassembly;
+        List<Part> subassemblyParts = new ArrayList<>();
+
+        if (subassembly.getSubassemblyName() == null || subassembly.getSubassemblyName().isEmpty()) {
+            throw new ModelNonNullableFieldException("Subassembly", "subassemblyName");
         }
+
+        for (Part part : subassembly.getSubassemblyParts()) {
+            subassemblyParts.add(partRepository.findById(part.getPartId())
+                    .orElseThrow(() -> new ModelValueNotAllowed("Part", "partId")));
+        }
+
+        createdSubassembly = new Subassembly(
+                subassembly.getSubassemblyName(),
+                subassemblyParts
+        );
+
+        return subassemblyRepository.save(createdSubassembly);
     }
 
     public void deleteSubassembly(Long id) {
@@ -51,7 +70,7 @@ public class SubassemblyService {
         subassemblyRepository.deleteById(id);
     }
 
-    public Optional<Subassembly> updateSubassembly(Subassembly subassembly, Long id) {
+    public Subassembly updateSubassembly(Subassembly subassembly, Long id) {
         Optional<Subassembly> returnSubassembly = subassemblyRepository.findById(id);
 
         if (returnSubassembly.isPresent()) {
@@ -60,6 +79,6 @@ public class SubassemblyService {
             returnSubassembly = Optional.of(subassemblyRepository.save(subassembly));
         }
 
-        return returnSubassembly;
+        return null;
     }
 }

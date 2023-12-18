@@ -29,8 +29,8 @@ public class ExceptionController {
         return new ResponseEntity<>(returnBody, HttpStatus.NO_CONTENT);
     }
 
-    @ExceptionHandler(ModelValuesNotAllowed.class)
-    public ResponseEntity<Object> exception(ModelValuesNotAllowed exception) {
+    @ExceptionHandler(ModelValueNotAllowed.class)
+    public ResponseEntity<Object> exception(ModelValueNotAllowed exception) {
         String returnBody = String.format("Unsupported values for %s field in %s.", exception.getField(), exception.getModel());
 
         logger.warn(returnBody);

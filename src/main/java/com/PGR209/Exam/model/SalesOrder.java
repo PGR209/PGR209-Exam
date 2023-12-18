@@ -21,26 +21,26 @@ public class SalesOrder {
     private Long salesOrderId = 0L;
 
     //NOT NULL
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesorder_customer")
     private Customer salesOrderCustomer;
 
-    @OneToMany
-    List<Machine> machines = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Machine> salesOrderMachines = new ArrayList<>();
 
     //NOT NULL
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesorder_address")
     private Address salesOrderAddress;
 
     public SalesOrder(Customer salesOrderCustomer, List<Machine> machines, Address salesOrderAddress) {
         this.salesOrderCustomer = salesOrderCustomer;
-        this.machines = machines;
+        this.salesOrderMachines = machines;
         this.salesOrderAddress = salesOrderAddress;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %s", salesOrderId, salesOrderCustomer, salesOrderAddress, machines);
+        return String.format("[%s] %s (%s) - %s", salesOrderId, salesOrderCustomer, salesOrderAddress, salesOrderMachines);
     }
 }

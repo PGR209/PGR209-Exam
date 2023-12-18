@@ -2,19 +2,17 @@ package com.PGR209.Exam.service;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
-import com.PGR209.Exam.exception.ModelValuesNotAllowed;
+import com.PGR209.Exam.exception.ModelValueNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.repository.AddressRepository;
 import com.PGR209.Exam.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AddressService {
@@ -41,6 +39,7 @@ public class AddressService {
     }
 
     public Address newAddress(Address address) {
+        Address createdAddress;
         List<Customer> addressCustomers = new ArrayList<>();
 
         if (address.getAddressName() == null || address.getAddressName().isEmpty()) {
@@ -49,15 +48,15 @@ public class AddressService {
 
         for (Customer customer : address.getAddressCustomers()) {
             addressCustomers.add(customerRepository.findById(customer.getCustomerId())
-                    .orElseThrow(() -> new ModelValuesNotAllowed("Customer", "Bob")));
+                    .orElseThrow(() -> new ModelValueNotAllowed("Customer", "customerId")));
         }
 
-        Address newAddress = new Address(
+        createdAddress = new Address(
                 address.getAddressName(),
                 addressCustomers
         );
 
-        return addressRepository.save(newAddress);
+        return addressRepository.save(createdAddress);
     }
 
     public void deleteAddress(Long id) {
@@ -82,7 +81,7 @@ public class AddressService {
             if (customer.getCustomerId() == null) {
                 throw new ModelNonNullableFieldException("CustomerList", "customerId");
             } else if (customer.getCustomerId() < 1L) {
-                throw new ModelValuesNotAllowed("CustomerList", "customerId");
+                throw new ModelValueNotAllowed("CustomerList", "customerId");
             }
 
             returnAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())

@@ -1,8 +1,5 @@
 package com.PGR209.Exam.controller;
 
-import com.PGR209.Exam.exception.ModelIdNotFoundException;
-import com.PGR209.Exam.exception.ModelListEmptyException;
-import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.service.MachineService;
 import jakarta.servlet.http.HttpServletResponse;

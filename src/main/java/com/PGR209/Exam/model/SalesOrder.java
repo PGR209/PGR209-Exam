@@ -26,7 +26,7 @@ public class SalesOrder {
     private Customer salesOrderCustomer;
 
     @OneToMany
-    List<Machine> machines = new ArrayList<>();
+    List<Machine> salesOrderMachines = new ArrayList<>();
 
     //NOT NULL
     @ManyToOne
@@ -35,12 +35,12 @@ public class SalesOrder {
 
     public SalesOrder(Customer salesOrderCustomer, List<Machine> machines, Address salesOrderAddress) {
         this.salesOrderCustomer = salesOrderCustomer;
-        this.machines = machines;
+        this.salesOrderMachines = machines;
         this.salesOrderAddress = salesOrderAddress;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %s", salesOrderId, salesOrderCustomer, salesOrderAddress, machines);
+        return String.format("[%s] %s (%s) - %s", salesOrderId, salesOrderCustomer, salesOrderAddress, salesOrderMachines);
     }
 }

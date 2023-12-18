@@ -12,13 +12,11 @@ import com.PGR209.Exam.repository.CustomerRepository;
 import com.PGR209.Exam.repository.MachineRepository;
 import com.PGR209.Exam.repository.SalesOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SalesOrderService {

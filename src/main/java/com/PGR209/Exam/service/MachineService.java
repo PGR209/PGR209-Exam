@@ -3,20 +3,16 @@ package com.PGR209.Exam.service;
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.exception.ModelValueNotAllowed;
-import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.repository.MachineRepository;
 import com.PGR209.Exam.repository.SubassemblyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MachineService {

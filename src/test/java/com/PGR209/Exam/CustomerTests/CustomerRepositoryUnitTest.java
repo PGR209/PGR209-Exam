@@ -10,15 +10,11 @@ import com.PGR209.Exam.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @DataJpaTest
 public class CustomerRepositoryUnitTest {
-    @Autowired
-    private TestEntityManager entityManager;
     @Autowired
     CustomerRepository repository;
 
@@ -27,15 +23,22 @@ public class CustomerRepositoryUnitTest {
         Iterable<Customer> customer = repository.findAll();
         assertThat(customer).isEmpty();
     }
+
     @Test
     public void shouldAddACustomer(){
-        Customer customer = repository.save(new Customer("CustomerRepoUnitTest", "email@test", new ArrayList<Address>(), new ArrayList<SalesOrder>()));
+        Customer customer = repository.save(new Customer("CustomerRepoUnitTest",
+                "email@test",
+                new ArrayList<Address>(),
+                new ArrayList<SalesOrder>()));
         assertThat(customer.getCustomerName()).isEqualTo("CustomerRepoUnitTest");
     }
 
     @Test
     public void shouldUpdateExistingCustomer(){
-        Customer customer = repository.save(new Customer("CustomerRepoUnitTest", "email@test", new ArrayList<Address>(), new ArrayList<SalesOrder>()));
+        Customer customer = repository.save(new Customer("CustomerRepoUnitTest",
+                "email@test",
+                new ArrayList<Address>(),
+                new ArrayList<SalesOrder>()));
         customer.setCustomerName("NEWCustomerName");
         repository.save(customer);
         Long id = customer.getCustomerId();
@@ -45,14 +48,20 @@ public class CustomerRepositoryUnitTest {
 
     @Test
     public void shouldReadCustomer(){
-        Customer customer = repository.save(new Customer("CustomerRepoUnitTest", "email@test", new ArrayList<Address>(), new ArrayList<SalesOrder>()));
+        Customer customer = repository.save(new Customer("CustomerRepoUnitTest",
+                "email@test",
+                new ArrayList<Address>(),
+                new ArrayList<SalesOrder>()));
         Customer readCustomer = repository.findById(customer.getCustomerId()).orElseThrow();
         assertThat(readCustomer).isNotNull();
     }
 
     @Test
     public void shouldDeleteCustomer(){
-        Customer customer = repository.save(new Customer("CustomerRepoUnitTest", "email@test", new ArrayList<Address>(), new ArrayList<SalesOrder>()));
+        Customer customer = repository.save(new Customer("CustomerRepoUnitTest",
+                "email@test",
+                new ArrayList<Address>(),
+                new ArrayList<SalesOrder>()));
         Long id = customer.getCustomerId();
         repository.deleteById(id);
         assertThat(repository.findById(id)).isEmpty();

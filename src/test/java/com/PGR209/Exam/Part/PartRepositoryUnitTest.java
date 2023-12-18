@@ -6,15 +6,12 @@ import com.PGR209.Exam.repository.PartRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
 public class PartRepositoryUnitTest {
-    @Autowired
-    private TestEntityManager entityManager;
     @Autowired
     PartRepository repository;
 
@@ -23,6 +20,7 @@ public class PartRepositoryUnitTest {
         Iterable<Part> part = repository.findAll();
         assertThat(part).isEmpty();
     }
+
     @Test
     public void shouldAddAPart(){
         Part part = repository.save(new Part("PartRepoUnitTest"));

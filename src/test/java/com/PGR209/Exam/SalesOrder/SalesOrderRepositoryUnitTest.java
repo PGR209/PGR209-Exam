@@ -10,15 +10,11 @@ import com.PGR209.Exam.repository.SalesOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @DataJpaTest
 public class SalesOrderRepositoryUnitTest {
-    @Autowired
-    private TestEntityManager entityManager;
     @Autowired
     SalesOrderRepository repository;
 
@@ -27,11 +23,15 @@ public class SalesOrderRepositoryUnitTest {
         Iterable<SalesOrder> salesOrder = repository.findAll();
         assertThat(salesOrder).isEmpty();
     }
+
     @Test
     public void shouldAddASalesOrder(){
         SalesOrder salesOrder = repository.save(
                 new SalesOrder(
-                        new Customer("CustomerRepoUnitTest", "email@test", new ArrayList<>(), new ArrayList<>()) ,
+                        new Customer("CustomerRepoUnitTest",
+                                "email@test",
+                                new ArrayList<>(),
+                                new ArrayList<>()) ,
                         new ArrayList<>(),
                         new Address()));
         assertThat(salesOrder.getSalesOrderCustomer().getCustomerName()).isEqualTo("CustomerRepoUnitTest");
@@ -39,8 +39,18 @@ public class SalesOrderRepositoryUnitTest {
 
     @Test
     public void shouldUpdateExistingSalesOrder(){
-        SalesOrder salesOrder = repository.save(new SalesOrder(new Customer("customer", "email@test", new ArrayList<>(), new ArrayList<>()) , new ArrayList<Machine>(), new Address()));
-        Customer newCustomer = new Customer ("newcustomer", "email@test", new ArrayList<>(), new ArrayList<>());
+        SalesOrder salesOrder = repository.save(new SalesOrder(new Customer(
+                "customer",
+                "email@test",
+                new ArrayList<>(),
+                new ArrayList<>()) ,
+                new ArrayList<Machine>(),
+                new Address()));
+        Customer newCustomer = new Customer (
+                "newcustomer",
+                "email@test",
+                new ArrayList<>(),
+                new ArrayList<>());
         salesOrder.setSalesOrderCustomer(newCustomer);
         repository.save(salesOrder);
         Long id = salesOrder.getSalesOrderId();
@@ -50,14 +60,25 @@ public class SalesOrderRepositoryUnitTest {
 
     @Test
     public void shouldReadSalesOrder(){
-        SalesOrder salesOrder = repository.save(new SalesOrder(new Customer("customer", "email@test", new ArrayList<>(), new ArrayList<>()) , new ArrayList<Machine>(), new Address()));
+        SalesOrder salesOrder = repository.save(new SalesOrder(new Customer(
+                "customer",
+                "email@test",
+                new ArrayList<>(),
+                new ArrayList<>()) ,
+                new ArrayList<Machine>(),
+                new Address()));
         SalesOrder readSalesOrder = repository.findById(salesOrder.getSalesOrderId()).orElseThrow();
         assertThat(readSalesOrder).isNotNull();
     }
 
     @Test
     public void shouldDeleteSalesOrder(){
-        SalesOrder salesOrder = repository.save(new SalesOrder(new Customer("customer", "email@test", new ArrayList<>(), new ArrayList<>()) , new ArrayList<Machine>(), new Address()));
+        SalesOrder salesOrder = repository.save(new SalesOrder(new Customer(
+                "customer", "email@test",
+                new ArrayList<>(),
+                new ArrayList<>()) ,
+                new ArrayList<Machine>(),
+                new Address()));
         Long id = salesOrder.getSalesOrderId();
         repository.deleteById(id);
         assertThat(repository.findById(id)).isEmpty();

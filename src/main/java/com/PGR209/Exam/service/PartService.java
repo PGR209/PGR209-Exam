@@ -58,14 +58,13 @@ public class PartService {
     }
 
     public Part updatePart(Part part, Long id) {
-        Optional<Part> returnPart = partRepository.findById(id);
+        Part updatedPart = partRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Part", id));
 
-        if (returnPart.isPresent()) {
-            part.setPartId(id);
-
-            returnPart = Optional.of(partRepository.save(part));
+        if (part.getPartName() != null && !part.getPartName().isEmpty()) {
+            updatedPart.setPartName(part.getPartName());
         }
 
-        return null;
+        return partRepository.save(updatedPart);
     }
 }

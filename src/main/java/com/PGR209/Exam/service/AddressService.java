@@ -68,26 +68,26 @@ public class AddressService {
     }
 
     public Address updateAddress(Address address, Long id) {
-        Address returnAddress = addressRepository.findById(id)
+        Address updatedAddress = addressRepository.findById(id)
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
 
         //SINGLE PROPERTY
         if (address.getAddressName() != null && !address.getAddressName().isEmpty()) {
-            returnAddress.setAddressName(address.getAddressName());
+            updatedAddress.setAddressName(address.getAddressName());
         }
 
         //LIST
         for (Customer customer : address.getAddressCustomers()) {
             if (customer.getCustomerId() == null) {
-                throw new ModelNonNullableFieldException("CustomerList", "customerId");
+                throw new ModelNonNullableFieldException("addressCustomers", "customerId");
             } else if (customer.getCustomerId() < 1L) {
-                throw new ModelValueNotAllowed("CustomerList", "customerId");
+                throw new ModelValueNotAllowed("addressCustomers", "customerId");
             }
 
-            returnAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
+            updatedAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
                     .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getCustomerId())));
         }
 
-        return addressRepository.save(returnAddress);
+        return addressRepository.save(updatedAddress);
     }
 }

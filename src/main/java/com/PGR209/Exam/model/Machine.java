@@ -28,16 +28,16 @@ public class Machine{
     private int machineQuantity;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Subassembly> subassemblies = new ArrayList<>();
+    private List<Subassembly> machineSubassemblies = new ArrayList<>();
 
-    public Machine(String machineName, int machineQuantity, List<Subassembly> subassemblies) {
+    public Machine(String machineName, int machineQuantity, List<Subassembly> machineSubassemblies) {
         this.machineName = machineName;
         this.machineQuantity = machineQuantity;
-        this.subassemblies = subassemblies;
+        this.machineSubassemblies = machineSubassemblies;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %s", machineId, machineName, machineQuantity, subassemblies);
+        return String.format("[%s] %s (%s) - %s", machineId, machineName, machineQuantity, machineSubassemblies);
     }
 }

@@ -71,14 +71,24 @@ public class SubassemblyService {
     }
 
     public Subassembly updateSubassembly(Subassembly subassembly, Long id) {
-        Optional<Subassembly> returnSubassembly = subassemblyRepository.findById(id);
+        Subassembly updatedSubassembly = subassemblyRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", id));
 
-        if (returnSubassembly.isPresent()) {
-            subassembly.setSubassemblyId(id);
-
-            returnSubassembly = Optional.of(subassemblyRepository.save(subassembly));
+        if (subassembly.getSubassemblyName() != null && !subassembly.getSubassemblyName().isEmpty()) {
+            updatedSubassembly.setSubassemblyName(subassembly.getSubassemblyName());
         }
 
-        return null;
+        for (Part part : subassembly.getSubassemblyParts()) {
+            if (part.getPartId() == null) {
+                throw new ModelNonNullableFieldException("subassemblyParts", "partId");
+            } else if (part.getPartId() < 1L) {
+                throw new ModelValueNotAllowed("subassemblyParts", "partId");
+            }
+
+            updatedSubassembly.getSubassemblyParts().add(partRepository.findById(part.getPartId())
+                    .orElseThrow(() -> new ModelIdNotFoundException("Part", part.getPartId())));
+        }
+
+        return subassemblyRepository.save(updatedSubassembly);
     }
 }

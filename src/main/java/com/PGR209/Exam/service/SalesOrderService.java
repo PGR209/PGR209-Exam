@@ -91,14 +91,31 @@ public class SalesOrderService {
     }
 
     public SalesOrder updateSalesOrder(SalesOrder salesOrder, Long id) {
-        Optional<SalesOrder> returnSalesOrder = salesOrderRepository.findById(id);
+        SalesOrder updatedSalesOrder = salesOrderRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", id));
 
-        if (returnSalesOrder.isPresent()) {
-            salesOrder.setSalesOrderId(id);
-
-            returnSalesOrder = Optional.of(salesOrderRepository.save(salesOrder));
+        //TEST WHILE GIVING NO ID
+        if (salesOrder.getSalesOrderCustomer() != null) {
+            updatedSalesOrder.setSalesOrderCustomer(customerRepository.findById(salesOrder.getSalesOrderCustomer().getCustomerId())
+                    .orElseThrow(() -> new ModelNonNullableFieldException("salesOrderCustomer", "customerId")));
         }
 
-        return null;
+        if (salesOrder.getSalesOrderAddress() != null) {
+            updatedSalesOrder.setSalesOrderAddress(addressRepository.findById(salesOrder.getSalesOrderAddress().getAddressId())
+                    .orElseThrow(() -> new ModelNonNullableFieldException("salesOrderAddress", "addressId")));
+        }
+
+        for (Machine machine : salesOrder.getSalesOrderMachines()) {
+            if (machine.getMachineId() == null) {
+                throw new ModelNonNullableFieldException("salesOrderMachines", "machineId");
+            } else if (machine.getMachineId() < 1L) {
+                throw new ModelValueNotAllowed("salesOrderMachines", "machineId");
+            }
+
+            updatedSalesOrder.getSalesOrderMachines().add(machineRepository.findById(machine.getMachineId())
+                    .orElseThrow(() -> new ModelIdNotFoundException("Machine", machine.getMachineId())));
+        }
+
+        return salesOrderRepository.save(updatedSalesOrder);
     }
 }

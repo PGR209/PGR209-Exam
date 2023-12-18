@@ -50,7 +50,7 @@ public class MachineService {
             throw new ModelNonNullableFieldException("Machine", "machineName");
         }
 
-        for (Subassembly subassembly : machine.getSubassemblies()) {
+        for (Subassembly subassembly : machine.getMachineSubassemblies()) {
             machineSubassemblies.add(subassemblyRepository.findById(subassembly.getSubassemblyId())
                     .orElseThrow(() -> new ModelValueNotAllowed("Subassembly", "subassemblyId")));
         }
@@ -73,14 +73,29 @@ public class MachineService {
     }
 
     public Machine updateMachine(Machine machine, Long id) {
-        Optional<Machine> returnMachine = machineRepository.findById(id);
+        Machine updatedMachine = machineRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Machine", id));
 
-        if (returnMachine.isPresent()) {
-            machine.setMachineId(id);
-
-            returnMachine = Optional.of(machineRepository.save(machine));
+        if (machine.getMachineName() != null && !machine.getMachineName().isEmpty()) {
+            updatedMachine.setMachineName(machine.getMachineName());
         }
 
-        return null;
+        //CANNOT SET TO 0
+        if (machine.getMachineQuantity() != 0) {
+            updatedMachine.setMachineId(machine.getMachineId());
+        }
+
+        for (Subassembly subassembly : machine.getMachineSubassemblies()) {
+            if (subassembly.getSubassemblyId() == null) {
+                throw new ModelNonNullableFieldException("machineSubassemblies", "subassemblyId");
+            } else if (subassembly.getSubassemblyId() < 1L) {
+                throw new ModelValueNotAllowed("machineSubassemblies", "subassemblyId");
+            }
+
+            updatedMachine.getMachineSubassemblies().add(subassemblyRepository.findById(subassembly.getSubassemblyId())
+                    .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", subassembly.getSubassemblyId())));
+        }
+
+        return machineRepository.save(updatedMachine);
     }
 }

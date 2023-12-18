@@ -25,6 +25,7 @@ public class Address {
     //NOT NULL
     @Column(name = "address_name")
     private String addressName;
+
     @JsonManagedReference
     @ManyToMany (cascade = CascadeType.ALL)
     private List<Customer> addressCustomers = new ArrayList<>();

@@ -74,11 +74,14 @@ public class AddressService {
     public Optional<Address> updateAddress(Address address, Long id) {
         Optional<Address> returnAddress = addressRepository.findById(id);
         List<Customer> addressCustomers = new ArrayList<>();
+        String test = address.getAddressName();
+
 
         if (returnAddress.isPresent()) {
             address.setAddressId(id);
 
-            if (address.getAddressName().isEmpty()) {
+            if (test != null) {
+                System.out.println(address.getAddressName());
                 address.setAddressName(returnAddress.get().getAddressName());
             }
 

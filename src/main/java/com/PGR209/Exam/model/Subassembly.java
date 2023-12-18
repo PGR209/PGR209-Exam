@@ -20,7 +20,8 @@ public class Subassembly {
     @Column(name = "subassembly_id")
     private Long subassemblyId = 0L;
 
-    @Column(name = "subassembly_name", nullable = false)
+    //NOT NULL
+    @Column(name = "subassembly_name")
     private String subassemblyName;
 
     @OneToMany

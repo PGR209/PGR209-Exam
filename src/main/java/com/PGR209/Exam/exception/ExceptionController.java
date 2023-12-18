@@ -37,4 +37,13 @@ public class ExceptionController {
 
         return new ResponseEntity<>(returnBody, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
+
+    @ExceptionHandler(ModelNonNullableFieldException.class)
+    public ResponseEntity<Object> exception(ModelNonNullableFieldException exception) {
+        String returnBody = String.format("%s, %s non-nullable field cannot be null.", exception.getModel(), exception.getField());
+
+        logger.warn(returnBody);
+
+        return new ResponseEntity<>(returnBody, HttpStatus.PARTIAL_CONTENT);
+    }
 }

@@ -19,7 +19,8 @@ public class Part {
     @Column(name = "part_id")
     private Long partId = 0L;
 
-    @Column(name = "part_name", nullable = false)
+    //NOT NULL
+    @Column(name = "part_name")
     private String partName;
 
     public Part (String partName){

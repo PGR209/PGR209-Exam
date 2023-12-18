@@ -20,15 +20,17 @@ public class SalesOrder {
     @Column(name = "salesorder_id")
     private Long salesOrderId = 0L;
 
+    //NOT NULL
     @ManyToOne
-    @JoinColumn(name = "salesorder_customer", nullable = false)
+    @JoinColumn(name = "salesorder_customer")
     private Customer salesOrderCustomer;
 
     @OneToMany
     List<Machine> machines = new ArrayList<>();
 
+    //NOT NULL
     @ManyToOne
-    @JoinColumn(name = "salesorder_address", nullable = false)
+    @JoinColumn(name = "salesorder_address")
     private Address salesOrderAddress;
 
     public SalesOrder(Customer salesOrderCustomer, List<Machine> machines, Address salesOrderAddress) {

@@ -1,8 +1,5 @@
 package com.PGR209.Exam.controller;
 
-import com.PGR209.Exam.exception.ModelIdNotFoundException;
-import com.PGR209.Exam.exception.ModelListEmptyException;
-import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.service.AddressService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,18 +22,6 @@ public class AddressController {
     @GetMapping("{id}")
     public Address getAddressById(@PathVariable Long id) {
         return addressService.getAddressById(id);
-    }
-
-    //REMOVE???
-    @GetMapping
-    public List<Address> getAddressAll(HttpServletResponse response) {
-        List<Address> addresses = addressService.getAddressAll();
-
-        if (addresses.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return addresses;
     }
 
     @GetMapping("page/{pageNr}")

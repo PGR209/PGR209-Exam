@@ -5,7 +5,9 @@ import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Subassembly;
 import com.PGR209.Exam.service.SubassemblyService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,48 +24,34 @@ public class SubassemblyController {
 
     @GetMapping("{id}")
     public Subassembly getSubassemblyById(@PathVariable Long id) {
-        return subassemblyService.getSubassemblyById(id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", id));
-    }
-
-    @GetMapping
-    public List<Subassembly> getSubassemblyAll() {
-        List<Subassembly> subassemblies = subassemblyService.getSubassemblyAll();
-
-        if (!subassemblies.isEmpty()) {
-            return subassemblies;
-        } else {
-            throw new ModelListEmptyException("Subassembly");
-        }
+        return subassemblyService.getSubassemblyById(id);
     }
 
     @GetMapping("page/{pageNr}")
-    public List<Subassembly> getSubassemblyPage(@PathVariable int pageNr) {
+    public List<Subassembly> getSubassemblyPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Subassembly> subassemblies = subassemblyService.getSubassemblyPage(pageNr);
 
-        if (!subassemblies.isEmpty()) {
-            return subassemblies;
-        } else {
-            throw new ModelListEmptyException("Subassembly");
+        if (subassemblies.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return subassemblies;
     }
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseBody
     public Subassembly newSubassembly(@RequestBody Subassembly subassembly) {
-        return subassemblyService.newSubassembly(subassembly)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Subassembly", "Bob"));
+        return subassemblyService.newSubassembly(subassembly);
     }
 
     @DeleteMapping("{id}")
     public void deleteSubassembly(@PathVariable Long id) {
-        if (!subassemblyService.deleteSubassembly(id)) {
-            throw new ModelIdNotFoundException("Subassembly", id);
-        }
+        subassemblyService.deleteSubassembly(id);
     }
 
     @PutMapping("{id}")
     public Subassembly updateSubassembly(@RequestBody Subassembly subassembly, @PathVariable Long id) {
-        return subassemblyService.updateSubassembly(subassembly, id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", id));
+        return subassemblyService.updateSubassembly(subassembly, id);
     }
 }

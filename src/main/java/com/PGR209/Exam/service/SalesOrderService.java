@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.repository.SalesOrderRepository;
@@ -20,11 +21,10 @@ public class SalesOrderService {
         this.salesOrderRepository = salesOrderRepository;
     }
 
-    public Optional<SalesOrder> getSalesOrderById(Long id) {
-        return salesOrderRepository.findById(id);
+    public SalesOrder getSalesOrderById(Long id) {
+        return salesOrderRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", id));
     }
-
-    public List<SalesOrder> getSalesOrderAll() { return salesOrderRepository.findAll(); }
 
     public List<SalesOrder> getSalesOrderPage(int page) {
         //Move to config file?
@@ -42,13 +42,12 @@ public class SalesOrderService {
         }
     }
 
-    public boolean deleteSalesOrder(Long id) {
-        if (salesOrderRepository.findById(id).isPresent()) {
-            salesOrderRepository.deleteById(id);
-            return true;
+    public void deleteSalesOrder(Long id) {
+        if (salesOrderRepository.findById(id).isEmpty()) {
+            throw new ModelIdNotFoundException("SalesOrder", id);
         }
 
-        return false;
+        salesOrderRepository.deleteById(id);
     }
 
     public Optional<SalesOrder> updateSalesOrder(SalesOrder salesOrder, Long id) {

@@ -21,15 +21,15 @@ public class SalesOrder {
     private Long salesOrderId = 0L;
 
     //NOT NULL
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesorder_customer")
     private Customer salesOrderCustomer;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     List<Machine> salesOrderMachines = new ArrayList<>();
 
     //NOT NULL
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesorder_address")
     private Address salesOrderAddress;
 

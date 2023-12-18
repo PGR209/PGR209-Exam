@@ -24,12 +24,12 @@ public class Subassembly {
     @Column(name = "subassembly_name")
     private String subassemblyName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     List<Part> subassemblyParts = new ArrayList<>();
 
     public Subassembly (String subassemblyName, List<Part> parts){
         this.subassemblyName = subassemblyName;
-        this.parts = parts;
+        this.subassemblyParts = parts;
     }
 
     @Override

@@ -56,6 +56,10 @@ public class AddressService {
                 addressCustomers
         );
 
+        for (Customer customer : createdAddress.getAddressCustomers()) {
+            customer.getCustomerAddresses().add(createdAddress);
+        }
+
         return addressRepository.save(createdAddress);
     }
 
@@ -71,12 +75,10 @@ public class AddressService {
         Address updatedAddress = addressRepository.findById(id)
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
 
-        //SINGLE PROPERTY
         if (address.getAddressName() != null && !address.getAddressName().isEmpty()) {
             updatedAddress.setAddressName(address.getAddressName());
         }
 
-        //LIST
         for (Customer customer : address.getAddressCustomers()) {
             if (customer.getCustomerId() == null) {
                 throw new ModelNonNullableFieldException("addressCustomers", "customerId");
@@ -86,6 +88,13 @@ public class AddressService {
 
             updatedAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
                     .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getCustomerId())));
+
+            /*
+            if (customerRepository.findById(customer.getCustomerId()).isPresent()){
+                customerRepository.findById(customer.getCustomerId()).get().getCustomerAddresses().add(updatedAddress);
+            }*/
+
+            customer.getCustomerAddresses().add(updatedAddress);
         }
 
         return addressRepository.save(updatedAddress);

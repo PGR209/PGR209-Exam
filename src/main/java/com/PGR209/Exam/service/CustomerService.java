@@ -45,7 +45,6 @@ public class CustomerService {
     public Customer newCustomer(Customer customer) {
         Customer createdCustomer;
         List<Address> customerAddresses = new ArrayList<>();
-        List<SalesOrder> customerSalesOrders = new ArrayList<>();
 
         if (customer.getCustomerName() == null || customer.getCustomerName().isEmpty()) {
             throw new ModelNonNullableFieldException("Customer", "customerName");
@@ -60,17 +59,16 @@ public class CustomerService {
                     .orElseThrow(() -> new ModelValueNotAllowed("Address", "addressId")));
         }
 
-        for (SalesOrder salesOrder : customer.getCustomerSalesOrders()) {
-            customerSalesOrders.add(salesOrderRepository.findById(salesOrder.getSalesOrderId())
-                    .orElseThrow(() -> new ModelValueNotAllowed("SalesOrder", "salesOrderId")));
-        }
-
         createdCustomer = new Customer(
                 customer.getCustomerName(),
                 customer.getCustomerEmail(),
                 customerAddresses,
-                customerSalesOrders
+                new ArrayList<>()
         );
+
+        for (Address address : createdCustomer.getCustomerAddresses()) {
+            address.getAddressCustomers().add(createdCustomer);
+        }
 
         return customerRepository.save(createdCustomer);
     }

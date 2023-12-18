@@ -77,6 +77,10 @@ public class SalesOrderService {
                 salesOrderAddress
         );
 
+        if (customerRepository.findById(salesOrderCustomer.getCustomerId()).isPresent()) {
+            customerRepository.findById(salesOrderCustomer.getCustomerId()).get().getCustomerSalesOrders().add(createdSalesOrder);
+        }
+
         return salesOrderRepository.save(createdSalesOrder);
     }
 

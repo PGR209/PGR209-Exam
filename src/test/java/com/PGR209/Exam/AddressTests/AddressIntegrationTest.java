@@ -1,7 +1,6 @@
 package com.PGR209.Exam.AddressTests;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,70 +14,90 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddressIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    private String dateTime;
+    private static String dateTime;
 
-    @BeforeEach
-    public void addressSetup() {
-        String body;
-
+    @BeforeAll
+    public static void addressSetup() {
         dateTime = LocalDateTime.now().toString();
-        body = String.format("{\"street\":\"%s\"}", dateTime);
+    }
+
+    @Test
+    @Order(1)
+    public void shouldFetchFirstPageEmptyAddress() {
+        try {
+            mockMvc.perform(get("/api/address/page/0")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().is(204));
+        } catch (Exception error) {
+            System.out.println("Exception during shouldFetchFirstPageEmptyAddress test: " + error);
+        }
+    }
+
+    @Test
+    @Order(2)
+    public void shouldCreateSingleAddress() {
+        String requestBody = String.format("{\"addressName\":\"FirstAddress %s\"}", dateTime);
 
         try {
             mockMvc.perform(post("/api/address")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(body));
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody))
+                    .andExpect(status().isCreated());
         } catch (Exception error) {
-            System.out.println("Exception during addressSetup for integration tests: " + error);
+            System.out.println("Exception during shouldCreateSingleAddress test: " + error);
         }
     }
 
     @Test
-    public void shouldFetchAllAddresses() {
-        String expectedBody = String.format("[{\"id\":1,\"street\":\"%s\",\"customers\":[]}]", dateTime);
+    @Order(3)
+    public void shouldFetchFirstAddress() {
+        String expectedBody = String.format("{\"addressId\":1,\"addressName\":\"FirstAddress %s\",\"addressCustomers\":[]}", dateTime);
 
         try {
-            mockMvc.perform(get("/api/address")
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(get("/api/address/1")
+                            .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().json(expectedBody));
         } catch (Exception error) {
-            System.out.println("Exception during shouldFetchAllAddresses test: " + error);
+            System.out.println("Exception during shouldFetchFirstAddress test: " + error);
         }
     }
 
     @Test
-    public void shouldDeleteOneAddress() {
-        try {
-            mockMvc.perform(delete("/api/address/1")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
-
-            mockMvc.perform(get("/api/address")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk())
-                    .andExpect(content().json("[]"));
-        } catch (Exception error) {
-            System.out.println("Exception during shouldDeleteOneAddress test: " + error);
-        }
-    }
-
-    @Test
+    @Order(4)
     public void shouldUpdateAddress() {
-        String newBody = String.format("{\"id\":1,\"street\":\"Updated: %s\",\"customers\":[]}", dateTime);
+        String newBody = "{\"addressName\":\"NewValue\"}";
 
         try {
-            mockMvc.perform(put("/api/address")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(newBody))
+            mockMvc.perform(put("/api/address/1")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(newBody))
                     .andExpect(status().isOk())
                     .andExpect(content().json(newBody));
         } catch (Exception error) {
             System.out.println("Exception during shouldUpdateAddress test: " + error);
+        }
+    }
+
+    @Test
+    @Order(5)
+    public void shouldDeleteOneAddress() {
+        try {
+            mockMvc.perform(delete("/api/address/1")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+
+            mockMvc.perform(get("/api/address/page/0")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isNoContent())
+                    .andExpect(content().json("[]"));
+        } catch (Exception error) {
+            System.out.println("Exception during shouldDeleteOneAddress test: " + error);
         }
     }
 }

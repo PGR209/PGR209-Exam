@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.repository.MachineRepository;
@@ -21,12 +22,9 @@ public class MachineService {
         this.machineRepository = machineRepository;
     }
 
-    public Optional<Machine> getMachineById(Long id) {
-        return machineRepository.findById(id);
-    }
-
-    public List<Machine> getMachineAll() {
-        return machineRepository.findAll();
+    public Machine getMachineById(Long id) {
+        return machineRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Machine", id));
     }
 
     public List<Machine> getMachinePage(int page) {
@@ -45,13 +43,12 @@ public class MachineService {
         }
     }
 
-    public boolean deleteMachine(Long id) {
-        if (machineRepository.findById(id).isPresent()) {
-            machineRepository.deleteById(id);
-            return true;
+    public void deleteMachine(Long id) {
+        if (machineRepository.findById(id).isEmpty()) {
+            throw new ModelIdNotFoundException("Machine", id);
         }
 
-        return false;
+        machineRepository.deleteById(id);
     }
 
     public Optional<Machine> updateMachine(Machine machine, Long id) {

@@ -32,11 +32,6 @@ public class AddressService {
                 .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
     }
 
-    //REMOVE???
-    public List<Address> getAddressAll() {
-        return addressRepository.findAll();
-    }
-
     public List<Address> getAddressPage(int page) {
         //Move to config file?
         int pageSize = 4;

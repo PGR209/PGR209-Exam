@@ -24,18 +24,6 @@ public class AddressController {
         return addressService.getAddressById(id);
     }
 
-    //REMOVE???
-    @GetMapping
-    public List<Address> getAddressAll(HttpServletResponse response) {
-        List<Address> addresses = addressService.getAddressAll();
-
-        if (addresses.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return addresses;
-    }
-
     @GetMapping("page/{pageNr}")
     public List<Address> getAddressPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Address> addresses = addressService.getAddressPage(pageNr);

@@ -27,17 +27,6 @@ public class PartController {
         return partService.getPartById(id);
     }
 
-    @GetMapping
-    public List<Part> getPartAll(HttpServletResponse response) {
-        List<Part> parts = partService.getPartAll();
-
-        if (parts.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return parts;
-    }
-
     @GetMapping("page/{pageNr}")
     public List<Part> getPartPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Part> parts = partService.getPartPage(pageNr);

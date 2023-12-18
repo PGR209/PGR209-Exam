@@ -25,12 +25,9 @@ public class CustomerService {
         this.addressRepository = addressRepository;
     }
 
-    public Optional<Customer> getCustomerById(Long id) {
-        return customerRepository.findById(id);
-    }
-
-    public List<Customer> getCustomerAll() {
-        return customerRepository.findAll();
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
     }
 
     public List<Customer> getCustomerPage(int page) {
@@ -49,13 +46,12 @@ public class CustomerService {
         }
     }
 
-    public boolean deleteCustomer(Long id) {
-        if (customerRepository.findById(id).isPresent()) {
-            customerRepository.deleteById(id);
-            return true;
+    public void deleteCustomer(Long id) {
+        if (customerRepository.findById(id).isEmpty()) {
+            throw new ModelIdNotFoundException("Customer", id);
         }
 
-        return false;
+        customerRepository.deleteById(id);
     }
 
     public Optional<Customer> updateCustomer(Customer customer, Long id) {

@@ -1,16 +1,20 @@
 package com.PGR209.Exam.service;
 
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
-import com.PGR209.Exam.exception.ModelValuesNotAllowed;
+import com.PGR209.Exam.exception.ModelNonNullableFieldException;
+import com.PGR209.Exam.exception.ModelValueNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
+import com.PGR209.Exam.model.SalesOrder;
 import com.PGR209.Exam.repository.AddressRepository;
 import com.PGR209.Exam.repository.CustomerRepository;
+import com.PGR209.Exam.repository.SalesOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +22,13 @@ import java.util.Optional;
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final SalesOrderRepository salesOrderRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository) {
+    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, SalesOrderRepository salesOrderRepository) {
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
+        this.salesOrderRepository = salesOrderRepository;
     }
 
     public Customer getCustomerById(Long id) {
@@ -38,12 +44,37 @@ public class CustomerService {
         return customerRepository.findAll(pageable).toList();
     }
 
-    public Optional<Customer> newCustomer(Customer customer) {
-        try {
-            return Optional.of(customerRepository.save(customer));
-        } catch (DataIntegrityViolationException error) {
-            return Optional.empty();
+    public Customer newCustomer(Customer customer) {
+        Customer createdCustomer;
+        List<Address> customerAddresses = new ArrayList<>();
+        List<SalesOrder> customerSalesOrders = new ArrayList<>();
+
+        if (customer.getCustomerName() == null || customer.getCustomerName().isEmpty()) {
+            throw new ModelNonNullableFieldException("Customer", "customerName");
         }
+
+        if (customer.getCustomerEmail() == null || customer.getCustomerEmail().isEmpty()) {
+            throw new ModelNonNullableFieldException("Customer", "customerEmail");
+        }
+
+        for (Address address : customer.getCustomerAddresses()) {
+            customerAddresses.add(addressRepository.findById(address.getAddressId())
+                    .orElseThrow(() -> new ModelValueNotAllowed("Address", "addressId")));
+        }
+
+        for (SalesOrder salesOrder : customer.getCustomerSalesOrders()) {
+            customerSalesOrders.add(salesOrderRepository.findById(salesOrder.getSalesOrderId())
+                    .orElseThrow(() -> new ModelValueNotAllowed("SalesOrder", "salesOrderId")));
+        }
+
+        createdCustomer = new Customer(
+                customer.getCustomerName(),
+                customer.getCustomerEmail(),
+                customerAddresses,
+                customerSalesOrders
+        );
+
+        return customerRepository.save(createdCustomer);
     }
 
     public void deleteCustomer(Long id) {
@@ -54,7 +85,7 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Optional<Customer> updateCustomer(Customer customer, Long id) {
+    public Customer updateCustomer(Customer customer, Long id) {
         Optional<Customer> returnCustomer = customerRepository.findById(id);
 
         if (returnCustomer.isPresent()) {
@@ -63,7 +94,7 @@ public class CustomerService {
             returnCustomer = Optional.of(customerRepository.save(customer));
         }
 
-        return returnCustomer;
+        return null;
     }
 
     public Customer addAddress(Long id, Address address) {
@@ -79,21 +110,4 @@ public class CustomerService {
 
         return customerRepository.save(updatedCustomer);
     }
-
-    /*
-    public Address addCustomer(Long id, Customer customer) {
-        List<Customer> customers;
-        Address updatedAddress;
-
-        updatedAddress = addressRepository.findById(id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Address", id));
-
-        customers = updatedAddress.getCustomers();
-        customers.add(customerRepository.findById(customer.getId())
-                .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getId())));
-
-        return addressRepository.save(updatedAddress);
-    }
-
-     */
 }

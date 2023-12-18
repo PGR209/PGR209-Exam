@@ -19,9 +19,9 @@ public class SubassemblyIntegrationTest {
     @Test
     public void shouldFetchAllSubassemblies() {
         try {
-            mockMvc.perform(get("/api/subassembly")
+            mockMvc.perform(get("/api/subassembly/page/0")
                     .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
+                    .andExpect(status().is(204));
         } catch (Exception error) {
             System.out.println("Exception during shouldFetchAllSubassemblies test: " + error);
         }

@@ -25,7 +25,7 @@ public class Subassembly {
     private String subassemblyName;
 
     @OneToMany
-    List<Part> parts = new ArrayList<>();
+    List<Part> subassemblyParts = new ArrayList<>();
 
     public Subassembly (String subassemblyName, List<Part> parts){
         this.subassemblyName = subassemblyName;

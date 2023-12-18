@@ -6,7 +6,9 @@ import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.CustomerService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,51 +25,49 @@ public class CustomerController {
 
     @GetMapping("{id}")
     public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
+        return customerService.getCustomerById(id);
     }
 
     @GetMapping
-    public List<Customer> getCustomerAll() {
+    public List<Customer> getCustomerAll(HttpServletResponse response) {
         List<Customer> customers = customerService.getCustomerAll();
 
-        if (!customers.isEmpty()) {
-            return customers;
-        } else {
-            throw new ModelListEmptyException("Customer");
+        if (customers.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return customers;
     }
 
     @GetMapping("page/{pageNr}")
-    public List<Customer> getCustomerPage(@PathVariable int pageNr) {
+    public List<Customer> getCustomerPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Customer> customers = customerService.getCustomerPage(pageNr);
 
-        if (!customers.isEmpty()) {
-            return customers;
-        } else {
-            throw new ModelListEmptyException("Customer");
+        if (customers.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return customers;
     }
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseBody
     public Customer newCustomer(@RequestBody Customer customer) {
-        return customerService.newCustomer(customer)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Customer", "Bob"));
+        return customerService.newCustomer(customer);
     }
 
     @DeleteMapping("{id}")
     public void deleteCustomer(@PathVariable Long id) {
-        if (!customerService.deleteCustomer(id)) {
-            throw new ModelIdNotFoundException("Customer", id);
-        }
+        customerService.deleteCustomer(id);
     }
 
     @PutMapping("{id}")
     public Customer updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
-        return customerService.updateCustomer(customer, id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
+        return customerService.updateCustomer(customer, id);
     }
 
+    //REMOVE???
     @PutMapping("{id}/address")
     public Customer addAddress(@PathVariable Long id, Address address) {
         return customerService.addAddress(id, address);

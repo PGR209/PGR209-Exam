@@ -5,7 +5,9 @@ import com.PGR209.Exam.exception.ModelListEmptyException;
 import com.PGR209.Exam.exception.ModelValuesNotAllowed;
 import com.PGR209.Exam.model.Part;
 import com.PGR209.Exam.service.PartService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,48 +24,45 @@ public class PartController {
 
     @GetMapping("{id}")
     public Part getPartById(@PathVariable Long id) {
-        return partService.getPartById(id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Part", id));
+        return partService.getPartById(id);
     }
 
     @GetMapping
-    public List<Part> getPartAll() {
+    public List<Part> getPartAll(HttpServletResponse response) {
         List<Part> parts = partService.getPartAll();
 
-        if (!parts.isEmpty()) {
-            return parts;
-        } else {
-            throw new ModelListEmptyException("Part");
+        if (parts.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return parts;
     }
 
     @GetMapping("page/{pageNr}")
-    public List<Part> getPartPage(@PathVariable int pageNr) {
+    public List<Part> getPartPage(@PathVariable int pageNr, HttpServletResponse response) {
         List<Part> parts = partService.getPartPage(pageNr);
 
-        if (!parts.isEmpty()) {
-            return parts;
-        } else {
-            throw new ModelListEmptyException("Part");
+        if (parts.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
+
+        return parts;
     }
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseBody
     public Part newPart(@RequestBody Part part) {
-        return partService.newPart(part)
-                .orElseThrow(() -> new ModelValuesNotAllowed("Part", "Bob"));
+        return partService.newPart(part);
     }
 
     @DeleteMapping("{id}")
     public void deletePart(@PathVariable Long id) {
-        if (!partService.deletePart(id)) {
-            throw new ModelIdNotFoundException("Part", id);
-        }
+        partService.deletePart(id);
     }
 
     @PutMapping("{id}")
     public Part updatePart(@RequestBody Part part, @PathVariable Long id) {
-        return partService.updatePart(part, id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Part", id));
+        return partService.updatePart(part, id);
     }
 }

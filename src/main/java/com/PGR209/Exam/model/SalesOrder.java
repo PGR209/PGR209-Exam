@@ -1,5 +1,6 @@
 package com.PGR209.Exam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,15 +21,14 @@ public class SalesOrder {
     @Column(name = "salesorder_id")
     private Long salesOrderId = 0L;
 
-    //NOT NULL
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesorder_customer")
+    @JsonIgnoreProperties({"customerSalesOrders"})
     private Customer salesOrderCustomer;
 
     @OneToMany(cascade = CascadeType.ALL)
     List<Machine> salesOrderMachines = new ArrayList<>();
 
-    //NOT NULL
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salesorder_address")
     private Address salesOrderAddress;

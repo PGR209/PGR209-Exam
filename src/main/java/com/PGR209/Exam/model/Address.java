@@ -1,5 +1,6 @@
 package com.PGR209.Exam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,11 +23,10 @@ public class Address {
     @Column(name = "address_id")
     private Long addressId = 0L;
 
-    //NOT NULL
     @Column(name = "address_name")
     private String addressName;
 
-    @JsonManagedReference
+    @JsonIgnoreProperties({"customerAddresses"})
     @ManyToMany (cascade = CascadeType.ALL)
     private List<Customer> addressCustomers = new ArrayList<>();
 

@@ -20,7 +20,6 @@ public class Machine{
     @Column(name = "machine_id")
     private Long machineId = 0L;
 
-    //NOT NULL
     @Column(name = "machine_name")
     private String machineName;
 

@@ -20,7 +20,6 @@ public class Subassembly {
     @Column(name = "subassembly_id")
     private Long subassemblyId = 0L;
 
-    //NOT NULL
     @Column(name = "subassembly_name")
     private String subassemblyName;
 

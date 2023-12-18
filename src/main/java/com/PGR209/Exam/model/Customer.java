@@ -21,15 +21,12 @@ public class Customer {
     @Column(name = "customer_id")
     private Long customerId = 0L;
 
-    //NOT NULL
     @Column(name = "customer_name")
     private String customerName;
 
-    //NOT NULL
     @Column(name = "customer_email", nullable = false)
     private String customerEmail;
 
-    @JsonBackReference
     @ManyToMany (cascade = CascadeType.ALL)
     private List<Address> customerAddresses = new ArrayList<>();
 

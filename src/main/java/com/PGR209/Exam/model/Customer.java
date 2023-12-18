@@ -20,10 +20,12 @@ public class Customer {
     @Column(name = "customer_id")
     private Long customerId = 0L;
 
-    @Column(name = "customer_name", nullable = false)
+    //NOT NULL
+    @Column(name = "customer_name")
     private String customerName;
 
-    @Column(name = "customer_email", nullable = false, unique = true)
+    //NOT NULL
+    @Column(name = "customer_email", nullable = false)
     private String customerEmail;
 
     @ManyToMany (cascade = CascadeType.ALL)

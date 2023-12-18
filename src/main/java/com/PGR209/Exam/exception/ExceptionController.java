@@ -31,10 +31,19 @@ public class ExceptionController {
 
     @ExceptionHandler(ModelValuesNotAllowed.class)
     public ResponseEntity<Object> exception(ModelValuesNotAllowed exception) {
-        String returnBody = String.format("Unsupported values for required fields in %s.", exception.getModel());
+        String returnBody = String.format("Unsupported values for fields in %s.", exception.getModel());
 
         logger.warn(returnBody);
 
         return new ResponseEntity<>(returnBody, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    @ExceptionHandler(ModelNonNullableFieldException.class)
+    public ResponseEntity<Object> exception(ModelNonNullableFieldException exception) {
+        String returnBody = String.format("%s, %s non-nullable field cannot be null.", exception.getModel(), exception.getField());
+
+        logger.warn(returnBody);
+
+        return new ResponseEntity<>(returnBody, HttpStatus.PARTIAL_CONTENT);
     }
 }

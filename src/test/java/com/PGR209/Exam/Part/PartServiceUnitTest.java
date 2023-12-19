@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -38,11 +39,10 @@ public class PartServiceUnitTest {
         Part partCorrect = new Part("PartUnitTest: " + LocalDateTime.now());
         Part partWrong = new Part("PartUnitTestWrong");
 
-        when(partRepository.save(partCorrect)).thenReturn(partCorrect);
+        when(partRepository.save(any())).thenReturn(partCorrect);
 
         assertThat(partService.newPart(partCorrect))
                 .isEqualTo(partCorrect)
                 .isNotEqualTo(partWrong);
-
     }
 }

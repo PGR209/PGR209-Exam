@@ -9,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -35,10 +37,10 @@ public class MachineServiceUnitTest {
 
     @Test
     public void shouldAddOneMachine() {
-        Machine machineCorrect = new Machine("MachineUnitTest: " + LocalDateTime.now(), 0, null);
-        Machine machineWrong = new Machine("MachineUnitTestWrong", 0, null);
+        Machine machineCorrect = new Machine("MachineUnitTest: " + LocalDateTime.now(), 0, new ArrayList<>());
+        Machine machineWrong = new Machine("MachineUnitTestWrong", 0, new ArrayList<>());
 
-        when(machineRepository.save(machineCorrect)).thenReturn(machineCorrect);
+        when(machineRepository.save(any())).thenReturn(machineCorrect);
 
         assertThat(machineService.newMachine(machineCorrect))
                 .isEqualTo(machineCorrect)

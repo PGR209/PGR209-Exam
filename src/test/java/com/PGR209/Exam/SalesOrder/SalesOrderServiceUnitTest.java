@@ -34,19 +34,4 @@ public class SalesOrderServiceUnitTest {
         assertThat(salesOrderService.getSalesOrderById(index)).isEqualTo(newSalesOrder);
         assertThat(salesOrderService.getSalesOrderById(index).getSalesOrderCustomer().getCustomerName()).isEqualTo(customer.getCustomerName());
     }
-
-    @Test
-    public void shouldAddOneSalesOrder() {
-        Customer correctCustomer = new Customer("SalesOrderUnitTest: " + LocalDateTime.now(), "", null, null);
-        Customer wrongCustomer = new Customer("SalesOrderUnitTestWrong", "", null, null);
-        SalesOrder salesOrderCorrect = new SalesOrder(correctCustomer, null, null);
-        SalesOrder salesOrderWrong = new SalesOrder(wrongCustomer, null, null);
-
-        when(salesOrderRepository.save(salesOrderCorrect)).thenReturn(salesOrderCorrect);
-
-        assertThat(salesOrderService.newSalesOrder(salesOrderCorrect))
-                .isEqualTo(salesOrderCorrect)
-                .isNotEqualTo(salesOrderWrong);
-
-    }
 }

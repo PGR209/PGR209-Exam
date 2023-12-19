@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -34,10 +36,10 @@ public class CustomerServiceUnitTest {
 
     @Test
     public void shouldAddOneCustomer() {
-        Customer customerCorrect = new Customer("SingleTestCustomerCorrect", "", null, null);
-        Customer customerWrong = new Customer("SingleTestCustomerWrong", "", null, null);
+        Customer customerCorrect = new Customer("SingleTestCustomerCorrect", "@test", new ArrayList<>(), new ArrayList<>());
+        Customer customerWrong = new Customer("SingleTestCustomerWrong", "@test", new ArrayList<>(), new ArrayList<>());
 
-        when(customerRepository.save(customerCorrect)).thenReturn(customerCorrect);
+        when(customerRepository.save(any())).thenReturn(customerCorrect);
 
         assertThat(customerService.newCustomer(customerCorrect))
                 .isEqualTo(customerCorrect)

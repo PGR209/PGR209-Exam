@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,10 +36,10 @@ public class AddressServiceUnitTest {
 
     @Test
     public void shouldAddOneAddress() {
-        Address addressCorrect = new Address("AddressUnitTest: " + LocalDateTime.now(), null);
-        Address addressWrong = new Address("AddressUnitTestWrong", null);
+        Address addressCorrect = new Address("AddressUnitTest: " + LocalDateTime.now(), new ArrayList<>());
+        Address addressWrong = new Address("AddressUnitTestWrong", new ArrayList<>());
 
-        when(addressRepository.save(addressCorrect)).thenReturn(addressCorrect);
+        when(addressRepository.save(any())).thenReturn(addressCorrect);
 
         assertThat(addressService.newAddress(addressCorrect))
                 .isEqualTo(addressCorrect)

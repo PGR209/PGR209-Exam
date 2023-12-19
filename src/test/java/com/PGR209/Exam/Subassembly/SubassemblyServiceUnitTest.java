@@ -9,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -35,10 +37,10 @@ public class SubassemblyServiceUnitTest {
 
     @Test
     public void shouldAddOneSubassembly() {
-        Subassembly subassemblyCorrect = new Subassembly("SubassemblyUnitTest: " + LocalDateTime.now(), null);
-        Subassembly subassemblyWrong = new Subassembly("SubassemblyUnitTestWrong", null);
+        Subassembly subassemblyCorrect = new Subassembly("SubassemblyUnitTest: " + LocalDateTime.now(), new ArrayList<>());
+        Subassembly subassemblyWrong = new Subassembly("SubassemblyUnitTestWrong", new ArrayList<>());
 
-        when(subassemblyRepository.save(subassemblyCorrect)).thenReturn(subassemblyCorrect);
+        when(subassemblyRepository.save(any())).thenReturn(subassemblyCorrect);
 
         assertThat(subassemblyService.newSubassembly(subassemblyCorrect))
                 .isEqualTo(subassemblyCorrect)

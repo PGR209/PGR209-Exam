@@ -47,8 +47,10 @@ public class MachineService {
         }
 
         for (Subassembly subassembly : machine.getMachineSubassemblies()) {
-            machineSubassemblies.add(subassemblyRepository.findById(subassembly.getSubassemblyId())
-                    .orElseThrow(() -> new ModelValueNotAllowed("Subassembly", "subassemblyId")));
+            if (machineSubassemblies.stream().noneMatch(object -> object.getSubassemblyId().equals(subassembly.getSubassemblyId()))) {
+                machineSubassemblies.add(subassemblyRepository.findById(subassembly.getSubassemblyId())
+                        .orElseThrow(() -> new ModelValueNotAllowed("Subassembly", "subassemblyId")));
+            }
         }
 
         createdMachine = new Machine(
@@ -76,7 +78,6 @@ public class MachineService {
             updatedMachine.setMachineName(machine.getMachineName());
         }
 
-        //CANNOT SET TO 0
         if (machine.getMachineQuantity() != 0) {
             updatedMachine.setMachineId(machine.getMachineId());
         }
@@ -88,8 +89,10 @@ public class MachineService {
                 throw new ModelValueNotAllowed("machineSubassemblies", "subassemblyId");
             }
 
-            updatedMachine.getMachineSubassemblies().add(subassemblyRepository.findById(subassembly.getSubassemblyId())
-                    .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", subassembly.getSubassemblyId())));
+            if (updatedMachine.getMachineSubassemblies().stream().noneMatch(object -> object.getSubassemblyId().equals(subassembly.getSubassemblyId()))) {
+                updatedMachine.getMachineSubassemblies().add(subassemblyRepository.findById(subassembly.getSubassemblyId())
+                        .orElseThrow(() -> new ModelIdNotFoundException("Subassembly", subassembly.getSubassemblyId())));
+            }
         }
 
         return machineRepository.save(updatedMachine);

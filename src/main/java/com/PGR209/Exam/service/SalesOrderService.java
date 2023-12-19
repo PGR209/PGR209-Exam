@@ -67,8 +67,10 @@ public class SalesOrderService {
         }
 
         for (Machine machine : salesOrder.getSalesOrderMachines()) {
-            salesOrderMachines.add(machineRepository.findById(machine.getMachineId())
-                    .orElseThrow(() -> new ModelValueNotAllowed("Machine", "machineId")));
+            if (salesOrderMachines.stream().noneMatch(object -> object.getMachineId().equals(machine.getMachineId()))) {
+                salesOrderMachines.add(machineRepository.findById(machine.getMachineId())
+                        .orElseThrow(() -> new ModelValueNotAllowed("Machine", "machineId")));
+            }
         }
 
         createdSalesOrder = new SalesOrder(
@@ -114,8 +116,10 @@ public class SalesOrderService {
                 throw new ModelValueNotAllowed("salesOrderMachines", "machineId");
             }
 
-            updatedSalesOrder.getSalesOrderMachines().add(machineRepository.findById(machine.getMachineId())
-                    .orElseThrow(() -> new ModelIdNotFoundException("Machine", machine.getMachineId())));
+            if (updatedSalesOrder.getSalesOrderMachines().stream().noneMatch(object -> object.getMachineId().equals(machine.getMachineId()))) {
+                updatedSalesOrder.getSalesOrderMachines().add(machineRepository.findById(machine.getMachineId())
+                        .orElseThrow(() -> new ModelIdNotFoundException("Machine", machine.getMachineId())));
+            }
         }
 
         return salesOrderRepository.save(updatedSalesOrder);

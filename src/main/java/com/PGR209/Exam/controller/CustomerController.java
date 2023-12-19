@@ -52,10 +52,4 @@ public class CustomerController {
     public Customer updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
         return customerService.updateCustomer(customer, id);
     }
-
-    //REMOVE???
-    @PutMapping("{id}/address")
-    public Customer addAddress(@PathVariable Long id, Address address) {
-        return customerService.addAddress(id, address);
-    }
 }

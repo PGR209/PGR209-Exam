@@ -55,8 +55,10 @@ public class CustomerService {
         }
 
         for (Address address : customer.getCustomerAddresses()) {
-            customerAddresses.add(addressRepository.findById(address.getAddressId())
-                    .orElseThrow(() -> new ModelValueNotAllowed("Address", "addressId")));
+            if (customerAddresses.stream().noneMatch(object -> object.getAddressId().equals(address.getAddressId()))) {
+                customerAddresses.add(addressRepository.findById(address.getAddressId())
+                        .orElseThrow(() -> new ModelValueNotAllowed("Address", "addressId")));
+            }
         }
 
         createdCustomer = new Customer(
@@ -100,8 +102,10 @@ public class CustomerService {
                 throw new ModelValueNotAllowed("customerAddresses", "addressId");
             }
 
-            updatedCustomer.getCustomerAddresses().add(addressRepository.findById(address.getAddressId())
-                    .orElseThrow(() -> new ModelIdNotFoundException("Address", address.getAddressId())));
+            if (updatedCustomer.getCustomerAddresses().stream().noneMatch(object -> object.getAddressId().equals(address.getAddressId()))) {
+                updatedCustomer.getCustomerAddresses().add(addressRepository.findById(address.getAddressId())
+                        .orElseThrow(() -> new ModelIdNotFoundException("Address", address.getAddressId())));
+            }
         }
 
         for (SalesOrder salesOrder : customer.getCustomerSalesOrders()) {
@@ -111,24 +115,12 @@ public class CustomerService {
                 throw new ModelValueNotAllowed("customerSalesOrders", "salesOrderId");
             }
 
-            updatedCustomer.getCustomerSalesOrders().add(salesOrderRepository.findById(salesOrder.getSalesOrderId())
-                    .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", salesOrder.getSalesOrderId())));
+            if (updatedCustomer.getCustomerSalesOrders().stream().noneMatch(object -> object.getSalesOrderId().equals(salesOrder.getSalesOrderId()))) {
+                updatedCustomer.getCustomerSalesOrders().add(salesOrderRepository.findById(salesOrder.getSalesOrderId())
+                        .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", salesOrder.getSalesOrderId())));
+            }
+
         }
-
-        return customerRepository.save(updatedCustomer);
-    }
-
-    //UPDATE OR REMOVE???
-    public Customer addAddress(Long id, Address address) {
-        List<Address> addresses;
-        Customer updatedCustomer;
-
-        updatedCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new ModelIdNotFoundException("Customer", id));
-
-        addresses = updatedCustomer.getCustomerAddresses();
-        addresses.add(addressRepository.findById(address.getAddressId())
-                .orElseThrow(() -> new ModelIdNotFoundException("Address", id)));
 
         return customerRepository.save(updatedCustomer);
     }

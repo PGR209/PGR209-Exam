@@ -47,8 +47,10 @@ public class SubassemblyService {
         }
 
         for (Part part : subassembly.getSubassemblyParts()) {
-            subassemblyParts.add(partRepository.findById(part.getPartId())
-                    .orElseThrow(() -> new ModelValueNotAllowed("Part", "partId")));
+            if (subassemblyParts.stream().noneMatch(object -> object.getPartId().equals(part.getPartId()))) {
+                subassemblyParts.add(partRepository.findById(part.getPartId())
+                        .orElseThrow(() -> new ModelValueNotAllowed("Part", "partId")));
+            }
         }
 
         createdSubassembly = new Subassembly(
@@ -82,8 +84,10 @@ public class SubassemblyService {
                 throw new ModelValueNotAllowed("subassemblyParts", "partId");
             }
 
-            updatedSubassembly.getSubassemblyParts().add(partRepository.findById(part.getPartId())
-                    .orElseThrow(() -> new ModelIdNotFoundException("Part", part.getPartId())));
+            if (updatedSubassembly.getSubassemblyParts().stream().noneMatch(object -> object.getPartId().equals(part.getPartId()))) {
+                updatedSubassembly.getSubassemblyParts().add(partRepository.findById(part.getPartId())
+                        .orElseThrow(() -> new ModelIdNotFoundException("Part", part.getPartId())));
+            }
         }
 
         return subassemblyRepository.save(updatedSubassembly);

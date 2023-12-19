@@ -48,8 +48,10 @@ public class AddressService {
         }
 
         for (Customer customer : address.getAddressCustomers()) {
-            addressCustomers.add(customerRepository.findById(customer.getCustomerId())
-                    .orElseThrow(() -> new ModelValueNotAllowed("Customer", "customerId")));
+            if (addressCustomers.stream().noneMatch(object -> object.getCustomerId().equals(customer.getCustomerId()))) {
+                addressCustomers.add(customerRepository.findById(customer.getCustomerId())
+                        .orElseThrow(() -> new ModelValueNotAllowed("Customer", "customerId")));
+            }
         }
 
         createdAddress = new Address(
@@ -87,10 +89,12 @@ public class AddressService {
                 throw new ModelValueNotAllowed("addressCustomers", "customerId");
             }
 
-            updatedAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
-                    .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getCustomerId())));
+            if (updatedAddress.getAddressCustomers().stream().noneMatch(object -> object.getCustomerId().equals(customer.getCustomerId()))) {
+                updatedAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
+                        .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getCustomerId())));
 
-            customer.getCustomerAddresses().add(updatedAddress);
+                customer.getCustomerAddresses().add(updatedAddress);
+            }
         }
 
         return addressRepository.save(updatedAddress);

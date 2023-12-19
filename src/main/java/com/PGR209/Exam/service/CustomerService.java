@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.configuration.ApplicationConfiguration;
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.exception.ModelValueNotAllowed;
@@ -21,12 +22,14 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
     private final SalesOrderRepository salesOrderRepository;
+    private final ApplicationConfiguration applicationConfiguration;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, SalesOrderRepository salesOrderRepository) {
+    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository, SalesOrderRepository salesOrderRepository, ApplicationConfiguration applicationConfiguration) {
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
         this.salesOrderRepository = salesOrderRepository;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     public Customer getCustomerById(Long id) {
@@ -35,10 +38,7 @@ public class CustomerService {
     }
 
     public List<Customer> getCustomerPage(int page) {
-        //Move to config file?
-        int pageSize = 4;
-
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        Pageable pageable = Pageable.ofSize(applicationConfiguration.getPageSize()).withPage(page);
         return customerRepository.findAll(pageable).toList();
     }
 

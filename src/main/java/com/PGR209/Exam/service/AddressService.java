@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.configuration.ApplicationConfiguration;
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.exception.ModelValueNotAllowed;
@@ -18,11 +19,13 @@ import java.util.List;
 public class AddressService {
     private final AddressRepository addressRepository;
     private final CustomerRepository customerRepository;
+    private final ApplicationConfiguration applicationConfiguration;
 
     @Autowired
-    public AddressService(AddressRepository addressRepository, CustomerRepository customerRepository) {
+    public AddressService(AddressRepository addressRepository, CustomerRepository customerRepository, ApplicationConfiguration applicationConfiguration) {
         this.addressRepository = addressRepository;
         this.customerRepository = customerRepository;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     public Address getAddressById(Long id) {
@@ -31,10 +34,8 @@ public class AddressService {
     }
 
     public List<Address> getAddressPage(int page) {
-        //Move to config file?
-        int pageSize = 4;
-
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        Pageable pageable = Pageable.ofSize(applicationConfiguration.getPageSize()).withPage(page);
+        System.out.println(applicationConfiguration.getPageSize());
         return addressRepository.findAll(pageable).toList();
     }
 
@@ -88,11 +89,6 @@ public class AddressService {
 
             updatedAddress.getAddressCustomers().add(customerRepository.findById(customer.getCustomerId())
                     .orElseThrow(() -> new ModelIdNotFoundException("Customer", customer.getCustomerId())));
-
-            /*
-            if (customerRepository.findById(customer.getCustomerId()).isPresent()){
-                customerRepository.findById(customer.getCustomerId()).get().getCustomerAddresses().add(updatedAddress);
-            }*/
 
             customer.getCustomerAddresses().add(updatedAddress);
         }

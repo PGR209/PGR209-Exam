@@ -45,6 +45,5 @@ public class SubassemblyServiceUnitTest {
         assertThat(subassemblyService.newSubassembly(subassemblyCorrect))
                 .isEqualTo(subassemblyCorrect)
                 .isNotEqualTo(subassemblyWrong);
-
     }
 }

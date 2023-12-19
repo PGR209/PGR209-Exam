@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.configuration.ApplicationConfiguration;
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.exception.ModelValueNotAllowed;
@@ -18,11 +19,13 @@ import java.util.List;
 public class MachineService {
     private final MachineRepository machineRepository;
     private final SubassemblyRepository subassemblyRepository;
+    private final ApplicationConfiguration applicationConfiguration;
 
     @Autowired
-    public MachineService(MachineRepository machineRepository, SubassemblyRepository subassemblyRepository) {
+    public MachineService(MachineRepository machineRepository, SubassemblyRepository subassemblyRepository, ApplicationConfiguration applicationConfiguration) {
         this.machineRepository = machineRepository;
         this.subassemblyRepository = subassemblyRepository;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     public Machine getMachineById(Long id) {
@@ -31,10 +34,7 @@ public class MachineService {
     }
 
     public List<Machine> getMachinePage(int page) {
-        //Move to config file?
-        int pageSize = 4;
-
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        Pageable pageable = Pageable.ofSize(applicationConfiguration.getPageSize()).withPage(page);
         return machineRepository.findAll(pageable).toList();
     }
 

@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.configuration.ApplicationConfiguration;
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.model.Part;
@@ -13,10 +14,12 @@ import java.util.List;
 @Service
 public class PartService {
     private final PartRepository partRepository;
+    private final ApplicationConfiguration applicationConfiguration;
 
     @Autowired
-    public PartService(PartRepository partRepository) {
+    public PartService(PartRepository partRepository, ApplicationConfiguration applicationConfiguration) {
         this.partRepository = partRepository;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     public Part getPartById(Long id) {
@@ -25,10 +28,7 @@ public class PartService {
     }
 
     public List<Part> getPartPage(int page) {
-        //Move to config file?
-        int pageSize = 4;
-
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        Pageable pageable = Pageable.ofSize(applicationConfiguration.getPageSize()).withPage(page);
         return partRepository.findAll(pageable).toList();
     }
 

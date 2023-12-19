@@ -1,5 +1,6 @@
 package com.PGR209.Exam.service;
 
+import com.PGR209.Exam.configuration.ApplicationConfiguration;
 import com.PGR209.Exam.exception.ModelIdNotFoundException;
 import com.PGR209.Exam.exception.ModelNonNullableFieldException;
 import com.PGR209.Exam.exception.ModelValueNotAllowed;
@@ -24,13 +25,15 @@ public class SalesOrderService {
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
     private final MachineRepository machineRepository;
+    private final ApplicationConfiguration applicationConfiguration;
 
     @Autowired
-    public SalesOrderService(SalesOrderRepository salesOrderRepository, CustomerRepository customerRepository, AddressRepository addressRepository, MachineRepository machineRepository) {
+    public SalesOrderService(SalesOrderRepository salesOrderRepository, CustomerRepository customerRepository, AddressRepository addressRepository, MachineRepository machineRepository, ApplicationConfiguration applicationConfiguration) {
         this.salesOrderRepository = salesOrderRepository;
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
         this.machineRepository = machineRepository;
+        this.applicationConfiguration = applicationConfiguration;
     }
 
     public SalesOrder getSalesOrderById(Long id) {
@@ -39,10 +42,7 @@ public class SalesOrderService {
     }
 
     public List<SalesOrder> getSalesOrderPage(int page) {
-        //Move to config file?
-        int pageSize = 4;
-
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page);
+        Pageable pageable = Pageable.ofSize(applicationConfiguration.getPageSize()).withPage(page);
         return salesOrderRepository.findAll(pageable).toList();
     }
 

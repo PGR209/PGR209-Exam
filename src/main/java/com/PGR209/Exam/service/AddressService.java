@@ -35,7 +35,6 @@ public class AddressService {
 
     public List<Address> getAddressPage(int page) {
         Pageable pageable = Pageable.ofSize(applicationConfiguration.getPageSize()).withPage(page);
-        System.out.println(applicationConfiguration.getPageSize());
         return addressRepository.findAll(pageable).toList();
     }
 

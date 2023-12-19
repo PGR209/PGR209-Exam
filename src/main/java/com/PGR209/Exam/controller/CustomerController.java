@@ -1,6 +1,5 @@
 package com.PGR209.Exam.controller;
 
-import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;
 import com.PGR209.Exam.service.CustomerService;
 import jakarta.servlet.http.HttpServletResponse;

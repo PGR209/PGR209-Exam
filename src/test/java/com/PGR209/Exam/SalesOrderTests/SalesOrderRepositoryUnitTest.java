@@ -1,4 +1,4 @@
-package com.PGR209.Exam.SalesOrder;
+package com.PGR209.Exam.SalesOrderTests;
 
 import com.PGR209.Exam.model.Address;
 import com.PGR209.Exam.model.Customer;

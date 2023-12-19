@@ -1,4 +1,4 @@
-package com.PGR209.Exam.Subassembly;
+package com.PGR209.Exam.SubassemblyTests;
 
 import com.PGR209.Exam.model.*;
 

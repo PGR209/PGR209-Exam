@@ -1,4 +1,4 @@
-package com.PGR209.Exam.Machine;
+package com.PGR209.Exam.MachineTests;
 
 import com.PGR209.Exam.model.Machine;
 import com.PGR209.Exam.repository.MachineRepository;

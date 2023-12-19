@@ -1,4 +1,4 @@
-package com.PGR209.Exam.Subassembly;
+package com.PGR209.Exam.SubassemblyTests;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

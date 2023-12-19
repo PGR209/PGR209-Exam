@@ -98,7 +98,6 @@ public class SalesOrderService {
         SalesOrder updatedSalesOrder = salesOrderRepository.findById(id)
                 .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", id));
 
-        //TEST WHILE GIVING NO ID
         if (salesOrder.getSalesOrderCustomer() != null) {
             updatedSalesOrder.setSalesOrderCustomer(customerRepository.findById(salesOrder.getSalesOrderCustomer().getCustomerId())
                     .orElseThrow(() -> new ModelNonNullableFieldException("salesOrderCustomer", "customerId")));

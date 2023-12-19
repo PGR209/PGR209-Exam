@@ -1,4 +1,4 @@
-package com.PGR209.Exam.SalesOrder;
+package com.PGR209.Exam.SalesOrderTests;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

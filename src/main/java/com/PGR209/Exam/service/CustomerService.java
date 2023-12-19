@@ -119,7 +119,6 @@ public class CustomerService {
                 updatedCustomer.getCustomerSalesOrders().add(salesOrderRepository.findById(salesOrder.getSalesOrderId())
                         .orElseThrow(() -> new ModelIdNotFoundException("SalesOrder", salesOrder.getSalesOrderId())));
             }
-
         }
 
         return customerRepository.save(updatedCustomer);

@@ -1,4 +1,4 @@
-package com.PGR209.Exam.Part;
+package com.PGR209.Exam.PartTests;
 
 import com.PGR209.Exam.model.*;
 
